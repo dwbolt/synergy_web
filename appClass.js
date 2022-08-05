@@ -1,6 +1,6 @@
 /*
 
-SFCKnox.org web site app
+dev.SFCKnox.org web site app
 
 */
 
@@ -70,7 +70,7 @@ async main() {
 		//	document.getElementById('buttons').firstChild.click();
 	} else {
 		// no button, assume rows has an array of nodes to display
-		this.widgetList.displayList("rows" );
+		await this.widgetList.displayList("rows" );
 	}
 }
 
