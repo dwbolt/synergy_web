@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>Resize Window</title>
+<!--script type="text/javascript" src="lib.js"></script-->
+<script>
+function showSize() {
+  document.getElementById('height').value = document.documentElement.clientHeight
+  document.getElementById('width' ).value = document.documentElement.clientWidth
+}
+
+function main() {
+  showSize();
+  window.onresize = showSize;
+}
+</script>
+</head>
+
+<body onload="main()"  min-width:600px;>
+<p>
+Height <input type="text" id="height" size=10><br>
+Width  <input type="text" id="width"  size=10>
+</p>
+</body>
+
+</html>

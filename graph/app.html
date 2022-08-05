@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet"       href="/app.css" />
+		<link rel="icon"             href="/icon.jpg" sizes="192x192"/>
+		<link rel="shortcut icon"    href="/icon.jpg" type="image/jpeg" />
+		<link rel="apple-touch-icon" href="/icon.jpg" type="image/jpeg" />
+
+		<script type="text/javascript" src="app.js"></script>
+		<script type="text/javascript" src="\_lib\proxy\proxyClass.js"></script>
+		<script type="text/javascript" src="\_lib\UX\loginClass.js"></script>
+	</head>
+
+	<body>
+<div style="padding: 35px">
+		<h1>Sustainable Future Center Graph view/edit</h1>
+
+		<p id='login'></p>
+<p>Graphs - nodes and edges, think mind maps. for now hard code loading tasks.json</p>
+
+<a href="/synergyData/events/2022/_graph.json" target="_blank"> open /synergyData/events/2022/_graph.json</a><br/>
+search node attribute<input type="text" size=20 onchange="app.search(this)">
+<p id="data"></p>
+
+</div>
+<ol>
+	<li>load the calender graphs
+</ol>
+	</body>
+</html>
+<script>
+const app = new appClass();
+app.main();
+</script>

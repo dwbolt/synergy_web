@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>JSON Editor</title>
+<link rel="stylesheet"        href="../app.css">
+<script type="text/javascript" src="jsonEditor.js" ></script>
+
+</head>
+
+<body>
+  <select id="data" size=6 onchange="app.loadPage(this)" style="width: 15ch">
+  </select></td>
+</body>
+
+</html>
+
+<script>
+const app = new jsonEditorClass();  // only global object
+app.main();
+</script>

@@ -1,0 +1,34 @@
+{
+"comments": "The various parts of the footer are defined here by grouping"
+
+,"logo":[
+	{"img":"/synergyData/app/logo.webp","alt":"Sustainable Future Center Logo"}
+]
+
+,"phone":"?<br>call or txt"
+
+,"email":"?"
+
+,"address":[
+	 "?"
+	,"Knoxville, TN 37920"
+]
+
+,"social":[
+	 {"url":"https://www.instagram.com/sustainablefuturecenter/", "img":"/synergyData/app/instagram.webp","alt":"Follow Us on Instagram"}
+	 ,{"url":"https://www.facebook.com/SustainableFutureCenter/" , "img":"/synergyData/app/facebook.webp" ,"alt":"Follow Us on Facebook"}
+
+]
+
+,"socialNotBeingUsed":[
+
+]
+
+,"resources":[
+]
+
+,"involve":[
+]
+
+,"copyright":"Copyright &copy; 2022 &bull; ?"
+}

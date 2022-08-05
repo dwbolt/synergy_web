@@ -1,0 +1,163 @@
+<html>
+<head>
+<title>rdb - Database, tables</title>
+<link   rel ="stylesheet"      href="/apps/accounting/app.css">
+<script type="text/javascript" src ="/_lib/proxy/proxyClass.js"></script>
+<script type="text/javascript" src ="/_lib/UX/tableUXClass.js"></script>
+
+<script type="text/javascript" src ="/_lib/db/dbClass.js"   ></script>
+<script type="text/javascript" src ="/_lib/db/tableClass.js"></script>
+<script type="text/javascript" src ="/_lib/db/csvClass.js"  ></script>
+
+<script type="text/javascript" src ="/desktop/synergy/3-syncCode/diff.js"  ></script>
+</head>
+
+<body>
+<!-- dynamically load js  -->
+<div id="dScript"></div>
+
+<div style="padding: 35px">
+<h1>Memory Based Relational Database</h1>
+
+<h3>Load file from local machine</h3>
+These routines assume first row is a header<br>
+<input type="button" value="diff" onclick="app.diff.main();"><br>
+<input type="file" accept=".csv"  onchange="app.loadLocalCSV(this)"> *.csv<br/>
+<input type="file" accept=".js"   onchange="app.loadLocalJS(this)" > *.js<br/>
+<input type="file" accept=".json" onchange="app.loadLocal(this)"   > -rdb.json
+
+
+
+<h3>Data base</h3>
+<p id="menu"></p>
+<p id="table"></p>
+
+<h3>raw JSON, file has been loaded and converted back to string to display or save to file</h3>
+<h3>or raw CSV</h3>
+<textarea id="json" rows="25" cols="500"></textarea>
+
+<p>Select test file to load from server
+<select id="Year" size=1 onchange="app.load(this)">
+<option value="">None</option>
+<option value="dataTest/tables-rdb.json" >tables-rdb.json</option>
+<option value="dataTest/journal-rdb.json">journal-rdb.json</option>
+</select>
+</p>
+
+<p>I've used a number database system over the years.  In the 80's dbase and clipper, 90's SQL. I took a 10 yeear break from software and in the 2015 time frame I begain looking at graph and no sql datbases.  I implemented small low load systems in neo4j, couchDB, and mongo.  I wanted something lightwight and simple.  This itteration of code explores using relational database concepts implement is javascript objects. Since csv files are a common way to export data from other systems, CSV was choose as a way to get data in and out of the system.  We are currently using these libraries to analyse web log data and implement an inhouse accounting system.</p>
+
+<p>
+*.csv       - comma seperated values  - input/out
+<br/>*-rdb.json  - one or more tables, can be inline or point to external table files
+<br/>*-tbl.json  - one table         - (not implemented)
+<br/>*-imp.json  - import desciption - (not implemented)
+<br/>*-exp.json  - export desciption - (not implemented)
+</p>
+
+
+<ol>
+<li/> dbClass.js       - is main class - a database is a collection of tables
+<li/> tableClass.js    - works with tables
+<li/> groupbyClass.js  - works with lists of records
+<li/> csvClass.js      - loads or exports cvs files
+</ol>
+</p>
+<div>
+
+</body>
+</html>
+
+<script>
+
+// appClass  client-side
+
+class appClass {
+
+// appClass  client-side
+constructor() {
+  this.proxy   = new proxyClass();   //
+  this.db      = new dbClass();      // model where the data will be
+  this.tableName = null              // will contain selected table name
+
+  this.tableUx = new tableUxClass("table","app.tableUx"); // display, search table, either db or csv
+}
+
+
+// appClass  client-side
+async load(e) {
+  //get file from server
+  const filename = e.options[e.selectedIndex].value;
+  await app.db.load(filename);
+  app.db.save('json'); // show what will be saved
+  app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
+}
+
+
+
+// appClass  client-side
+displayTable(
+  e  // dom select element
+){
+  // user has selected a table to display
+  this.tableName = e.options[e.selectedIndex].value;
+  this.tableUx.setModel( app.db, this.tableName );
+  this.tableUx.display();
+}
+
+
+// appClass  client-side
+// load local csv file and display class
+loadLocalJS(element) {
+  // user just selected a new js file from their local drive
+  const fr = new FileReader();
+  fr.onload =  () => {
+    const dScript = document.createElement('script');
+    dScript.innerHTML = fr.result         // add code
+    document.getElementById('dScript').appendChild(dScript);
+  };
+  fr.readAsText( element.files[0] ); // will only read first file selected
+}
+
+
+// appClass  client-side
+// load local csv file and display class
+loadLocalCSV(element) {
+  // user just selected a new CSV file from their local drive
+  const fr = new FileReader();
+  fr.onload =  () => {
+    // call back function when file has finished loading
+    const table  = this.db.tableAdd(element.files[0].name);       // create table and add to db
+    const csv     = new csvClass(table);     // create instace of CSV object
+    csv.parseCSV(fr.result, "json");         // parse loaded CSV file and put into table
+    this.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
+  };
+  fr.readAsText( element.files[0] ); // will only read first file selected
+}
+
+
+// appClass  client-side
+async loadLocal(element) {
+  // user just selected a new database file from their local drive
+  const fr = new FileReader();
+  fr.onload =  () => {
+  app.db.loadLocal(fr.result);
+  app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
+  };
+  fr.readAsText( element.files[0] ); // will only read first file selected
+}
+
+
+// appClass  client-side
+export() {
+  app.db.export(this.tableName);
+}
+
+
+//appClass
+} // End
+
+const app = new appClass();  // only globle variable
+app.diff = new diff();
+
+
+</script>

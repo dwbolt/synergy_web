@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>test memory</title>
+</head>
+
+<body>
+<p>
+<h1>Memory Test</h1>
+calls to loop           <input id="loopNumber" type="text" value="150"> <b id="loopRemaining"></b><br>
+lines per array element <input id="lines"      type="text" value="100"><br>
+characters before space <input id="characters" type="text" value="100"><br>
+</p>
+
+<p id="data">init</p>
+</body>
+</html>
+
+
+
+<script>
+
+let a=[];   // array to hold data
+let i=0;    // index into array
+
+let loopNumber = parseInt(document.getElementById('loopNumber').value);
+let characters = parseInt(document.getElementById('characters').value);
+let lines      = parseInt(document.getElementById('lines'     ).value);
+
+function createString() {
+  str="";
+  for(let y=0; y<lines; y++) {
+    for(let x=0; x<characters; x++) {
+      // append random letter to string
+      str += String.fromCharCode("a".charCodeAt(0) + Math.floor(Math.random() * 26));
+    }
+    str += " ";
+  }
+
+  return str
+}
+
+
+function loop() {
+  for(let x=0; x<100; x++) {
+    a[i++]=createString();
+  }
+
+  document.getElementById('loopRemaining').innerHTML = loopNumber;
+  document.getElementById('data').innerHTML = i +" array index<br>"+ i*characters*lines/1000000 +" M memory used <br>string at i<br>"+a[i-1];
+  if (loopNumber--) {
+    setTimeout(loop, 1);
+  }
+
+}
+
+loop();
+
+
+
+
+
+</script>

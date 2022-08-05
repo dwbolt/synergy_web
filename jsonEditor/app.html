@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>JSON Edit</title>
+<link rel="stylesheet" href="app.css">
+<script type="text/javascript" src="../_lib-classes/proxyClass/proxyClass.js" ></script>
+<script type="text/javascript" src="jsonEditClass.js"></script>
+
+</head>
+
+<body>
+<h1>JSON Viewer/Editor</h1>
+<p>?jsonURL=url</p>
+<h2 id="jsonURL"><h2>
+
+<table>
+<caption><b>json Viewer<b></caption>
+<tr id="root"></tr>
+</table>
+
+<input type="button" value="Save"><br>
+<!-- area value of slected attribute will be displayed -->
+<textarea id="value" rows="25" cols="200" onblur="app.dataChanged(this)"></textarea>
+<h3>Changes since last save</h3>
+<div id="changes"></div>
+</body>
+</html>
+
+<script>
+const app = new jsonEditClass();
+app.main();
+</script>

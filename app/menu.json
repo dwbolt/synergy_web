@@ -1,0 +1,19 @@
+{
+"comments": "Each item is added to the menu, and each subitem is added to its parent"
+
+,"items":[
+	 {"text":"HOME"     , "url":"/app.html?p=home"         ,"hasChildren" :false}
+]
+
+,"subItems": [
+	 {"text":"VISIT"                   ,"url":"/app.html?p=visit"           ,"parent":"ABOUT US"}
+	,{"text":"OUR TEAM"                ,"url":"/app.html?p=team"            ,"parent":"ABOUT US"}
+	,{"text":"PERMACULTURE ETHICS"     ,"url":"/app.html?p=permaEthics"     ,"parent":"ABOUT US"}
+	,{"text":"PERMACULTURE PRINCIPLES" ,"url":"/app.html?p=permaPrinciples" ,"parent":"ABOUT US"}
+
+	,{"text":"NEWSLETTER"              ,"url":"/app.html?p=newsletter"      ,"parent":"Get Involved"}
+	,{"text":"VOLUNTEER"               ,"url":"/app.html?p=volunteer"       ,"parent":"Get Involved"}
+	,{"text":"MEMBER"                  ,"url":"/app.html?p=member"          ,"parent":"Get Involved"}
+]
+
+}

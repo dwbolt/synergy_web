@@ -1,0 +1,73 @@
+{
+"balance": {
+  "fieldA":  ["s_account","sd_statement","n_start","n_credit","n_debit","n_end","su_url"]
+
+  ,"header": ["Account","Date","Start","Credit","Debits","End","URL"]
+
+  ,"rows": [
+  ["a-suntrust","2020-01-31",329154,777750,573241,533663,"https://drive.google.com/file/d/1zhYitiMPAVqBtRsaEGYOoP8BJFm8HPBX/view"]
+,["a-suntrust","2020-02-29",533663,246545,131913,648295,"https://drive.google.com/file/d/1COXa52m0awmqVCPttAmw-XjIJZ47cAuf/view"]
+,["a-suntrust","2020-03-31",648295,458000,700298,559514,"https://drive.google.com/file/d/1CIvQAP4lpTr3Nr1BjXlKSbb3wsmkENge/view"]
+,["a-suntrust","2020-04-30",559514,355000,523300,630820,"https://drive.google.com/file/d/1qzAK13iIS-zlq4D-J4RM480GViHvlfOa/view"]
+,["a-suntrust","2020-05-31",630820,352387,396137,843107,"https://drive.google.com/file/d/19l1Za3r79t9y_BbhZ_ZQr17O0UQbxhBi/view"]
+,["a-suntrust","2020-06-30",843107,414660,695835,832270,"https://drive.google.com/file/d/1HZgk8mm13--Ae7FvIWHK9MMt0vOsNAbA/view?usp=sharing"]
+,["a-suntrust","2020-07-31",832270,311352,382852,827355,"https://drive.google.com/file/d/1Ovt5deA4vKkjD0g6j7yECj9EwdNwqpsG/view?usp=sharing"]
+,["a-suntrust","2020-08-31",827355,371459,439459,1043223,"https://drive.google.com/file/d/1OtlY6YzFaW9LmcqB8_icaa8hH91q4asp/view?usp=sharing"]
+,["a-suntrust","2020-09-30",1043223,160764,214264,971330,""]
+,["a-suntrust","2020-10-31",971330,834310,890310,874300,""]
+,["a-suntrust","2020-11-30",874300,246753,296428,962564,""]
+,["a-suntrust","2020-12-31",962564,164282,235338,940021,"https://drive.google.com/file/d/12o7orodq04FfDHTZ3TUGOQ1XC8WkvQLW/view"]
+,["a-paypal","2020-01-31",60781,9148,2504,67425,"https://drive.google.com/file/d/14geyNGcK2C2-Kd9ExZeQPN1q9GY4jy4f/view"]
+,["a-paypal","2020-02-29",67425,8000,2441,72984,"https://drive.google.com/file/d/15DdtMNIq2zKXf1-FMO_BOO-Hto-b7W3F/view"]
+,["a-paypal","2020-03-31",72984,8000,2441,78543,"https://drive.google.com/file/d/14zQALrPhfxAdeHDu19G5SIrhfd7k-TDY/view"]
+,["a-paypal","2020-04-30",78543,27000,103052,2491,"https://drive.google.com/file/d/1uEHsls_ThQZObvuvtQMqT0VNAlDWv4kS/view"]
+,["a-paypal","2020-05-31",2491,23000,2996,22495,""]
+,["a-paypal","2020-06-30",22495,14000,3055,33760,""]
+,["a-paypal","2020-07-31",33760,44800,3695,74865,""]
+,["a-paypal","2020-08-31",33760,16400,2841,88424,""]
+,["a-paypal","2020-09-30",88424,15000,2794,100630,""]
+,["a-paypal","2020-10-31",88424,13000,111748,1882,""]
+,["a-paypal","2020-11-30",1882,8117,2441,7558,""]
+,["a-paypal","2020-12-31",7558,0,7558,0,""]
+
+  ]
+  }
+
+,"accounts": {
+  "fieldA":  ["s_type","s_typeSub","n_account","s_name","s_comment"]
+
+  ,"header": ["Type","TypeSub","Number","Name","Comment"]
+
+  ,"rows": [
+  ["start","",0,"-starting","offset starting balances"]
+,["ask","",0,"ask","ask what account this should go in"]
+,["Asset","Checking",1.1,"a-suntrust","checking - Liquid asset"]
+,["Asset","Saving",1.2,"a-saving","Liquid asset - not setup yet"]
+,["Asset","Checking",1.3,"a-paypal","Liquid asset - accept payments online (discontinued late in year)"]
+,["Asset","fixed",1.4,"a-equipment","computers - three year straight line"]
+,["Asset","recievable",1.5,"a-recievable","mainly solar checks"]
+,["Liability","restricted",2,"a-restricted","donations for projects"]
+,["Liability","",2.1,"l-liability","David, Bus stop, Jim"]
+,["Equity","",3.1,"q-retainedEarnings",""]
+,["Income","",4.1,"i-donation","Donations"]
+,["Income","",4,"i-membership","Memberships"]
+,["Income","",4.2,"i-services","programs, event rental, market"]
+,["Income","",4.3,"i-rent","long term - Fish, NSI"]
+,["Income","",4.4,"i-sale","microgreens, boxes, things we sell"]
+,["Income","",4.5,"i-restricted","bus shelter, outdoor class room"]
+,["Income","",4.6,"i-misc","miscellaneous income"]
+,["Expense","",5.1,"e-utility","electric, water, phone, ATD, security, Comcast, grasshopper, etc"]
+,["Expense","",5.2,"e-contractor","nicole, CAC"]
+,["Expense","",5.3,"e-office","paper, LGL, Micros"]
+,["Expense","",5.4,"e-cogs","cost of goods sold, offset i-goods: microgreens"]
+,["Expense","",5.5,"e-marketing","web, tableing,Wix, digital Ociean"]
+,["Expense","",5.6,"e-garden","seeds,tools"]
+,["Expense","",5.7,"e-rent","expense caused by renting the building, offset i-rent"]
+,["Expense","",5.8,"e-project","track restried funds"]
+,["Expense","",5.9,"e-restricted","expense from restriced funds"]
+,["Expense","",5.1,"e-depreciation","depreciation of a-equipment"]
+,["Expense","",5.99,"e-misc","miscellaneous expense no more than 10% of total expense"]
+  ]
+}
+
+}

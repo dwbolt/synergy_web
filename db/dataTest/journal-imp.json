@@ -1,0 +1,12 @@
+{
+"journal": {
+"decription": "The Joural file contains one year of accounting joural entries"
+
+,"fieldA": ["n_transaction","sd_transaction","s_type","s_URL","sd_statement","s_account","n_credit","n_debit","s_source","s_tags","s_comment"]
+
+,"header": ["Entry","DateTransaction","Type","URL","dateStatement","account","Credit","Debit","source","tags","Comment"]
+,"csv":"journal.csv"
+,"rows": []
+}
+
+}

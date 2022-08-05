@@ -1,0 +1,12 @@
+<html>
+<head>
+<title>test modules</title>
+<script type="module" src="app.js"></script>
+</head>
+
+<body>
+<input type="button" value="test modules" onclick="app.displayName('change')">
+<p>modules have there own scope, must window.globleName = so html envents can call it <a href="https://medium.com/codex/global-variables-and-javascript-modules-ce674a869164" target="_blank">sitepoint article</a></p>
+<p id="change"> original </p>
+</body>
+</html>

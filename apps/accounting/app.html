@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>SFC Accounting</title>
+<link rel="stylesheet" href="app.css">
+
+<script type="text/javascript" src="\_lib\db\dbClass.js"></script>
+<script type="text/javascript" src="\_lib\db\tableClass.js"></script>
+<script type="text/javascript" src="\_lib\db\groupbyClass.js"></script>
+
+<script type="text/javascript" src="\_lib\UX\tableUxClass.js"></script>
+<script type="text/javascript" src="\_lib\proxy\proxyClass.js"></script>
+<script type="text/javascript" src="\_lib\UX\loginClass.js"></script>
+<script type="text/javascript" src="\_lib\format\formatClass.js"></script>
+
+<script type="text/javascript" src="1-pages\reconcile.js"></script>
+<script type="text/javascript" src="1-pages\statements.js"></script>
+<script type="text/javascript" src="1-pages\loadyear.js"></script>
+<script type="text/javascript" src="1-pages\data.js"></script>
+<script type="text/javascript" src="1-pages\home.js"></script>
+
+<script type="text/javascript" src="app.js"></script>
+</head>
+
+
+<body>
+<div style="padding: 35px">
+<h1>Sustainable Future Center Accounting</h1>
+
+<h3 id="books">Books Not loaded</h3>
+<table>
+<caption><b>Menu<b></caption>
+<tr>
+
+<td><b>Page</b><br>
+<!-- menu - select page to load -->
+<select id="page" size=6 onchange="app.loadPage(this)" style="width: 15ch">
+</select></td>
+
+</tr>
+
+</table>
+
+<!-- area seleced page will be loaded-->
+<div id="html"></div>
+
+</div>
+</body>
+</html>
+
+<script>
+const app = new appClass();
+app.main();
+</script>

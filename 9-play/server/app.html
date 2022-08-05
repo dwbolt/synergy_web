@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Server</title>
+<link rel="stylesheet" href="..\app.css">
+<script type="text/javascript" src="..\_lib-classes\proxy\lib.js"></script>
+<script type="text/javascript" src="..\_lib-classes\format\lib.js"></script>
+</head>
+
+<body>
+<p>Nodejs server.  demo API to see status  -- info on request status is available, do latter
+<ol>
+<li> save file to server.js uploadFile
+<li><a href="https://drive.google.com/drive/folders/1WmoJ63GxBnCk_l5WrBN5O70xy3Pko81o" target="_blank">google folder for server</a>
+</ol>
+</p>
+
+<p>serverHTTPS.js - processes HTTPS requests.  ->server.js.requestIn -> POST ->  web -> </p>
+
+<p>message</p>
+<textarea id="json" rows="8" cols="50">
+{"server":"web"
+,"msg":"uploadFile"
+,"path":"users/bolt,david/server/download"
+,"name":"test.json"
+,"data":"${data}"
+}
+</textarea>
+<p>Data</p>
+<textarea id="data" rows="8" cols="50">
+{"first":"David"
+,"last":"bolt"
+}
+</textarea>
+
+<br>
+
+<input type="button" onclick="send()" value="msg to server">
+
+<script>
+function send(){
+    let p = new proxyClass();
+    let f = new formatClass();
+    let json = document.getElementById('json').innerHTML;
+    let data = document.getElementById('data').innerHTML;
+    data = f.escStringForJson(data);
+    json = json.replace("${data}",data);
+    p.postJSON(json)
+}
+</script>
+
+</body>
+</html>
+
+<script>
+
+</script>

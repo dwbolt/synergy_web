@@ -1,0 +1,182 @@
+<html>
+<head>
+<title>Server logs</title>
+<link   rel ="stylesheet"      href="/apps/accounting/app.css">
+<script type="text/javascript" src ="/_lib/proxy/proxyClass.js"></script>
+<script type="text/javascript" src ="/_lib/UX/tableUXClass.js"></script>
+
+<script type="text/javascript" src ="/_lib/db/dbClass.js"   ></script>
+<script type="text/javascript" src ="/_lib/db/tableClass.js"></script>
+<script type="text/javascript" src ="/_lib/db/csvClass.js"  ></script>
+
+<script type="text/javascript" src ="/desktop/synergy/3-syncCode/diff.js"  ></script>
+</head>
+
+<body>
+<h1>Server Log analysis</h1>
+<h2>Todo</h2>
+<ol>
+  <li/>group by errors
+</ol>
+
+
+<h2>What We Want to Know</h2>
+<ol>
+  <li/>Track and prevent errors.
+  <li/>Track user requests and server requests (that are not direct user requests)
+  <li/>Trach robot activity
+  <li/>Track response time performance
+  <li/>Trach data traffice
+</ol>
+
+<!-- dynamically load js  -->
+<div id="dScript"></div>
+
+<div style="padding: 35px">
+
+
+<h2>Load file from local machine</h2>
+These routines assume first row is a header<br>
+<input type="file" accept=".csv"  onchange="app.loadLocalCSV(this)"> *.csv<br/>
+<input type="file" accept=".js"   onchange="app.loadLocalJS(this)" > *.js<br/>
+<input type="file" accept=".json" onchange="app.loadLocal(this)"   > -rdb.json
+
+<h2>Data base</h2>
+<p id="menu"></p>
+<p id="table"></p>
+<h3>Status of parse</h3>
+<textarea id="json" rows="25" cols="500"></textarea>
+
+<h2>How the Logs are Stored</h2>
+  <p>This deals with only the logs that our server creates.  It does not deal with linux or pm2 logs.</p>
+
+  <pre>
+  The server configuration directory is hard coded to ../config/configHTTPS"
+  _config.json - contains an entery
+    ,"logDir" : "../logsHTTPS"
+
+  This puts the log files in the sibliging directory "logsHTTPS" to where the server runs.
+  A new log directory is created for each day that contains:
+
+  error.csv    - logs errors such as 404, etc.
+  request.csv  - logs every request made to the server
+  response.csv - logs every response, includeing how log it took
+  summary.json - is overwritten with
+
+  {
+  "serverStart"      : "2022-05-15T13:40:50.389Z"
+  ,"serverUpHr"      : 0.5126483333333334
+  ,"bytesSent"       : 273123
+  ,"requests"        : 38
+  ,"sessionsTotal"   : 1
+  ,"requestsOpen"    : 0
+  ,"sesstionsActive" : 1
+  }
+
+  </pre>
+</body>
+</html>
+
+<script>
+
+// appClass  client-side
+
+class appClass {
+
+// appClass  client-side
+constructor() {
+  this.proxy   = new proxyClass();   //
+  this.db      = new dbClass();      // model where the data will be
+  this.tableName = null              // will contain selected table name
+
+  this.tableUx = new tableUxClass("table","app.tableUx"); // display, search table, either db or csv
+}
+
+
+// appClass  client-side
+async load(e) {
+  //get file from server
+  const filename = e.options[e.selectedIndex].value;
+  await app.db.load(filename);
+  app.db.save('json'); // show what will be saved
+  app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
+}
+
+
+
+// appClass  client-side
+displayTable( // user selected a log file to desplay
+  e  // dom select element
+){
+  // user has selected a table to display
+  this.tableName = e.options[e.selectedIndex].value;
+  this.tableUx.setModel( app.db, this.tableName );
+  this.tableUx.display();
+}
+
+
+// appClass  client-side
+// load local csv file and display class
+loadLocalJS(element) {
+  // user just selected a new js file from their local drive
+  const fr = new FileReader();
+  fr.onload =  () => {
+    const dScript = document.createElement('script');
+    dScript.innerHTML = fr.result         // add code
+    document.getElementById('dScript').appendChild(dScript);
+  };
+  fr.readAsText( element.files[0] ); // will only read first file selected
+}
+
+
+// appClass  client-side
+// load local csv file and display class
+loadLocalCSV(element) {
+  // user just selected a new CSV file from their local drive
+  const fr = new FileReader();
+  fr.onload =  () => {
+    // call back function when file has finished loading
+    const table  = this.db.tableAdd(element.files[0].name);       // create table and add to db
+    const csv     = new csvClass(table);     // create instace of CSV object
+
+    // hard code hearder based on file name
+    if (element.files[0].name === "error.csv") {
+      csv.parseCSV(fr.result, "json",["Time","Session","Request","Message"]);         // parse loaded CSV file and put into table
+    } else if (element.files[0].name === "request.csv") {
+      csv.parseCSV(fr.result, "json",["Time","Session","Request","Message","IP","URL"]);         // parse loaded CSV file and put into table
+    } else if (element.files[0].name === "response.csv") {
+      csv.parseCSV(fr.result, "json",["Time","Session","Request","Time","last Request","duration","IP","Method","URL","bytesSent"]);         // parse loaded CSV file and put into table
+    }
+
+    this.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
+  };
+  fr.readAsText( element.files[0] ); // will only read first file selected
+}
+
+
+// appClass  client-side
+async loadLocal(element) {
+  // user just selected a new database file from their local drive
+  const fr = new FileReader();
+  fr.onload =  () => {
+  app.db.loadLocal(fr.result);
+  app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
+  };
+  fr.readAsText( element.files[0] ); // will only read first file selected
+}
+
+
+// appClass  client-side
+export() {
+  app.db.export(this.tableName);
+}
+
+
+//appClass
+} // End
+
+const app = new appClass();  // only globle variable
+app.diff = new diff();
+
+
+</script>

@@ -1,0 +1,114 @@
+<html>
+<head>
+<title>storage</title>
+<link rel="stylesheet" href="..\app.css">
+<script type="text/javascript" src="\_lib\proxy\proxyClass.js"></script>
+<script type="text/javascript" src="\_lib\format\formatClass.js"></script>
+<script type="text/javascript" src="\_lib\UX\loginClass.js"></script>
+</head>
+
+<body>
+<h1>session storage</h1>
+<p>
+  only strings, numbers, boolen, objs are stored as JSON.stringify
+  sessionStorage.SessionName = "SessionData"<br/>
+  sessionStorage.getItem("SessionName")
+</p>
+
+<h1>local storage</h1>
+<p>
+  only strings, numbers, boolen, objs are stored as JSON.stringify
+  localStorage.SessionName = "SessionData"<br/>
+  localStorage.setItem('SessionName', 1);<br/>
+  localStorage.getItem("SessionName") <br/>
+  localStorage.removeItem("mytime");
+</p>
+
+<h1>cookie</h1>
+<p>
+<a href="https://www.tabnine.com/academy/javascript/how-to-set-cookies-javascript/">cookie ref</a>
+<a href="https://www.w3schools.com/js/js_cookies.asp">cookie ref2</a>
+
+document.cookie = "key1 = value1; key2 = value2; expires = date";<br/>
+var x = document.cookie;<br/>
+key   <input type="text" id="key"   value="server"/> <br/>
+value <input type="text" id="value" value="10"    /> <br/>
+path  <input type="text" id="path"  value="/"     /><br/>
+<input type="button" value="setCookie" onclick="setCookie();">
+<input type="button" value="get"       onclick="getCookie()">
+</p>
+
+
+
+<h1>Upload Txt file to Server - File stoarge</h1>
+<p>serverHTTPS.js - processes HTTPS requests.  ->server.js.requestIn -> POST ->  web -> </p>
+
+<p>path must start with /users/ and user must be loged in.  "/users/" is replaced on the server with the logged in user's working area</p>
+
+<p id='login'></p>
+
+<p>message</p>
+<textarea id="msg" rows="8" cols="50">
+{
+ "server":"web"
+,"msg":"uploadFile"
+,"path":"/users/server/download"
+,"name":"test.json"
+,"data":"${data}"
+}
+</textarea>
+<p>Data</p>
+<textarea id="data" rows="8" cols="50">
+{
+ "first":"David"
+,"last":"bolt"
+}
+</textarea>
+
+<br>
+
+<input type="button" onclick="send()" value="msg to server">
+
+
+</body>
+</html>
+
+<script>
+const app = {}
+app.login = new loginClass();
+app.proxy = new proxyClass();
+
+app.login.buildForm(`login`);
+main()
+
+function getCookie(){
+  alert("not written yet")
+}
+
+function main(){
+  sessionStorage.setItem('Obj', ["one",1, new Date()]);
+  localStorage.setItem('Obj', ["one",1, new Date()]);
+  alert( typeof(localStorage.getItem('Obj')) );
+}
+
+
+function setCookie() {
+    alert(document.cookie);
+  const key    = document.getElementById("key").value;
+  const value  = document.getElementById("value").value;
+  const path   = document.getElementById("path").value;
+  const c      = `${key}=${value};path=${path}`;
+  document.cookie = c;
+  alert(document.cookie);
+}
+
+async function send(){
+    let f = new formatClass();
+    let json = document.getElementById('msg').value;
+    let data = document.getElementById('data').value;
+    data = f.escStringForJson(data);
+    json = json.replace("${data}",data);
+    const resp = await app.proxy.postJSON(json);
+    alert(JSON.stringify(resp));
+}
+</script>

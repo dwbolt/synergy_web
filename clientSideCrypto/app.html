@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	</head>
+
+	<body>
+
+<p>client side crypto<br>
+CryptoKey
+
+working with <a href="https://javascript.info/arraybuffer-binary-arrays" target="_blank">ArrayBuffer</a>
+</p>
+<input type="text" id="password" onblur="displayDigest()"/><br/>
+<h3>length:</h3>        <div id="length">?</div>
+<h3>Uint8:</h3>         <div id="Uint8">?</div>
+<h3>Uint16:</h3>        <div id="Uint16">?</div>
+<h3>Uint32:</h3>        <div id="Uint32">?</div>
+<h3>Float64Array:</h3>  <div id="Float64Array">?</div>
+<h3>Base64:</h3>        <div id="Base64">?</div>
+<h3>json</h3>           <div id="json">?</div>
+
+	</body>
+</html>
+
+<script>
+async function digestMessage(message) {
+  const encoder = new TextEncoder();
+  const data    = encoder.encode(message);
+  const  digest  = await crypto.subtle.digest('SHA-256', data);
+	return digest;
+}
+
+
+async function displayDigest(){
+	// digest is an ArrayBuffer
+	const digest =  await digestMessage(document.getElementById('password').value);
+	document.getElementById('length').innerHTML = digest.byteLength;
+
+	let view   =         new Uint8Array(digest);
+	document.getElementById('Uint8').innerHTML = view;
+	document.getElementById('Base64').innerHTML = window.btoa(view);
+
+
+	view   =             new Uint16Array(digest);
+	document.getElementById('Uint16').innerHTML = view;
+
+	view   =             new Uint32Array(digest);
+	document.getElementById('Uint32').innerHTML = view;
+
+	view   =             new Float64Array(digest);
+	document.getElementById('Float64Array').innerHTML = view;
+
+	const obj ={"digest":new Uint32Array(digest)};
+	document.getElementById('json').innerHTML = JSON.stringify(obj);
+}
+
+
+
+
+</script>

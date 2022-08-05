@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title id="headTitle"></title>
+		<meta name="description" content="Sustainable Future Center Website" />
+		<link rel="canonical" href="https://prod.sfcknox.org/app.html" />
+		<link rel="stylesheet" href="/app.css" />
+
+		<link rel="icon"             href="/icon.jpg" sizes="192x192"/>
+		<link rel="shortcut icon"    href="/icon.jpg" type="image/jpeg" />
+		<link rel="apple-touch-icon" href="/icon.jpg" type="image/jpeg" />
+	</head>
+
+	<body>
+
+
+<div class="content">
+	<h1>Set Web view mode</h1>
+	<p>Production mode is how end users will see the web.  The flag is per browser and site.  Changing the flag does not affect other pepole
+		<ol>
+		<li/>hide undefined "strips" of content in pages
+		<li/>hide "goto URL" button
+		<li/>
+	</ol>
+	 </p>
+
+	 <select  size=2 onchange="set(this)">
+	 <option value="true">Production </option>
+	 <option value="false">development</option>
+	 </select>
+
+	 <p><a href="/app.html" target="_blank">home</a></p>
+</div>
+
+
+	</body>
+</html>
+
+<script>
+function set(DOMID) {
+	var value = DOMID.options[DOMID.selectedIndex].value;
+	localStorage.setItem("production",value);
+	alert( "production="+localStorage.getItem("production") );
+}
+</script>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title id="headTitle">Slides</title>
+		<meta name="description" content="Sustainable Future Center Website" />
+		<link rel="canonical" href="https://sfcknox.org/app.html" />
+		<link rel="stylesheet" href="/app.css" />
+
+		<link rel="icon"             href="/icon.jpg" sizes="192x192"/>
+		<link rel="shortcut icon"    href="/icon.jpg" type="image/jpeg" />
+		<link rel="apple-touch-icon" href="/icon.jpg" type="image/jpeg" />
+
+		<script type="text/javascript" src="/_lib/menuClass.js"></script>
+		<script type="text/javascript" src="/_lib/footerClass.js"></script>
+
+		<script type="text/javascript" src="/_lib/format/formatClass.js"></script>
+
+		<script type="text/javascript" src="/_lib/UX/widgetListClass.js" ></script>
+		<script type="text/javascript" src="/_lib/UX/loginClass.js" ></script>
+		<script type="text/javascript" src="/_lib/UX/tableUxClass.js" ></script>
+		<script type="text/javascript" src="/_lib/UX/calendarClass.js" ></script>
+
+		<script type="text/javascript" src="/_lib/proxy/proxyClass.js" ></script>
+		<script type="text/javascript" src="/_lib/db/dbClass.js" ></script>
+		<script type="text/javascript" src="/_lib/db/tableClass.js" ></script>
+
+	</head>
+
+	<body>
+	<div class="content">
+		<h1  id="heading1"></h1>
+		<div id="buttons"></div>
+		<div id="main"></div>
+		<div class="update" id="updated"></div>
+	</div>
+
+	</body>
+</html>
+
+<script>
+
+
+
+class slideShowClass {
+
+// sfcKnoxClass - client side
+constructor() {
+	this.urlParams  = new URLSearchParams( window.location.search );
+	//this.menu       = new menuClass();
+	//this.footer     = new footerClass();
+
+	this.proxy      = new proxyClass();
+	this.login      = new loginClass();
+	this.calendar   = new calendarClass();
+	this.format     = new formatClass();  // format time and dates
+
+	this.widgetList;    // will hold instance of widgetListClass
+	this.css;           // var to hold json css file
+}
+
+
+// sfcKnoxClass - client side
+async main() {
+	let page = this.urlParams.get('p'); // does not have subdirectory or extensions.
+	// display home page if another page is not passed in
+	if (page != null) {
+		// page was passed in url
+	  page  =  `${page}/_.json`;
+	} else {
+		// show home page with hero class and current events
+		page = "home/_.json";
+	}
+
+	// load the global css json file to be used by the classes
+	this.css = await app.proxy.getJSON("/css.json");
+
+	// see if sub page is passed in
+	let button="";
+	if (this.urlParams.get('b') != null) {
+	  button =  this.urlParams.get('b');
+	}
+
+	await this.menu.loadMenu();       // not sure menu object is ever used again
+	await this.footer.loadFooter();	  // do not think footter obeject is ever used again
+
+	// load data for page
+	this.widgetList = new widgetListClass("main");
+  let obj = await this.getPage(page); // add system or user path;
+	this.widgetList.setJSON(obj);
+
+	// deside which list to display
+	if (document.getElementById('buttons').firstChild) {
+		// there are buttons, see if the named one can be found
+		if (document.getElementById(button)) {
+			document.getElementById(button).click();
+		} else {
+			// did not find named button, so execute the first one
+			document.getElementById('buttons').firstChild.click();
+		}
+	} else {
+		// no button, assume rows has an array of nodes to display
+		this.widgetList.display( null, "rows" );
+	}
+}
+
+
+// sfcKnoxClass - client side
+async getPage(
+	page  // get user page if they request it and they are loggedin
+) {
+	let url;
+	// get page from user area if u is in the URL
+	if (this.urlParams.get('u') != null) {
+		url = `/users/myWeb/${page}`
+	} else {
+		// user SFC general page
+		url = `/synergyData/${page}`;
+	}
+
+	return await app.proxy.getJSON(url);
+}
+
+
+// sfcKnoxClass - client side
+// called from json buttons
+display(dom, list, heading){
+	this.widgetList.display(dom, list, heading);
+}
+
+
+// sfcKnoxClass - client side
+buttonURL() {
+	this.widgetList.buttonURL();
+}
+
+
+} // end slideShowClass
+
+
+const app = new slideShowClass();
+app.main();
+</script>

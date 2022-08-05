@@ -1,0 +1,24 @@
+{
+"headTitle":"Dev"
+,"heading1": "Dev - status of development"
+,"updated": "2022-07-28"
+
+,"lists": {
+  "rows": ["home"]
+}
+
+,"node": {
+
+"home":{
+  "text":[
+    ["h3","","Heading"]
+    ,["p","","stuff"]
+  ]
+
+  ,"u_urls": [
+    ["Orig Dev Page","/appOrig.html"]
+  ]
+
+}
+
+}}
