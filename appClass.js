@@ -7,11 +7,8 @@ dev.SFCKnox.org web site app
 
 class appClass {
 
-// appClass - client side
-constructor() {
+constructor() {  // appClass - client side
 	this.urlParams  = new URLSearchParams( window.location.search );
-	this.menu       = new menuClass();
-	this.footer     = new footerClass();
 
 	this.proxy      = new proxyClass();
 	this.login      = new loginClass();
@@ -23,60 +20,47 @@ constructor() {
 }
 
 
-// appClass - client side
-async main() {
-//debugger;
-	let page = this.urlParams.get('p'); // does not have subdirectory or extensions.
-	// display home page if another page is not passed in
-	if (page != null) {
-		// page was passed in url
-	  page  =  `${page}/_.json`;
-	} else {
-		// show home page with hero class and current events
-		page = "home/_.json";
-	//	document.getElementById('hero').style.display = "block";
+async main() { // appClass - client side
+  //debugger;
+	const p = this.urlParams.get('p'); // page to load
+	if (p === null) {
+		// show home page of events
+		window.location.href = encodeURI(`${window.location.origin}/app.html?p=home`);
 	}
 
 	// load the global css json file to be used by the classes
-	this.css = await app.proxy.getJSON("/css.json");
+	this.css                                        = await app.proxy.getJSON("/css.json");
+	document.getElementById("navigation").innerHTML = await app.proxy.getText("/menu.html");
 
-	await this.menu.loadMenu();       // not sure menu object is ever used again
-	//await this.footer.loadFooter();	  // do not think footter obeject is ever used again
 
 	// load data for page
 	this.widgetList = new widgetListClass("main");
-  let obj = await this.getPage(page); // add system or user path;
-	this.widgetList.setJSON(obj);
+	this.widgetList.setJSON( await this.getPage(`${p}/_.json`) ); // add system or user path;
 
-	// deside which list to display
-	const list = this.urlParams.get('l'); // does not have subdirectory or extensions.
-	// see if sub page is passed in
-	let button="";
-	if (this.urlParams.get('b') != null) {
-		button =  this.urlParams.get('b');
-	}
-	const domButton = document.getElementById(button);
+	// see if list or node is to be displayed
+	const list      = this.urlParams.get('l');
+	const node      = this.urlParams.get('n');
+	const domButton = document.getElementById(this.urlParams.get('b'));
 
 	if (list) {
 		// display the nodes in list
-		this.widgetList.displayList(list);
+		await this.widgetList.displayList(list);
+	} else if (node) {
+		await this.widgetList.displayNode(node);
 	} else if (domButton) {
 		// named button is there
-			this.widgetList.displayButton(domButton);
-			//document.getElementById(button).click();
+		await this.widgetList.displayButton(domButton);
 	} else if (document.getElementById('buttons').firstChild){
-			// display first button
-			this.widgetList.displayButton( document.getElementById('buttons').firstChild);
-		//	document.getElementById('buttons').firstChild.click();
+		// display first button
+		await this.widgetList.displayButton( document.getElementById('buttons').firstChild);
 	} else {
 		// no button, assume rows has an array of nodes to display
-		await this.widgetList.displayList("rows" );
+		await this.widgetList.displayList("rows");
 	}
 }
 
 
-// appClass - client side
-async getPage(
+async getPage(  // appClass - client side
 	page  // get user page if they request it and they are loggedin
 ) {
 	let url;
@@ -92,10 +76,11 @@ async getPage(
 }
 
 
-// appClass - client side
-// called from json buttons
-display(dom){
-//	this.widgetList.display(dom);
+display( // appClass - client side
+	// called from json buttons
+	dom
+){
+
 	// goto url that will have the current button selected
 	const urlParams = new URLSearchParams( window.location.search );
 	let page="";
@@ -107,10 +92,8 @@ display(dom){
 }
 
 
-// appClass - client side
-buttonURL() {
+buttonURL() {  // appClass - client side
 	this.widgetList.buttonURL();
 }
-
 
 } // end appClass
