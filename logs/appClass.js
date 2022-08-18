@@ -2,11 +2,10 @@ class appClass {
 
 // appClass  client-side
 constructor() {
-  this.proxy   = new proxyClass();   //
-  this.db      = new dbClass();      // model where the data will be
-  this.tableName = null              // will contain selected table name
-
-  this.tableUx = new tableUxClass("table","app.tableUx"); // display, search table, either db or csv
+  this.proxy     = new proxyClass();   //
+  this.db        = new dbClass();      // model where the data will be
+  this.tableName = null                // will contain selected table name
+  this.tableUx   = new tableUxClass("table","app.tableUx"); // display, search table, either db or csv
 }
 
 
@@ -18,7 +17,6 @@ async load(e) {
   app.db.save('json'); // show what will be saved
   app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
 }
-
 
 
 // appClass  client-side
@@ -46,33 +44,35 @@ loadLocalJS(element) {
 }
 
 
-// appClass  client-side
-// load local csv file and display class
-loadLocalCSV(element) {
+loadLocalCSV(element) {  // appClass  client-side
+  // load local csv file and display class
   // user just selected a new CSV file from their local drive
   const fr = new FileReader();
-  fr.onload =  () => {
-    // call back function when file has finished loading
-    const table  = this.db.tableAdd(element.files[0].name);       // create table and add to db
-    const csv     = new csvClass(table);     // create instace of CSV object
+  fr.onload =  () => {      // call back function when file has finished loading
+    const table  = this.db.tableAdd(element.files[0].name);    // create table and add to db
+    const csv    = new csvClass(table);                        // create instace of CSV object
 
-    // hard code hearder based on file name
+    // hard code hearder and field names based on file name
     if (element.files[0].name === "error.csv") {
-      csv.parseCSV(fr.result, "json",["Time","Session","Request","Message"]);         // parse loaded CSV file and put into table
+      csv.parseCSV(fr.result, "json",["Time","Session","Request","Message"]);
+                 table.json.fieldA = ["time","session","request","message"] ;
     } else if (element.files[0].name === "request.csv") {
-      csv.parseCSV(fr.result, "json",["Time","Session","Request","Message","IP","URL"]);         // parse loaded CSV file and put into table
+      csv.parseCSV(fr.result, "json",["Time","Session","Request","Message","IP","URL"]);
+                 table.json.fieldA = ["time","session","request","message","ip","url"] ;
     } else if (element.files[0].name === "response.csv") {
-      csv.parseCSV(fr.result, "json",["Time","Session","Request","Time","last Request","duration","IP","Method","URL","bytesSent"]);         // parse loaded CSV file and put into table
+      csv.parseCSV(fr.result, "json",["Time","Session","Request","Time","last Request","Duration","IP","Method","URL","bytesSent"]);
+                 table.json.fieldA = ["time","session","request","time","lastRequest" ,"duration","ip","method","url","bytesSent"] ;
     }
 
+    table.field();  // generate field from fieldA
     this.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
   };
+
   fr.readAsText( element.files[0] ); // will only read first file selected
 }
 
 
-// appClass  client-side
-async loadLocal(element) {
+async loadLocal(element) {  // appClass  client-side
   // user just selected a new database file from their local drive
   const fr = new FileReader();
   fr.onload =  () => {
@@ -83,11 +83,7 @@ async loadLocal(element) {
 }
 
 
-// appClass  client-side
-export() {
-  app.db.export(this.tableName);
-}
+export() {  app.db.export(this.tableName);} // appClass  client-side
 
 
-//appClass
-} // End
+} // End appClass  client-side
