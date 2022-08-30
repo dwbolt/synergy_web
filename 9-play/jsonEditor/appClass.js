@@ -1,9 +1,7 @@
+class appClass {
 
 
-class jsonEditClass {
-
-// jsonEditClass
-constructor() {
+constructor() {  // appClass - clientside
   this.json    = {}; // data we are view/edit
   this.changes = []; // list of changes since last save
   this.proxy   = new proxyClass(); // async load server files, json and html fragments
@@ -11,8 +9,9 @@ constructor() {
 }
 
 
-// jsonEditClass - display root keys
-async main() {
+
+async main() {  // appClass - clientside
+  //- display root keys
   // set jsonUrl to default or get from URL
   const urlParams = new URLSearchParams( window.location.search );
   let jsonURL = "/synergyData/jsonEditor/_.json";
@@ -30,8 +29,8 @@ dataChanged(element){
   alert(element.value);
 }
 
-// jsonEditClass
-displayDetail(
+
+displayDetail(  // appClass - clientside
   element  // DOM element clicked on
 ) {
 
@@ -80,8 +79,9 @@ displayDetail(
 }
 
 
-// jsonEditClass
-menuDeleteTo(index) {
+
+menuDeleteTo(   // appClass - clientside
+  index) {
   const e = document.getElementById('root');
 
   while ( index < e.childElementCount -1 ) {
@@ -90,4 +90,4 @@ menuDeleteTo(index) {
 }
 
 
-} // appClass end
+} // appClass - clientside  end
