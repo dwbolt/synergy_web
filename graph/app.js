@@ -9,7 +9,7 @@ constructor() {
 
 async main(){
 	//app.login.buildForm(`login`);
-	await this.load('/synergyData/events/2022/_graph.json');
+	await this.load('/graph/_graph.json');
 }
 
 
