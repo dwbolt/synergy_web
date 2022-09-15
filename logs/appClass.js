@@ -5,7 +5,8 @@ constructor() {
   this.proxy     = new proxyClass();   //
   this.db        = new dbClass();      // model where the data will be
   this.tableName = null                // will contain selected table name
-  this.tableUx   = new tableUxClass("table","app.tableUx"); // display, search table, either db or csv
+  this.tableUx   = new tableUxClass("table"  ,"app.tableUx" ); // display, search table, either db or csv
+  this.tableUxG  = new tableUxClass("groupBy","app.tableUxG"); // display, groupby results
 }
 
 
@@ -27,7 +28,11 @@ displayTable( // user selected a log file to desplay
   this.tableName = e.options[e.selectedIndex].value;
   this.tableUx.setModel( app.db, this.tableName );
   this.tableUx.display();
+
+  this.displayGroupBy();
 }
+
+
 
 
 // appClass  client-side
@@ -84,6 +89,20 @@ async loadLocal(element) {  // appClass  client-side
 
 
 export() {  app.db.export(this.tableName);} // appClass  client-side
+
+
+displayGroupBy(){  // appClass  client-side
+  let html = `<input type="button" value="Message" onclick="app.groupBy('message')"`
+  document.getElementById("groupBy").innerHTML = html;
+}
+
+
+groupBy(// appClass  client-side
+  field // field to group by
+) { // selected a column, then pressed the groupBy button
+  const g = new groupByClass();          // create groupby instance
+  g.groupBy(this.model, [field]);    // groupby message
+}
 
 
 } // End appClass  client-side

@@ -6,6 +6,7 @@ constructor() {
   this.db       = new dbClass();    // contains journal, chart of accounts, and ending statement balance for accounts that need reconsiliation
   this.format   = new formatClass();
   this.login    = new loginClass();
+  
   this.tableUx  = {}
   this.tableUx.balance   = new tableUxClass("details" ,"app.tableUx.balance"  );
   this.tableUx.accounts  = new tableUxClass("details" ,"app.tableUx.accounts" );
