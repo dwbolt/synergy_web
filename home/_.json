@@ -4,7 +4,7 @@
 ,"updated": "2022-08-16"
 
 ,"lists": {
-  "rows": ["active","started"]
+  "rows": ["active","started","play"]
 }
 
 ,"node": {
@@ -33,6 +33,16 @@
      ,["Orig Dev Page","/appOrig.html"]
   ]
 
+}
+
+,"play":{
+  "text":[
+     ["h3","","Play"]
+    ,["p","","low level function demo"]
+    ,["p","","get user <a href='/9-play/clientSideCrypto/app.html' target='_blank'>pwdDigest</a>  "]
+  ]
+  ,"u_urls": [
+  ]
 }
 
 }}
