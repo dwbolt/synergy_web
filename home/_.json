@@ -40,6 +40,7 @@
      ["h3","","Play"]
     ,["p","","low level function demo"]
     ,["p","","get user <a href='/9-play/clientSideCrypto/app.html' target='_blank'>pwdDigest</a>  "]
+    ,["p","","JSON Editor <a href='/9-play/jsonEditor/app.html' target='_blank'>edit</a>  "]
   ]
   ,"u_urls": [
   ]

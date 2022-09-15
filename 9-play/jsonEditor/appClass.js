@@ -5,25 +5,56 @@ constructor() {  // appClass - clientside
   this.json    = {}; // data we are view/edit
   this.changes = []; // list of changes since last save
   this.proxy   = new proxyClass(); // async load server files, json and html fragments
-
+  this.format  = new formatClass();
 }
-
 
 
 async main() {  // appClass - clientside
   //- display root keys
   // set jsonUrl to default or get from URL
   const urlParams = new URLSearchParams( window.location.search );
-  let jsonURL = "/synergyData/jsonEditor/_.json";
+  this.path = "/9-play/jsonEditor/";
+  this.name = "_.json"
+  let jsonURL = this.path+this.name;
+  /*
   if ( urlParams.get('jsonURL') != null)  {
     jsonURL = `${urlParams.get('jsonURL')}`;
   }
-
+*/
   // load json file to view/edit
   document.getElementById("jsonURL").innerHTML = jsonURL;
   this.json = await this.proxy.getJSON(jsonURL);
   this.displayDetail();
 }
+
+async save(){ // appClass - clientside
+  // navigate to selected object
+  let obj = this.json;   // will be displayed in value
+  let childNodes = document.getElementById("root").childNodes;  // should be <td> of <tr>
+  for (var i = 0; i < childNodes.length-1; i++) {
+     let value = childNodes[i].childNodes[0].value; // should be <slected>
+     obj = obj[value];
+  }
+
+  // update object to new value
+  obj = document.getElementById('value').value;
+
+  // save updated object back to server
+  const msg = {
+  "server":"web"
+  ,"msg":"uploadFile"
+  ,"path":`${this.path}`
+  ,"name":`${this.name}`
+  ,"data": app.format.obj2string(obj)
+  }
+
+  const resp = await app.proxy.postJSON(JSON.stringify(msg));  // save
+  alert(JSON.stringify(resp));   // was it succussful
+  location.reload();
+  this.windowActive = false;
+}
+
+
 dataChanged(element){
   alert(element.innerHTML);
   alert(element.value);
@@ -38,8 +69,8 @@ displayDetail(  // appClass - clientside
   let obj = this.json;   // will be displayed in value
   let childNodes = document.getElementById("root").childNodes;  // should be <td> of <tr>
   for (var i = 0; i < childNodes.length; i++) {
-     let e = childNodes[i].childNodes[0]; // should be <slected>
-     obj = obj[e.options[e.selectedIndex].value];
+     let e = childNodes[i].childNodes[0] // should be <slected>
+     obj = obj[e.value];
      if (e === element) {
        // done - delete any remaining children
        this.menuDeleteTo(i);

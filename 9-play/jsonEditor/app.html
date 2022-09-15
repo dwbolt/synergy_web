@@ -2,6 +2,7 @@
 <head>
 <title>JSON Edit</title>
 <link rel="stylesheet" href="app.css">
+<script type="text/javascript" src="/_lib/format/formatClass.js" ></script>
 <script type="text/javascript" src="/_lib/proxy/proxyClass.js" ></script>
 <script type="text/javascript" src="appClass.js"></script>
 
@@ -17,9 +18,9 @@
 <tr id="root"></tr>
 </table>
 
-<input type="button" value="Save"><br>
+<input type="button" value="Save" onclick="app.save()"><br>
 <!-- area value of slected attribute will be displayed -->
-<textarea id="value" rows="25" cols="200" onblur="app.dataChanged(this)"></textarea>
+<textarea id="value" rows="25" cols="200"></textarea>
 <h3>Changes since last save</h3>
 <div id="changes"></div>
 </body>
