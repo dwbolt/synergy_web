@@ -25,7 +25,7 @@ displayTable( // user selected a log file to desplay
   e  // dom select element
 ){
   // user has selected a table to display
-  this.tableName = e.options[e.selectedIndex].value;
+  this.tableName = e.value;
   this.tableUx.setModel( app.db, this.tableName );
   this.tableUx.display();
 
