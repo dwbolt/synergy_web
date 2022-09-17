@@ -117,7 +117,7 @@ balanceSheet() {
 
 // statementClass - client side
 display(        // create table from group and display
-  header
+  header        // ie "Assets" or "Liabilty"
   ,group        // "area1" or "area2" or "area3" object to create table from
   ,accountType  // "i-" -> income
 ) {
