@@ -15,12 +15,17 @@ async main() {  // appClass - clientside
   const urlParams = new URLSearchParams( window.location.search );
   this.path = "/9-play/jsonEditor/";
   this.name = "_.json"
-  let jsonURL = this.path+this.name;
-  /*
-  if ( urlParams.get('jsonURL') != null)  {
-    jsonURL = `${urlParams.get('jsonURL')}`;
+
+
+  if ( urlParams.get('path') != null)  {
+    this.path = `${urlParams.get('path')}`;
   }
-*/
+  if ( urlParams.get('name') != null)  {
+    this.name = `${urlParams.get('name')}`;
+  }
+
+  let jsonURL = this.path+this.name;
+
   // load json file to view/edit
   document.getElementById("jsonURL").innerHTML = jsonURL;
   this.json = await this.proxy.getJSON(jsonURL);
