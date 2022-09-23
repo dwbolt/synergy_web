@@ -4,24 +4,37 @@
 <link rel="stylesheet" href="app.css">
 <script type="text/javascript" src="/_lib/format/formatClass.js" ></script>
 <script type="text/javascript" src="/_lib/proxy/proxyClass.js" ></script>
+<script type="text/javascript" src="/_lib/UX/loginClass.js" ></script>
 <script type="text/javascript" src="appClass.js"></script>
 
 </head>
 
 <body>
+<p id='loginX'></p>
 <h1>JSON Viewer/Editor</h1>
 <a href="https://docs.google.com/document/d/1JayB5mgf2hz8Yz8e9mtyCDjA2666uTpcc6Ns5lRizFg/edit" target="_blank">Google Doc</a>
 <p>?path=/user/&name=_.json</p>
-<h2 id="jsonURL"><h2>
+<h2 id="jsonURL"></h2>
+<p>
+<input id="path" value = "/users/myWeb/makers-market/" size=50><br>
+<input id="name" value = "_.json"><br>
+<input type="button" value="Load" onclick="app.loadJSON()"><br>
+</p>
 
 <table>
 <caption><b>json Viewer<b></caption>
 <tr id="root"></tr>
 </table>
 
-<input type="button" value="Save" onclick="app.save()"><br>
-<!-- area value of slected attribute will be displayed -->
-<textarea id="value" rows="25" cols="200"></textarea>
+<h2>Compact, all newlines removed</h2>
+<textarea id="value" rows="5" cols="200"></textarea>
+
+<br><input type="checkbox" value="Format" id="format"> Add newline before each attribute
+<input id="save" type="button" value="Save" onclick="app.save()" style="visibility:hidden">
+
+<h2>formated with newline for each attribute</h2>
+<textarea id="valueFormated" rows="50" cols="200"></textarea>
+
 <h3>Changes since last save</h3>
 <div id="changes"></div>
 </body>
@@ -30,4 +43,5 @@
 <script>
 const app = new appClass();
 app.main();
+app.login.buildForm(`loginX`);
 </script>
