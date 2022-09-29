@@ -21,7 +21,7 @@
 
 <div style="padding: 35px">
 
-
+<a href="https://docs.google.com/document/d/17I4B9jKLYrKXNvsTc1XlVAaRajRIHC3w6kYG57jNJ0c/edit#" target="_blank">good doc</a>
 <h2>Load file from local machine</h2>
 These routines assume first row is a header<br>
 <input type="file" accept=".csv"  onchange="app.loadLocalCSV(this)"> *.csv<br/>
@@ -31,54 +31,13 @@ These routines assume first row is a header<br>
 <h2>Data base</h2>
 <p id="menu"></p>
 <p id="table"></p>
-<p id="groupBy"></p>
+<p id="groupByMenu"></p>
+<p id="groupByTable"></p>
 
-<h1>Server Log analysis</h1>
-<h2>Todo</h2>
-<ol>
-  <li/>group by
-</ol>
-
-
-<h2>What We Want to Know</h2>
-<ol>
-  <li/>Track and prevent errors.
-  <li/>Track user requests and server requests (that are not direct user requests)
-  <li/>Trach robot activity
-  <li/>Track response time performance
-  <li/>Trach data traffice
-</ol>
 
 <h3>Status of parse</h3>
-<textarea id="json" rows="25" cols="500"></textarea>
+<textarea id="json" rows="p" cols="500"></textarea>
 
-<h2>How the Logs are Stored</h2>
-  <p>This deals with only the logs that our server creates.  It does not deal with linux or pm2 logs.</p>
-
-  <pre>
-  The server configuration directory is hard coded to ../config/configHTTPS"
-  _config.json - contains an entery
-    ,"logDir" : "../logsHTTPS"
-
-  This puts the log files in the sibliging directory "logsHTTPS" to where the server runs.
-  A new log directory is created for each day that contains:
-
-  error.csv    - logs errors such as 404, etc.
-  request.csv  - logs every request made to the server
-  response.csv - logs every response, includeing how log it took
-  summary.json - is overwritten with
-
-  {
-  "serverStart"      : "2022-05-15T13:40:50.389Z"
-  ,"serverUpHr"      : 0.5126483333333334
-  ,"bytesSent"       : 273123
-  ,"requests"        : 38
-  ,"sessionsTotal"   : 1
-  ,"requestsOpen"    : 0
-  ,"sesstionsActive" : 1
-  }
-
-  </pre>
 </body>
 </html>
 

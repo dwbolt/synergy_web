@@ -163,10 +163,9 @@ createAccountLists() {
         o.total += row[table.f("n_debit")] - row[table.f("n_credit")] ;
         break;
       case "finish":
-//        o.total = (o.total/100).toLocaleString();
         break;
       default:
-        alert("error: createGroup()");
+        alert(`loadYearClass.createAccountLists() error state=${state}`);
     }
   });
 }

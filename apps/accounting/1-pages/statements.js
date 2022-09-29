@@ -1,14 +1,8 @@
-class statementsClass {
+class statementsClass {  // statementsClass.js
 /*
-
-statementsClass.js
-
 user can choose to display
-P&L
+Profit & Loss
 Balance Sheet
-
-
-
 */
 
 // statementClass
@@ -49,8 +43,6 @@ main(){
 // statementClass - client side
 menu() {
   this.JournalTable  = app.db.getTable('journal');
-  //this.tux_detail.model = this.JournalTable;        // link data model with viewer
-  //
   app.menuAdd(`
 <p><b>Statements</b></p>
 <select size=4 onchange="app.pages.statements.displayStatement(this)">
@@ -65,8 +57,7 @@ menu() {
 // statementClass - client side
 // when users selects from statements menu
 displayStatement(e) {
-  const stm = e.options[e.selectedIndex].value;
-  switch (stm) {
+  switch (e.value) {
     case "balance":
       this.balanceSheet();
       break;
@@ -74,7 +65,7 @@ displayStatement(e) {
       this.profitLoss();
       break;
     default:
-      alert("error, statementClass - displayStatement")
+      alert(`statementsClass.displayStatement - error e.value=${e.value}`)
   }
 }
 
@@ -83,11 +74,8 @@ displayStatement(e) {
 profitLoss() {
   document.getElementById('title').innerHTML = "Profit and Loss";
 
-  // fill in area1 - with income total by account
-  const income = this.display("Income","area1", "i-");
-
-  // fill in area2 - expense totals by account
-  const expense = this.display("Expense","area2","e-");
+  const income  = this.display("Income" ,"area1", "i-");   // fill in area1 - with income total by account
+  const expense = this.display("Expense","area2", "e-");   // fill in area2 - expense totals by account
 
   // fill in area3 - net profit/loss
   document.getElementById("area3").innerHTML = `Net: ${app.format.money(income + expense)}`
@@ -101,11 +89,8 @@ profitLoss() {
 balanceSheet() {
   document.getElementById('title').innerHTML = "Balance Sheet";
 
-  // fill in area1 - with assets total by account
-  const assets = this.display( "Assets","area1","a-");
-
-  // fill in area2 - liabilty totals by account
-  const liability = this.display( "Liabilty","area2","l-");
+  const assets    = this.display( "Assets"  ,"area1", "a-");   // fill in area1 - with assets total by account
+  const liability = this.display( "Liabilty","area2", "l-");   // fill in area2 - liabilty totals by account
 
   // fill in area3 - net
   document.getElementById("area3").innerHTML = `Net: ${app.format.money(assets + liability)}`
@@ -147,7 +132,6 @@ display(        // create table from group and display
   tux.setFooter(  [["Total "+accountType  ,"${total()}"]] );
   tux.display();
   document.getElementById(`${group}H`).innerHTML = header;
-"Total "+accountType
   return total;
 }
 

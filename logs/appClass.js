@@ -5,15 +5,16 @@ constructor() {
   this.proxy     = new proxyClass();   //
   this.db        = new dbClass();      // model where the data will be
   this.tableName = null                // will contain selected table name
-  this.tableUx   = new tableUxClass("table"  ,"app.tableUx" ); // display, search table, either db or csv
-  this.tableUxG  = new tableUxClass("groupBy","app.tableUxG"); // display, groupby results
+  this.tableUx   = new tableUxClass("table"       ,"app.tableUx" ); // display, search table, either db or csv
+  this.tableUxG  = new tableUxClass("groupByTable","app.tableUxG"); // display, groupby results
 }
 
 
-// appClass  client-side
-async load(e) {
-  //get file from server
-  const filename = e.options[e.selectedIndex].value;
+async load(  // appClass  client-side
+  e  //
+) {
+  // get file from server
+  const filename = e.value;
   await app.db.load(filename);
   app.db.save('json'); // show what will be saved
   app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
@@ -92,16 +93,28 @@ export() {  app.db.export(this.tableName);} // appClass  client-side
 
 
 displayGroupBy(){  // appClass  client-side
-  let html = `<input type="button" value="Message" onclick="app.groupBy('message')"`
-  document.getElementById("groupBy").innerHTML = html;
+  document.getElementById("groupByMenu").innerHTML = `<input type="button" value="Message" onclick="app.groupBy('message')">`;
 }
 
 
 groupBy(// appClass  client-side
   field // field to group by
 ) { // selected a column, then pressed the groupBy button
-  const g = new groupByClass();          // create groupby instance
-  g.groupBy(this.model, [field]);    // groupby message
+  const g = new groupByClass();           // create groupby instance
+  g.groupBy(this.tableUx.model, [field]); // create groups
+
+  // convert info in groupByClass to table
+  const t = new tableClass();           // create blank table to put data in
+  const keys = Object.keys(g.groups);  // keys an array of
+
+  // walk the group object, append a table row for each object
+  keys.forEach((key, index) => {
+    t.appendRow([key,g.groups[key].rowIndex.length])
+  });
+
+  // display table
+  this.tableUxG.model = t;   // attach table data to tableUX
+  this.tableUxG.display();   // show table to user
 }
 
 
