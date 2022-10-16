@@ -93,7 +93,16 @@ export() {  app.db.export(this.tableName);} // appClass  client-side
 
 
 displayGroupBy(){  // appClass  client-side
-  document.getElementById("groupByMenu").innerHTML = `<input type="button" value="Message" onclick="app.groupBy('message')">`;
+
+  // put buttons for each field
+  let html = "";
+  this.tableUx.model.json.fieldA.forEach((field, i) => {
+    html += `<input type="button" value="${field}" onclick="app.groupBy('${field}')"> `
+  });
+
+
+
+  document.getElementById("groupByMenu").innerHTML = html;
 }
 
 
