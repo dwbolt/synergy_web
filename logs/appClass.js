@@ -93,14 +93,11 @@ export() {  app.db.export(this.tableName);} // appClass  client-side
 
 
 displayGroupBy(){  // appClass  client-side
-
   // put buttons for each field
-  let html = "";
+  let html = "<b>Group By Fields:</b>";
   this.tableUx.model.json.fieldA.forEach((field, i) => {
     html += `<input type="button" value="${field}" onclick="app.groupBy('${field}')"> `
   });
-
-
 
   document.getElementById("groupByMenu").innerHTML = html;
 }
@@ -114,6 +111,7 @@ groupBy(// appClass  client-side
 
   // convert info in groupByClass to table
   const t = new tableClass();           // create blank table to put data in
+  t.setHeader([field,"Count"]);
   const keys = Object.keys(g.groups);  // keys an array of
 
   // walk the group object, append a table row for each object
@@ -121,9 +119,11 @@ groupBy(// appClass  client-side
     t.appendRow([key,g.groups[key].rowIndex.length])
   });
 
+
   // display table
-  this.tableUxG.model = t;   // attach table data to tableUX
-  this.tableUxG.display();   // show table to user
+  this.tableUxG.model     = t;               // attach table data to tableUX
+  this.tableUxG.tableName = this.tableName+"-GroupBy";  //
+  this.tableUxG.display();                   // show table to user
 }
 
 
