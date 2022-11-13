@@ -1,6 +1,6 @@
 /*
 
-dev.SFCKnox.org web site app
+synergy.SFCKnox.org web site app
 
 */
 
