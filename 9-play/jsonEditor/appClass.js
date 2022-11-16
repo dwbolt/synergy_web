@@ -33,7 +33,7 @@ async loadJSON(){ // appClass - clientside
   this.name = document.getElementById('name').value;
 
   let jsonURL = this.path + this.name;
-  document.getElementById("jsonURL").innerHTML = jsonURL;
+  document.getElementById("jsonURL").innerHTML = "Editing File: " + jsonURL;
   this.json = await this.proxy.getJSON(jsonURL);
   this.displayDetail();
 }
@@ -87,9 +87,12 @@ displayDetail(  // appClass - clientside
 
   // save clicked attribute
   let obj = this.json;   // will be displayed in value
+
+  // delete menu past selection, narrow obj to one clicked on
+  //this.menuDeleteTo(element.parentElement.childElementCount);
   let childNodes = document.getElementById("root").childNodes;  // should be <td> of <tr>
   for (var i = 0; i < childNodes.length; i++) {
-     let e = childNodes[i].childNodes[3] // should be <slected>
+     let e = childNodes[i].lastChild // should be <slected>
      obj = obj[e.value];
      if (e === element) {
        // done - delete any remaining children
@@ -98,11 +101,9 @@ displayDetail(  // appClass - clientside
   }
 
   let html = `<input type="text" onblur="app.searchAttriute(this)"><br>
-  <select  size=6 onchange="app.displayDetail(this)" style="width: 15ch">`;
+  <select  size=6 onchange="app.displayDetail(this)" style="width: 25ch">`;
 
   // build menu list with attribute name and type of value
-
-  let enableSave = false;
   for (let key in obj) {
 	  let value = obj[key];
 	  if (obj.hasOwnProperty(key)) {
@@ -111,22 +112,24 @@ displayDetail(  // appClass - clientside
         type = `Array[${value.length}]`;
       } else if ("string" === type) {
         type = `string[${value.length}]`;
-        enableSave = true;
       } else if ("number" === type) {
         // let type=number;
-        enableSave = true;
-      }
-
-      // only allow save if we are changing a number or string.
-      if (enableSave) {
-        document.getElementById('save').style.visibility = 'visible';
-      } else {
-        document.getElementById('save').style.visibility = 'hidden';
+        type = `number`;
       }
 
 	    html += `<option value= "${key}"     >${key}:${type} </option>`;
 	  }
 	}
+
+  if ( 0 <= ["string","number"].indexOf(typeof(obj))  ) {
+    // only allow save if we are changing a number or string.
+    document.getElementById('save').style.visibility = 'visible';
+  } else {
+    document.getElementById('save').style.visibility = 'hidden';
+  }
+
+  // show/hide save button
+  let enableSave = false;  // disable the save button
 
   // display selected attribute data in textarea
   if (typeof(obj) == "object") {
@@ -146,7 +149,13 @@ displayDetail(  // appClass - clientside
 searchAttriute(// appClass - clientside
   input  // input element
 ){
-  alert(input.value);
+  const sel       = input.parentElement.lastChild;  // should be select dom
+  const searchFor = input.value;                    // search values in select
+
+  for(let i=0; i< sel.length; i++) {
+    sel[i].value;
+  }
+
 }
 
 
