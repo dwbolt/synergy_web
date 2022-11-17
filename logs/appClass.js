@@ -46,7 +46,12 @@ loadLocalJS(element) {
     dScript.innerHTML = fr.result         // add code
     document.getElementById('dScript').appendChild(dScript);
   };
-  fr.readAsText( element.files[0] ); // will only read first file selected
+
+element.files.forEach((item, i) => {
+    fr.readAsText( item );
+});
+
+
 }
 
 
@@ -74,7 +79,10 @@ loadLocalCSV(element) {  // appClass  client-side
     this.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
   };
 
-  fr.readAsText( element.files[0] ); // will only read first file selected
+  const keys = Object.keys(element.files);
+  for(let i=0; i<keys.length; i++) {
+    fr.readAsText( element.files[keys[i]] );
+  };
 }
 
 

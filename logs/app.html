@@ -15,7 +15,7 @@
 </head>
 
 <body>
-
+<h1>Server log</h1>
 <!-- dynamically load js  -->
 <div id="dScript"></div>
 
@@ -24,9 +24,7 @@
 <a href="https://docs.google.com/document/d/17I4B9jKLYrKXNvsTc1XlVAaRajRIHC3w6kYG57jNJ0c/edit#" target="_blank">good doc</a>
 <h2>Load file from local machine</h2>
 These routines assume first row is a header<br>
-<input type="file" accept=".csv"  onchange="app.loadLocalCSV(this)"> *.csv<br/>
-<input type="file" accept=".js"   onchange="app.loadLocalJS(this)" > *.js<br/>
-<input type="file" accept=".json" onchange="app.loadLocal(this)"   > -rdb.json
+<input type="file" multiple accept=".csv"  onchange="app.loadLocalCSV(this)"> *.csv<br/>
 
 <h2>Data base</h2>
 <p id="menu"></p>
