@@ -17,17 +17,23 @@
 <a href="https://docs.google.com/document/d/1JayB5mgf2hz8Yz8e9mtyCDjA2666uTpcc6Ns5lRizFg/edit" target="_blank">Google Doc of status</a>
 </p>
 
+<div id="login" style="visibility:hidden">
 <h1>Login</h1>
 <p id='loginX'></p>
+</div>
 
+<div id="load" style="visibility:hidden">
 <h1>Load JSON</h1>
 <p>
 Path: <input id="path" value = "/users/myWeb/makers-market/" size=50><br>
 File: <input id="name" value = "_.json"><br>
 <input type="button" value="Load" onclick="app.loadJSON()"><br>
 </p>
+</div>
 
+<div style="visibility:hidden">
 <h1 id="jsonURL">Edit JSON</h1>
+
 <h2>Navigate JSON object</h2>
 <table>
 <tr id="root"></tr>
@@ -41,10 +47,9 @@ File: <input id="name" value = "_.json"><br>
 <h2>Compact, all newlines removed</h2>
 <textarea id="value" rows="5" cols="200"></textarea>
 
-
-
 <h2>formated with newline for each attribute</h2>
 <textarea id="valueFormated" rows="50" cols="200"></textarea>
+</div>
 
 </body>
 </html>
@@ -53,4 +58,5 @@ File: <input id="name" value = "_.json"><br>
 const app = new appClass();
 app.main();
 app.login.buildForm(`loginX`);
+document.getElementById('login').style.visibility = "visible";
 </script>

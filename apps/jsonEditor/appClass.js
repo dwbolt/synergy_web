@@ -9,21 +9,27 @@ constructor() {  // appClass - clientside
   this.login   = new loginClass();
 }
 
-
 main() {  // appClass - clientside
-  //- display root keys
-  // set jsonUrl to default or get from URL
-  const urlParams = new URLSearchParams( window.location.search );
+  this.login.loginTrue = app.loginTrue;  // set callback function
 
+  // set path and name to default or get from URL
+  const urlParams = new URLSearchParams( window.location.search );
   let parm = urlParams.get('path');
   if ( parm != null)  {
+    // set path to one on url
     document.getElementById('path').value = param;
   }
-
   parm = urlParams.get('name') ;
   if ( parm != null)  {
+    // set file name to one on url
     document.getElementById('name').value = parm;
   }
+}
+
+
+loginTrue(){
+  // show
+  document.getElementById('load').style.visibility = "visible";
 }
 
 
