@@ -7,6 +7,7 @@ constructor() {  // appClass - clientside
   this.proxy   = new proxyClass(); // async load server files, json and html fragments
   this.format  = new formatClass();
   this.login   = new loginClass();
+  this.changeLog = {};  // will contain change long, one
 }
 
 main() {  // appClass - clientside
@@ -27,8 +28,8 @@ main() {  // appClass - clientside
 }
 
 
-loginTrue(){
-  // show
+loginTrue(){  // appClass - clientside
+  // show the load div
   document.getElementById('load').style.visibility = "visible";
 }
 
@@ -42,24 +43,48 @@ async loadJSON(){ // appClass - clientside
   document.getElementById("jsonURL").innerHTML = "Editing File: " + jsonURL;
   this.json = await this.proxy.getJSON(jsonURL);
   this.displayDetail();
+  document.getElementById('edit').style.visibility = "visible";  // show edit section of page
 }
 
 
-async save(){ // appClass - clientside
-  // navigate to selected object
-  let obj = this.json;   // will be displayed in value
-  let childNodes = document.getElementById("root").childNodes;  // should be <td> of <tr>
-  let path="";
+async save2Memory( // appClass - clientside
+){ // save change to memory and update changeLog
+
+  // build path to selected object
+  const childNodes = document.getElementById("root").childNodes;  // should be <td> of <tr>
+  let path="",value;
   for (var i = 0; i < childNodes.length; i++) {
-     let value = childNodes[i].lastChild.value; // should be <selected>
-     obj = obj[value];
-     path += `["${value}"]`
+     value = childNodes[i].lastChild.value; // should be <selected>
+     path += `.${value}`
   }
 
-  // update object to new value
-  obj = document.getElementById('value').value;
-  eval(`this.json${path}=obj`);  // do not like eval, but do not know how to get arround lack of poitners.
+  // remember old and new values, update to new value
+  let valueNew = document.getElementById('value').value;
+  let valueOld = eval(`this.json${path}`);
+                 eval(`this.json${path}=valueNew`);  // do not like eval, but do not know how to get arround lack of poitners.
 
+  // create/update change log;
+  const logEntry = this.changeLog[path];  // get change log entry
+  if (logEntry) {
+    // log entry exists
+    if (logEntry.firstChange === "update" && logEntry.fileValue === valueNew) {
+      // was changed back to original, so delete change log entry
+      delete this.changeLog[path];
+      return;
+    }
+  } else {
+    // new change so add, "firstChange" - create, update, delete an attribute
+    logEntry = {"path":path, "firstChange":"update", "fileValue":valueOld};
+  }
+
+  // update
+   "date": new Date(), "valueOld":valueOld, "valueNew":valueNew}
+    "date": new Date(), "valueOld":valueOld, "valueNew":valueNew}
+}
+
+
+async save2Server(// appClass - clientside
+){
   // save updated object back to server
   if (document.getElementById('format').checked) {
     obj = this.format.obj2string(this.json);
@@ -85,8 +110,6 @@ dataChanged(element){
   alert(element.innerHTML);
   alert(element.value);
 }
-
-
 
 
 displayDetail(  // appClass - clientside
@@ -136,9 +159,11 @@ displayDetail(  // appClass - clientside
   // show/hide save button
   if ( 0 <= ["string","number"].indexOf(typeof(obj))  ) {
     // only allow save if we are changing a number or string.
-    document.getElementById('save').style.visibility = 'visible';
+    document.getElementById('save2Memory').style.visibility = 'visible';
+    document.getElementById('save2Server').style.visibility = 'visible';
   } else {
-    document.getElementById('save').style.visibility = 'hidden';
+    document.getElementById('save2Memory').style.visibility = 'hidden';
+    document.getElementById('save2Server').style.visibility = 'hidden';
   }
 
   // display selected attribute data in textarea
@@ -210,7 +235,8 @@ next(  // appClass - clientside
 
 
 menuDeleteTo(   // appClass - clientside
-  index) {
+  index // delete all memnues past index
+) {
   const e = document.getElementById('root');
 
   while ( index < e.childElementCount -1 ) {
