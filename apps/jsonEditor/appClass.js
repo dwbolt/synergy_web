@@ -1,5 +1,9 @@
-class appClass {
+class appClass {  // appClass - clientside
+/*
 
+JSON editor
+
+*/
 
 constructor() {  // appClass - clientside
   this.json    = {}; // data we are view/edit
@@ -64,7 +68,7 @@ async save2Memory( // appClass - clientside
                  eval(`this.json${path}=valueNew`);  // do not like eval, but do not know how to get arround lack of poitners.
 
   // create/update change log;
-  const logEntry = this.changeLog[path];  // get change log entry
+  let logEntry = this.changeLog[path];  // get change log entry
   if (logEntry) {
     // log entry exists
     if (logEntry.firstChange === "update" && logEntry.fileValue === valueNew) {
@@ -78,19 +82,19 @@ async save2Memory( // appClass - clientside
   }
 
   // update
-   "date": new Date(), "valueOld":valueOld, "valueNew":valueNew}
-    "date": new Date(), "valueOld":valueOld, "valueNew":valueNew}
+  logEntry.date        = new Date();
+  logEntry.valueOld    = valueOld ;
+  logEntry.valueNew    = valueNew;
+  this.changeLog[path] = logEntry;
+  document.getElementById('save2Server').style.visibility = ( (Object.keys(this.changeLog).length === 0     ) ? 'hidden'  : 'visible');
+  document.getElementById("changes").value = this.format.obj2string(this.changeLog);
 }
 
 
 async save2Server(// appClass - clientside
 ){
+  const obj = ((document.getElementById('format').checked) ? this.format.obj2string(this.json) : JSON.stringify(this.json)
   // save updated object back to server
-  if (document.getElementById('format').checked) {
-    obj = this.format.obj2string(this.json);
-  } else {
-    obj = JSON.stringify(this.json);
-  }
   const msg = {
   "server":"web"
   ,"msg":"uploadFile"
@@ -103,6 +107,9 @@ async save2Server(// appClass - clientside
   alert(JSON.stringify(resp));   // was it succussful
   location.reload();
   this.windowActive = false;
+
+  // need to upload change log;
+  
 }
 
 
@@ -120,7 +127,6 @@ displayDetail(  // appClass - clientside
   let obj = this.json;   // will be displayed in value
 
   // delete menu past selection, narrow obj to one clicked on
-  //this.menuDeleteTo(element.parentElement.childElementCount);
   let childNodes = document.getElementById("root").childNodes;  // should be <td> of <tr>
   for (var i = 0; i < childNodes.length; i++) {
      let e = childNodes[i].lastChild // should be <slected>
@@ -133,7 +139,7 @@ displayDetail(  // appClass - clientside
 
   let html = `
   <input type="button" value="<" onclick="app.previous(this)">
-  <input type="text" size="15" onkeyup="app.searchAttriute(this)">
+  <input type="text"   size="15" onkeyup="app.searchAttriute(this)">
   <input type="button" value=">" onclick="app.next(this)"><br>
   <select  size=6 onclick="app.displayDetail(this)" style="width: 25ch">
   `;
@@ -156,27 +162,21 @@ displayDetail(  // appClass - clientside
 	  }
 	}
 
-  // show/hide save button
-  if ( 0 <= ["string","number"].indexOf(typeof(obj))  ) {
-    // only allow save if we are changing a number or string.
-    document.getElementById('save2Memory').style.visibility = 'visible';
-    document.getElementById('save2Server').style.visibility = 'visible';
-  } else {
-    document.getElementById('save2Memory').style.visibility = 'hidden';
-    document.getElementById('save2Server').style.visibility = 'hidden';
-  }
+  // show/hide save buttons
+  document.getElementById('save2Memory').style.visibility = ( (0 <= ["string","number"].indexOf(typeof(obj))) ? 'visible' : 'hidden' );
+  document.getElementById('save2Server').style.visibility = ( (Object.keys(this.changeLog).length === 0     ) ? 'hidden'  : 'visible');
 
   // display selected attribute data in textarea
   if (typeof(obj) == "object") {
-      document.getElementById("value").innerHTML         = JSON.stringify(        obj);
-      document.getElementById("valueFormated").innerHTML = this.format.obj2string(obj);
-
-      // add menu to select atributes
-      const newMenue = document.createElement("td")
-      newMenue.innerHTML = html + "</select>";
-      document.getElementById('root').appendChild(newMenue);
+    document.getElementById("value").value         = JSON.stringify(        obj);
+    document.getElementById("valueFormated").value = this.format.obj2string(obj);
+    // add menu to select atributes
+    const newMenue = document.createElement("td")
+    newMenue.innerHTML = html + "</select>";
+    document.getElementById('root').appendChild(newMenue);
   } else {
-      document.getElementById("value").innerHTML = obj;
+    document.getElementById("value").value         = obj;
+    document.getElementById("valueFormated").value = obj;
   }
 }
 
