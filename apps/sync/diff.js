@@ -37,7 +37,7 @@ async main() {  // started from button in app.html
   // init laptop tags
   const laptop = app.db.getTable("laptop");
   app.tableUx.tags.desktopMatch    = [];
-  app.tableUx..tags.desktopMissing = [];
+  app.tableUx.tags.desktopMissing = [];
 
   const desktop = app.db.getTable("desktop");
   // init desktop tag
