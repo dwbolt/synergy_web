@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd "${0%/*}"
+echo
+echo in chrome browser
+echo About:inspect
+echo Then click Open dedicated DevTolls for Node
+echo
+node --inspect-brk /Users/davidbolt/Desktop/synergy/3-syncCode/manifest.js

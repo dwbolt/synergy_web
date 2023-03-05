@@ -4,6 +4,7 @@
 <link   rel ="stylesheet"      href="/apps/accounting/app.css">
 <script type="text/javascript" src ="/_lib/proxy/proxyClass.js"></script>
 <script type="text/javascript" src ="/_lib/UX/tableUXClass.js"></script>
+<script type="text/javascript" src ="/_lib/UX/loginClass.js"></script>
 
 <script type="text/javascript" src ="/_lib/db/dbClass.js"   ></script>
 <script type="text/javascript" src ="/_lib/db/tableClass.js"></script>
@@ -20,6 +21,9 @@
 <h1>Synergy Sync Application</h1>
 <p>This allows users to work offline on multiple computers and then sync the compters as they go online. See 
   <a href='https://docs.google.com/document/d/1_m_lowTx637JIWqqwFKM5paYU9Me7AtGFu1S2ylhrGE/edit' target="_blank">Google doc</a> for support documents.</p>
+
+<h3>Must login to use</h3>
+<p id='login'></p>
 
 <h3>Load file from local machine</h3>
 These routines assume first row is a header<br>
@@ -66,17 +70,16 @@ These routines assume first row is a header<br>
 
 <script>
 
-// appClass  client-side
-
-class appClass {
+class appClass {  // appClass  client-side
 
 // appClass  client-side
 constructor() {
   this.proxy   = new proxyClass();   //
   this.db      = new dbClass();      // model where the data will be
+  this.login   = new loginClass();
+  this.tableUx = new tableUxClass("table","app.tableUx"); // display, search table, either db or 
+  
   this.tableName = null              // will contain selected table name
-
-  this.tableUx = new tableUxClass("table","app.tableUx"); // display, search table, either db or csv
 }
 
 
@@ -155,6 +158,6 @@ export() {
 
 const app = new appClass();  // only globle variable
 app.diff = new diff();
-
+app.login.buildForm(`login`);
 
 </script>

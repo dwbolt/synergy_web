@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd "${0%/*}"
+#rm /Users/davidbolt/Desktop/6-ToDo-SFC/synergy/2-manifestLists
+rm 2-dir.csv
+rm 3-links.csv
+node manifest.js
+mv 1-manifest.csv ../Data/home.csv

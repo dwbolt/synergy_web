@@ -1,7 +1,6 @@
 class appClass {
 
-// appClass - accounting - client side
-constructor() {
+constructor() {   // appClass - accounting - client side
   this.proxy    = new proxyClass(); // async load server files, json and html fragments
   this.db       = new dbClass();    // contains journal, chart of accounts, and ending statement balance for accounts that need reconsiliation
   this.format   = new formatClass();
@@ -31,16 +30,15 @@ constructor() {
 }
 
 
-// appClass - accounting - client side
-main() {
+main() {  // appClass - accounting - client side
   this.menu();  // display main menu
   document.getElementById('page').selectedIndex = 0;  // select home page on menue
   this.loadPage();  // load home page
 }
 
 
-// appClass - accounting - client side
-menu(){  // init menu for application, display dropdown list of pages,
+menu(  // appClass - accounting - client side
+){  // init menu for application, display dropdown list of pages,
   // remember menu selection
   const e = document.getElementById('page');
   const i = e.selectedIndex;
@@ -67,16 +65,18 @@ menu(){  // init menu for application, display dropdown list of pages,
 }
 
 
-// appClass - accounting - client side
-menuAdd(html){
+menuAdd(  // appClass - accounting - client side
+  html    //
+  ){
   const newMenue = document.createElement("td")
   newMenue.innerHTML = html;
   document.getElementById('page').parentElement.parentElement.appendChild(newMenue);
 }
 
 
-// appClass - accounting - client side
-menuDeleteTo(index) {
+menuDeleteTo(  // appClass - accounting - client side
+  index //
+  ) {
   const e = document.getElementById('page').parentElement.parentElement;
 
   while ( index < e.childElementCount ) {
@@ -84,9 +84,10 @@ menuDeleteTo(index) {
   }
 }
 
-// appClass - accounting - client side
+
+async loadPage( // appClass - accounting - client side
 // fires when top level menu is slected
-async loadPage() {
+) {
   const e   = document.getElementById('page');
   const url = e.options[e.selectedIndex].value;
 

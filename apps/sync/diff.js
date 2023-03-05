@@ -64,7 +64,7 @@ async load(fileName,tableName=fileName){
   const csv    = new csvClass(table);              // create instace of CSV object
 
   // load csv file from synced desktop
-  const file   = await app.proxy.getText(`/sync/Data/${fileName}.csv`);
+  const file   = await app.proxy.getText(`/users/sync/${fileName}.csv`);
 
   csv.parseCSV(file, "json");         // parse loaded CSV file and put into table
   app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
