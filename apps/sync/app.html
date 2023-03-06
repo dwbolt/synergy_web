@@ -24,7 +24,6 @@
 
 <h3>Must login to use</h3>
 <p id='login'></p>
-<input type="button" value="Generate manifest list" onclick="app.diff.main();">
 
 <h3>Load file from local machine</h3>
 These routines assume first row is a header<br>
@@ -46,24 +45,6 @@ These routines assume first row is a header<br>
 </select>
 </p>
 
-<p>I've used a number database system over the years.  In the 80's dbase and clipper, 90's SQL. I took a 10 yeear break from software and in the 2015 time frame I begain looking at graph and no sql datbases.  I implemented small low load systems in neo4j, couchDB, and mongo.  I wanted something lightwight and simple.  This itteration of code explores using relational database concepts implement is javascript objects. Since csv files are a common way to export data from other systems, CSV was choose as a way to get data in and out of the system.  We are currently using these libraries to analyse web log data and implement an inhouse accounting system.</p>
-
-<p>
-*.csv       - comma seperated values  - input/out
-<br/>*-rdb.json  - one or more tables, can be inline or point to external table files
-<br/>*-tbl.json  - one table         - (not implemented)
-<br/>*-imp.json  - import desciption - (not implemented)
-<br/>*-exp.json  - export desciption - (not implemented)
-</p>
-
-
-<ol>
-<li/> dbClass.js       - is main class - a database is a collection of tables
-<li/> tableClass.js    - works with tables
-<li/> groupbyClass.js  - works with lists of records
-<li/> csvClass.js      - loads or exports cvs files
-</ol>
-</p>
 <div>
 
 </body>
@@ -160,5 +141,6 @@ export() {
 const app = new appClass();  // only globle variable
 app.diff = new diff();
 app.login.buildForm(`login`);
+app.login.loginTrue = app.diff.main.bind(app.diff);
 
 </script>

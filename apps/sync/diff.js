@@ -19,19 +19,20 @@ class diff {
   */
 
 
-//  diff - client-side
-constructor (s_configDir) {
+constructor (//  diff - client-side
+
+) {
   this.i                    = 0;  // index into laptop data
   this.start;                     // init when diff main starts
 }
 
 
-//  diff - client-side
-async main() {  // started from button in app.html
+
+async main(   //  diff - client-side
+) {  // started from button in app.html
   this.start = new Date();  // see how long it runs
 
   // generate files on local machine
-  // process server responce
   const msg = `{
     "server"      : "web"
     ,"msg"        : "sync"
@@ -39,16 +40,21 @@ async main() {  // started from button in app.html
   const serverResp = await app.proxy.postJSON(msg);
   if (serverResp.msg) {
     // list of all files created
-    alert("User was sucessfully Added/changed");
   } else {
     // user was not added
     alert(`User add Failed,${JSON.stringify(serverResp)}`);
+    return;
   }
+  this.machine = serverResp.machine;  // name of local computer, from server config file
 
-  // load mainifest files
-  await this.load("laptop");
-  await this.load("desktop");
+  // load mainifest files so the can be displayed
+  await this.load(`1-manifest`);
+  await this.load(`2-dir`);
+  await this.load(`3-links`);
 
+  // send files to Ocean server
+
+  /*
   // init laptop tags
   const laptop = app.db.getTable("laptop");
   app.tableUx.tags.desktopMatch    = [];
@@ -66,28 +72,31 @@ async main() {  // started from button in app.html
   }
 
   this.walk();
-
+*/
   // display
-  app.tableUx.setModel( app.db, "laptop" );
+  app.tableUx.setModel( app.db, "1-manifest" );
   app.tableUx.display()
 }
 
 
-//  diff - client-side
-async load(fileName,tableName=fileName){
+async load( //  diff - client-side
+  fileName
+  ,tableName=fileName
+  ){
   const table  = app.db.tableAdd(tableName);       // create table and add to db
   const csv    = new csvClass(table);              // create instace of CSV object
 
   // load csv file from synced desktop
-  const file   = await app.proxy.getText(`/users/sync/${fileName}.csv`);
+  const file   = await app.proxy.getText(`/users/sync/${this.machine}/${fileName}.csv`);
 
   csv.parseCSV(file, "json");         // parse loaded CSV file and put into table
   app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
 }
 
+
+walk(  //  diff - client-side
 // keep calling walkLaptop until all laptop files have been searched on desktop
-//  diff - client-side
-walk() {
+) {
   const laptop  = app.db.getTable("laptop");
   const r       =  laptop.json.rows;
 
@@ -133,6 +142,4 @@ walk() {
   }
 }
 
-
-//  diff - client-side
-} //////// end of cass
+}//  diff - client-side  //////// end of cass
