@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Sync</title>
+<title>Sync local machine</title>
 <link   rel ="stylesheet"      href="/apps/accounting/app.css">
 <script type="text/javascript" src ="/_lib/proxy/proxyClass.js"></script>
 <script type="text/javascript" src ="/_lib/UX/tableUXClass.js"></script>
@@ -24,6 +24,7 @@
 
 <h3>Must login to use</h3>
 <p id='login'></p>
+<input type="button" value="Generate manifest list" onclick="app.diff.main();">
 
 <h3>Load file from local machine</h3>
 These routines assume first row is a header<br>

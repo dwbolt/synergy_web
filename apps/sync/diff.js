@@ -30,6 +30,21 @@ constructor (s_configDir) {
 async main() {  // started from button in app.html
   this.start = new Date();  // see how long it runs
 
+  // generate files on local machine
+  // process server responce
+  const msg = `{
+    "server"      : "web"
+    ,"msg"        : "sync"
+  }`
+  const serverResp = await app.proxy.postJSON(msg);
+  if (serverResp.msg) {
+    // list of all files created
+    alert("User was sucessfully Added/changed");
+  } else {
+    // user was not added
+    alert(`User add Failed,${JSON.stringify(serverResp)}`);
+  }
+
   // load mainifest files
   await this.load("laptop");
   await this.load("desktop");
