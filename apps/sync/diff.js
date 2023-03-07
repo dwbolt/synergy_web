@@ -1,4 +1,4 @@
-class diff {
+class diff {  /u/  diff - client-side
   /*
   this client side code create lists of differences between laptop and desktop files
 
@@ -20,12 +20,10 @@ class diff {
 
 
 constructor (//  diff - client-side
-
 ) {
   this.i                    = 0;  // index into laptop data
   this.start;                     // init when diff main starts
 }
-
 
 
 async main(   //  diff - client-side

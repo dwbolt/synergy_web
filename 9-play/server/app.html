@@ -2,8 +2,8 @@
 <head>
 <title>Server</title>
 <link rel="stylesheet" href="..\app.css">
-<script type="text/javascript" src="..\_lib-classes\proxy\lib.js"></script>
-<script type="text/javascript" src="..\_lib-classes\format\lib.js"></script>
+<script type="text/javascript" src="\_lib\proxy\proxyClass.js"></script>
+<script type="text/javascript" src="\_lib\format\formatClass.js"></script>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
 <p>serverHTTPS.js - processes HTTPS requests.  ->server.js.requestIn -> POST ->  web -> </p>
 
 <p>message</p>
-<textarea id="json" rows="8" cols="50">
+<textarea id="msg" rows="8" cols="50">
 {"server":"web"
 ,"msg":"uploadFile"
 ,"path":"users/bolt,david/server/download"
@@ -37,14 +37,15 @@
 <input type="button" onclick="send()" value="msg to server">
 
 <script>
-function send(){
+async function send(){
     let p = new proxyClass();
     let f = new formatClass();
-    let json = document.getElementById('json').innerHTML;
+    let msg = document.getElementById('msg').innerHTML;
     let data = document.getElementById('data').innerHTML;
     data = f.escStringForJson(data);
-    json = json.replace("${data}",data);
-    p.postJSON(json)
+    msg = msg.replace("${data}",data);
+    let responce = await p.postJSON(msg);
+    alert(response);
 }
 </script>
 
