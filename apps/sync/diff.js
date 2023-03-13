@@ -1,4 +1,4 @@
-class diff {  /u/  diff - client-side
+class diff {  //  diff - client-side
   /*
   this client side code create lists of differences between laptop and desktop files
 
