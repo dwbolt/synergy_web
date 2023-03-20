@@ -10,6 +10,7 @@
 <script type="text/javascript" src ="/_lib/db/tableClass.js"></script>
 <script type="text/javascript" src ="/_lib/db/csvClass.js"  ></script>
 
+<script type="text/javascript" src ="app.js"  ></script>
 <script type="text/javascript" src ="diff.js"  ></script>
 </head>
 
@@ -23,7 +24,7 @@
   <ol>
     <li>local server is running at https://synergyalpha.sfcknox.org</li>
     <li>local server has  in config file  ,"sync":         {"filePath": "/Users/davidbolt/1-topics/S/synergy/2-git/5-synergy/4-users/2023/1-Bolt,David/sync"}</li>
-    <li>logged in to digital ocean server </li>
+    <li>logged in to digital ocean server or 8433 to test</li>
   </ol> 
 
 
@@ -32,9 +33,15 @@
 <h3>Must login to use</h3>
 <p id='login'></p>
 
-<h3>Load file from local machine</h3>
+<h3>Client 2 Server</h3>
+<input type="button" value="Upload"    onclick="app.diff.upload();">will read local server/sync/config.json  and will show files to be upload to server and, files to be deleted from server to make local files match server files
+<br>
+<input type="button" value="Download"  onclick="app.diff.download();">will download from server to client will show files to be downloaded from server and files to be deleted from local/syc/client2server to make client match server<br>
+------------------------------- work on
+<h3>Client 2 Client</h3>
 These routines assume first row is a header<br>
-<input type="button" value="diff" onclick="app.diff.main();"><br>
+<input type="button" value="upload" onclick="app.diff.main();">  app.diff.main.bind(app.diff);
+<input type="button" value="diff" onclick="app.diff.main();">
 
 <h3>Data base</h3>
 <p id="menu"></p>
@@ -58,96 +65,6 @@ These routines assume first row is a header<br>
 </html>
 
 <script>
-
-class appClass {  // appClass  client-side
-
-// appClass  client-side
-constructor() {
-  this.proxy   = new proxyClass();   //
-  this.db      = new dbClass();      // model where the data will be
-  this.login   = new loginClass();
-  this.tableUx = new tableUxClass("table","app.tableUx"); // display, search table, either db or 
-  
-  this.tableName = null              // will contain selected table name
-}
-
-
-// appClass  client-side
-async load(e) {
-  //get file from server
-  const filename = e.options[e.selectedIndex].value;
-  await app.db.load(filename);
-  app.db.save('json'); // show what will be saved
-  app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
-}
-
-
-
-// appClass  client-side
-displayTable(
-  e  // dom select element
-){
-  // user has selected a table to display
-  this.tableName = e.options[e.selectedIndex].value;
-  this.tableUx.setModel( app.db, this.tableName );
-  this.tableUx.display();
-}
-
-
-// appClass  client-side
-// load local csv file and display class
-loadLocalJS(element) {
-  // user just selected a new js file from their local drive
-  const fr = new FileReader();
-  fr.onload =  () => {
-    const dScript = document.createElement('script');
-    dScript.innerHTML = fr.result         // add code
-    document.getElementById('dScript').appendChild(dScript);
-  };
-  fr.readAsText( element.files[0] ); // will only read first file selected
-}
-
-
-// appClass  client-side
-// load local csv file and display class
-loadLocalCSV(element) {
-  // user just selected a new CSV file from their local drive
-  const fr = new FileReader();
-  fr.onload =  () => {
-    // call back function when file has finished loading
-    const table  = this.db.tableAdd(element.files[0].name);       // create table and add to db
-    const csv     = new csvClass(table);     // create instace of CSV object
-    csv.parseCSV(fr.result, "json");         // parse loaded CSV file and put into table
-    this.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
-  };
-  fr.readAsText( element.files[0] ); // will only read first file selected
-}
-
-
-// appClass  client-side
-async loadLocal(element) {
-  // user just selected a new database file from their local drive
-  const fr = new FileReader();
-  fr.onload =  () => {
-  app.db.loadLocal(fr.result);
-  app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
-  };
-  fr.readAsText( element.files[0] ); // will only read first file selected
-}
-
-
-// appClass  client-side
-export() {
-  app.db.export(this.tableName);
-}
-
-
-//appClass
-} // End
-
 const app = new appClass();  // only globle variable
-app.diff = new diff();
-app.login.buildForm(`login`);
-app.login.loginTrue = app.diff.main.bind(app.diff);
 
 </script>

@@ -25,32 +25,59 @@ constructor (//  diff - client-side
   this.start;                     // init when diff main starts
 }
 
-
-async main(   //  diff - client-side
-) {  // started from button in app.html
+async upload(   //  diff - client-side
+) {  // upload from local machine to server, at end server should have same version of files as local
   this.start = new Date();  // see how long it runs
 
-  // generate files on local machine
-  const msg = `{
-    "server"      : "web"
-    ,"msg"        : "sync"
+  // generate mainifest files on local server 
+  let msg = `{
+    "server"      : "sync"
+    ,"msg"        : "manifest"
+    ,"type"       : "client2server"
+    ,"direcotry"  : "upload"
   }`
-  const serverResp = await app.proxy.postJSON(msg);
+  let serverResp = await app.proxy.postJSON(msg,"https://synergyalpha.sfcknox.org/sync");   // assume local server is always https://synergyalpha.sfcknox.org
   if (serverResp.msg) {
     // list of all files created
+    alert("files generated on local server")
   } else {
     // user was not added
     alert(`User add Failed,${JSON.stringify(serverResp)}`);
     return;
   }
-  this.machine = serverResp.machine;  // name of local computer, from server config file
 
-  // load mainifest files so the can be displayed
-  await this.load(`1-manifest`);
-  await this.load(`2-dir`);
-  await this.load(`3-links`);
+  // load local server mainifest files so the can be displayed
+  await this.loadLocalServer(`client2server/upload/1-manifest`,'1-manifest-local');
+  await this.loadLocalServer(`client2server/upload/2-dir`     ,'2-dir-local');
+  await this.loadLocalServer(`client2server/upload/3-links`   ,'3-links-local');
 
-  // send files to Ocean server
+
+  // generate mainifest files on logedin server 
+ msg = `{
+    "server"      : "sync"
+    ,"msg"        : "manifest"
+    ,"type"       : "client2server"
+  }`
+  serverResp = await app.proxy.postJSON(msg,"/user/sync/upload");
+  if (serverResp.msg) {
+    // list of all files created
+    alert("files generated on local server")
+  } else {
+    // user was not added
+    alert(`User add Failed,${JSON.stringify(serverResp)}`);
+    return;
+  }
+
+
+ // generate list of files needing to be upload to server
+
+ // generate list of files needing to be deleted from server
+
+
+  //this.machine = serverResp.machine;  // name of local computer, from server config file
+
+
+
 
   /*
   // init laptop tags
@@ -72,12 +99,79 @@ async main(   //  diff - client-side
   this.walk();
 */
   // display
-  app.tableUx.setModel( app.db, "1-manifest" );
-  app.tableUx.display()
+  //app.tableUx.setModel( app.db, "1-manifest" );
+  //app.tableUx.display()
 }
 
 
-async load( //  diff - client-side
+
+async main(   //  diff - client-side
+) {  // started from button in app.html
+  this.start = new Date();  // see how long it runs
+
+  // generate files on local machine
+  const msg = `{
+    "server"      : "web"
+    ,"msg"        : "sync"
+  }`
+  const serverResp = await app.proxy.postJSON(msg,"https://synergyalpha.sfcknox.org");
+  if (serverResp.msg) {
+    // list of all files created
+    alert("files generated on local server")
+  } else {
+    // user was not added
+    alert(`User add Failed,${JSON.stringify(serverResp)}`);
+    return;
+  }
+  this.machine = serverResp.machine;  // name of local computer, from server config file
+
+  // load mainifest files so the can be displayed
+  //await this.load(`1-manifest`);
+  //await this.load(`2-dir`);
+  //await this.load(`3-links`);
+
+
+  /*
+  // init laptop tags
+  const laptop = app.db.getTable("laptop");
+  app.tableUx.tags.desktopMatch    = [];
+  app.tableUx.tags.desktopMissing = [];
+
+  const desktop = app.db.getTable("desktop");
+  // init desktop tag
+  desktop.json.tags.notOnLaptop =[]
+
+  // init Desktop index
+  desktop.json.index = {}; // move to constructor is using index speeds things up
+  desktop.json.index.notOnLaptop = {};
+  for(let i=0; i<desktop.json.rows.length; i++) {
+    desktop.json.index.notOnLaptop[ desktop.json.rows[i][5]  ] = i;
+  }
+
+  this.walk();
+*/
+  // display
+  //app.tableUx.setModel( app.db, "1-manifest" );
+  //app.tableUx.display()
+}
+
+
+async loadLocalServer( //  diff - client-side
+   fileName
+  ,tableName=fileName
+  ){
+  const table  = app.db.tableAdd(tableName);       // create table and add to db
+  const csv    = new csvClass(table);              // create instace of CSV object
+
+  // load csv file from synced desktop
+  const file   = await app.proxy.getText(`https://synergyalpha.sfcknox.org/sync/${fileName}.csv`);
+
+  csv.parseCSV(file, "json");         // parse loaded CSV file and put into table
+  app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
+}
+
+
+async loadServer( //  diff - client-side
   fileName
   ,tableName=fileName
   ){
