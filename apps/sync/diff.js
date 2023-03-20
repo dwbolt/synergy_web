@@ -35,6 +35,7 @@ async upload(   //  diff - client-side
     ,"msg"        : "manifest"
     ,"type"       : "client2server"
     ,"direcotry"  : "upload"
+    ,"location"     : "local"
   }`
   let serverResp = await app.proxy.postJSON(msg,"https://synergyalpha.sfcknox.org/sync");   // assume local server is always https://synergyalpha.sfcknox.org
   if (serverResp.msg) {
@@ -57,8 +58,10 @@ async upload(   //  diff - client-side
     "server"      : "sync"
     ,"msg"        : "manifest"
     ,"type"       : "client2server"
+    ,"direcotry"  : "upload"
+    ,"location"   : "remote"
   }`
-  serverResp = await app.proxy.postJSON(msg,"/user/sync/upload");
+  serverResp = await app.proxy.postJSON(msg,"/user/sync/upload");                       // geting logged in user space
   if (serverResp.msg) {
     // list of all files created
     alert("files generated on local server")
