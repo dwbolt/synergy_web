@@ -54,6 +54,7 @@ async upload(   //  diff - client-side
 
 
   // generate mainifest files on logedin server 
+
  msg = `{
     "server"      : "sync"
     ,"msg"        : "manifest"
@@ -61,35 +62,25 @@ async upload(   //  diff - client-side
     ,"direcotry"  : "upload"
     ,"location"   : "remote"
   }`
-  serverResp = await app.proxy.postJSON(msg,"/user/sync/upload");                       // geting logged in user space
+  serverResp = await app.proxy.postJSON(msg,"/users/sync/client2server");                       // geting logged in user space
   if (serverResp.msg) {
     // list of all files created
-    alert("files generated on local server")
+    alert("files generated on logged in server")
   } else {
-    // user was not added
-    alert(`User add Failed,${JSON.stringify(serverResp)}`);
+    alert("Did not generated on logged in server");
     return;
   }
+  await this.loadRemoteServer(`client2server/1-manifest`,'1-manifest-remote');
+  await this.loadRemoteServer(`client2server/2-dir`     ,'2-dir-remote');
+  await this.loadRemoteServer(`client2server/3-links`   ,'3-links-remote');
 
-
- // generate list of files needing to be upload to server
-
- // generate list of files needing to be deleted from server
-
-
-  //this.machine = serverResp.machine;  // name of local computer, from server config file
-
-
-
-
-  /*
-  // init laptop tags
-  const laptop = app.db.getTable("laptop");
+  // init local tags
+  const local = app.db.getTable("1-manifest-local"); //
   app.tableUx.tags.desktopMatch    = [];
   app.tableUx.tags.desktopMissing = [];
 
-  const desktop = app.db.getTable("desktop");
-  // init desktop tag
+  // init remote tag
+  const remote = app.db.getTable("1-manifest-remote");
   desktop.json.tags.notOnLaptop =[]
 
   // init Desktop index
@@ -100,10 +91,10 @@ async upload(   //  diff - client-side
   }
 
   this.walk();
-*/
+
   // display
-  //app.tableUx.setModel( app.db, "1-manifest" );
-  //app.tableUx.display()
+  app.tableUx.setModel( app.db, "1-manifest" );
+  app.tableUx.display()
 }
 
 
@@ -174,7 +165,7 @@ async loadLocalServer( //  diff - client-side
 }
 
 
-async loadServer( //  diff - client-side
+async loadRemoteServer( //  diff - client-side
   fileName
   ,tableName=fileName
   ){
@@ -182,7 +173,8 @@ async loadServer( //  diff - client-side
   const csv    = new csvClass(table);              // create instace of CSV object
 
   // load csv file from synced desktop
-  const file   = await app.proxy.getText(`/users/sync/${this.machine}/${fileName}.csv`);
+  //const file   = await app.proxy.getText(`/users/sync/${this.machine}/${fileName}.csv`);
+  const file   = await app.proxy.getText(`/users/sync/${fileName}.csv`);
 
   csv.parseCSV(file, "json");         // parse loaded CSV file and put into table
   app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
