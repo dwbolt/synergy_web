@@ -1,45 +1,57 @@
 class diff {  //  diff - client-side
   /*
-  this client side code shows the  differences between two directors on differect computers
+  this client side code shows differences between two directors (usually on different machines).  The user can then choose which files to delete or copy.
 
   Assume:
-   dir1 and diry2 maybe on same or seperate computers
-   The servers create mainifest files that contain a list of all files.  The lists are comppared and create sets:
-
-   dir1Only  - delete it from dir1 or copy to dir2 
-   Intersection- nothing or delete both
-   dir2Only  - delte it from dir2 or copy to dir1
+    dir1 and diry2 are the direcotries we are comparing
+    dir1only  - delete it from dir1 or copy to dir2 
+    both- nothing or delete both
+    dir2only  - delte it from dir2 or copy to dir1
 
   Process:
-      walk dir1 
-      if file is in dir2 add to intersection and remove from dir2 index
-      if not in Dir2 add to Dir1Only and remove from dir2 index
-      what is left in dir2 index becomes dir2Only
-*/
+    mainifest files are created for dir1 and di2 that contain a list of all files.  The lists are comppared and create sets:
+      walk all files in dir1 and its subdirectories
+      both     -> if file is in dir2, remove from dir2 index
+      dir1only -> if not in dir2    , remove from dir2 index
+      dir2only -> what is left in dir2 index after walking all files in dir1 
+  */
+
 
 constructor ( //  diff - client-side
 ) {
-  this.i                    = 0;  // index into laptop data
-  this.start;                     // init when diff main starts
 }
 
 
 async upload(   //  diff - client-side
 ) {  // upload from local machine to server, at end server should have same version of files as local
   this.start = new Date();  // see how long it runs
+  this.i        = 0;        // index into dir1 data, need this since we restart loop every 10,000 files
+  this.tags      = {
+    "dir1"      : {
+      "only" : []  // array of indexes to files only in dir1
+      ,"both"    : []  // array of indexes in dir1 that are also in dir2
+    } 
+    ,"dir2"      : {
+       "only" : []  // array of indexes to files only in dir2
+    }};
 
-  // generate mainifest files on local server 
+    this.dir1;  // will contain table object
+    this.dir2;  // will contain table object
+
+  this.index = {};  // will contian list files only in dir2
+
+  // generate mainifest files on dir1 server
   let msg = `{
     "server"      : "sync"
     ,"msg"        : "manifest"
     ,"type"       : "client2server"
     ,"direcotry"  : "upload"
-    ,"location"     : "local"
+    ,"location"   : "local"
   }`
   let serverResp = await app.proxy.postJSON(msg,"https://synergyalpha.sfcknox.org/sync");   // assume local server is always https://synergyalpha.sfcknox.org
   if (serverResp.msg) {
     // list of all files created
-    alert("files generated on local server")
+    document.getElementById("json").innerHTML = "files generated on local server";
   } else {
     // user was not added
     alert(`User add Failed,${JSON.stringify(serverResp)}`);
@@ -48,10 +60,11 @@ async upload(   //  diff - client-side
 
   // load local server mainifest files so the can be displayed
   await this.loadLocalServer(`client2server/upload/1-manifest`,'1-manifest-local');
-  await this.loadLocalServer(`client2server/upload/2-dir`     ,'2-dir-local');
-  await this.loadLocalServer(`client2server/upload/3-links`   ,'3-links-local');
+  await this.loadLocalServer(`client2server/upload/2-dir`     ,'2-dir-local'     );
+  await this.loadLocalServer(`client2server/upload/3-links`   ,'3-links-local'   );
+  await this.loadLocalServer(`client2server/upload/4-hidden`  ,'4-hidde-local' );
 
-  // generate mainifest files on logedin server 
+  // generate mainifest files on logedin server (remote)
  msg = `{
     "server"      : "sync"
     ,"msg"        : "manifest"
@@ -59,10 +72,10 @@ async upload(   //  diff - client-side
     ,"direcotry"  : "upload"
     ,"location"   : "remote"
   }`
-  serverResp = await app.proxy.postJSON(msg,"/users/sync/client2server");                       // geting logged in user space
+  serverResp = await app.proxy.postJSON(msg,"/users/sync/client2server");     // geting logged in user space
   if (serverResp.msg) {
     // list of all files created
-    alert("files generated on logged in server")
+    document.getElementById("json").innerHTML = "\nfiles generated on remote server";
   } else {
     alert("Did not generated on logged in server");
     return;
@@ -70,74 +83,66 @@ async upload(   //  diff - client-side
   await this.loadRemoteServer(`1-manifest`,'1-manifest-remote');
   await this.loadRemoteServer(`2-dir`     ,'2-dir-remote');
   await this.loadRemoteServer(`3-links`   ,'3-links-remote');
+  await this.loadRemoteServer(`4-hidden`  ,'4-hidden-remote');
 
-  // init local tags
-  const local = app.db.getTable("1-manifest-local"); //
-  app.tableUx.tags.localMatch   = [];
-  app.tableUx.tags.localMissing = [];
+  this.dir1 = app.db.getTable("1-manifest-local"); 
+  this.dir2 = app.db.getTable("1-manifest-remote");
 
-  // init remote tag
-  const remote = app.db.getTable("1-manifest-remote");
-
-  // init Desktop index
-  remote.json.index = {}; // move to constructor is using index speeds things up
-  remote.json.index.notOnLocal =[]
-  for(let i=0; i<remote.json.rows.length; i++) {
-    remote.json.index.notOnLocal[ remote.json.rows[i][5]  ] = i;
+  // init index
+  for(let i=0; i<this.dir2.json.rows.length; i++) {
+    this.index[ dir2.json.rows[i][5]  ] = i;  // inext 5 is file name with full path
   }
 
-  this.walk();
-
   // display
-  app.tableUx.setModel( app.db, "1-manifest" );
-  app.tableUx.display()
+  app.tableUx.setModel( app.db, "1-manifest-local" );
+  app.tableUx.display();
+
+  this.walk();
+  app.tableUx.tags.both  = this.tags.dir1.both;
+  app.tableUx.tags.only  = this.tags.dir1.only;
+  app.tableUx.statusLine();
 }
 
 
 walk(  //  diff - client-side
 // keep calling walk until all files on dir1 have been checked to see if they live in dir2
 ) {
-  const local  = app.db.getTable("1-manifest-local");
-  const r       =  local.json.rows;
-
-  const remote = app.db.getTable("1-manifest-remote");
-  const rr     = remote.json.rows;
+  const r   = this.dir1.json.rows;
+  const rr  = this.dir2.json.rows;
   const displayStatus = 10000;  // display status after this many rows are looked at
 
-  // walk local file list
+  // walk local file list for displayStatus itterations
   for (let i=0; this.i < r.length && i < displayStatus; this.i++) {
     i++; // loop counting
     // use indexes
-    if (typeof(remote.json.index.notOnLocal[r[this.i][5]]) === 'number' ) {
-      // add to remoteMatch
-      laptop.json.tags.remoteMatch.push(this.i);
-      // delete from notOnLaptop
-      delete remote.json.index.notOnLaptop[r[this.i][5]];
+    if (typeof(this.index[r[this.i][5]]) === 'number' ) {
+      // r[this.i][5] fileName
+      this.tags.dir1.both.push(this.i);     // add to both
+      delete this.index[r[this.i][5]];      // delete from dir2only
     } else {
-      // did not find match
-      //local.json.tags.remoteMissing.push(this.i);
-      app.tableUx.tags.localMissing.push(this.i);
+      this.tags.dir1.only.push(this.i);     // add to dir1only
     }
   };
 
   // display status
   document.getElementById("json").innerHTML = `
-  elasped time         = ${(new Date() - this.start)/1000}
+  elasped time = ${(new Date() - this.start)/1000} Seconds
 
-  locate file          = ${this.i} of ${r.length}
-  remote match        = ${app.tableUx.tags.localMatch.length  }
-  remote Missing      = ${app.tableUx.tags.localMissing.length}
+  Dir1 files      = ${this.i} of ${r.length}
+  Dir2 files      = ${rr.length}
 
-  Not on local        = ${remote.json.index.notOnLocal.length}
-     `
-//  Not on local        = ${Object.keys(remote.json.index.notOnLaptop.length)}
+  Both            = ${this.tags.dir1.both.length     }
+  Dir1 only       = ${this.tags.dir1.only.length     }
+  Dir2 only       = ${ Object.keys(this.index).length}
+  `  
+
   if (this.i <r.length) {
     // more work todo, start again in 10 millisec
     setTimeout( app.diff.walk.bind(this), 10 );
   } else {
-    // done, create tag from indexe
-     Object.keys(desktop.json.index.notOnLaptop).forEach((key, index) => {
-        desktop.json.tags.notOnLaptop.push( desktop.json.index.notOnLaptop[key] );
+    // done, create tag from indexe - do not think this will work
+     Object.keys(this.index).forEach((key, index) => {
+        this.tag.dir2.only.push( this.index[key] );
     });
 
   }
@@ -209,13 +214,13 @@ async main(   //  diff - client-side
 
   const desktop = app.db.getTable("desktop");
   // init desktop tag
-  desktop.json.tags.notOnLaptop =[]
+  dir2.json.tags.notOnLaptop =[]
 
   // init Desktop index
-  desktop.json.index = {}; // move to constructor is using index speeds things up
-  desktop.json.index.notOnLaptop = {};
-  for(let i=0; i<desktop.json.rows.length; i++) {
-    desktop.json.index.notOnLaptop[ desktop.json.rows[i][5]  ] = i;
+  dir2.json.index = {}; // move to constructor is using index speeds things up
+  dir2.json.index.notOnLaptop = {};
+  for(let i=0; i<dir2.json.rows.length; i++) {
+    dir2.json.index.notOnLaptop[ dir2.json.rows[i][5]  ] = i;
   }
 
   this.walk();
