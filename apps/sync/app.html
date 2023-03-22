@@ -34,12 +34,14 @@
 <p id='login'></p>
 
 <h3>Client 2 Server</h3>
-<input type="button" value="Upload"    onclick="app.diff.upload();">will read local server/sync/config.json  and will show files to be upload to server and, files to be deleted from server to make local files match server files
+<input type="button" value="create upload Manifest files" onclick="app.diff.mainifestUpload();"> 
+<input type="button" value="Upload"    onclick="app.diff.uploadDir1Only();">will read local server/sync/config.json  and will show files to be upload to server and, files to be deleted from server to make local files match server files
 <br>
 <input type="button" value="Download"  onclick="app.diff.download();">will download from server to client will show files to be downloaded from server and files to be deleted from local/syc/client2server to make client match server<br>
 ------------------------------- work on
 <h3>Client 2 Client</h3>
 These routines assume first row is a header<br>
+
 <input type="button" value="upload" onclick="app.diff.main();">  app.diff.main.bind(app.diff);
 <input type="button" value="diff" onclick="app.diff.main();">
 

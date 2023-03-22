@@ -21,8 +21,19 @@ constructor ( //  diff - client-side
 ) {
 }
 
+uploadDir1Only(){
+// 
+  var only = this.tags.dir1.only;
+  only.forEach( index => {
+  var file=this.dir1.json.rows[index]
+  document.getElementById("json").innerHTML = "uploadDir1Only";
+  this.tag.dir2.only.push( this.index[key] );
+});
 
-async upload(   //  diff - client-side
+
+}
+
+async mainifestUpload(   //  diff - client-side
 ) {  // upload from local machine to server, at end server should have same version of files as local
   this.start = new Date();  // see how long it runs
   this.i        = 0;        // index into dir1 data, need this since we restart loop every 10,000 files
