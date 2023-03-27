@@ -57,8 +57,8 @@ async mainifestUpload(   //  sync - client-side
   let msg = `{
     "server"      : "sync"
     ,"msg"        : "manifest"
+    ,"user"       : "${localStorage.getItem("user")}"
     ,"type"       : "client2server"
-    ,"direcotry"  : "upload"
     ,"location"   : "local"
   }`
   let serverResp = await app.proxy.postJSON(msg,"https://synergyalpha.sfcknox.org/sync");   // assume local server is always https://synergyalpha.sfcknox.org
@@ -72,11 +72,10 @@ async mainifestUpload(   //  sync - client-side
   }
 
   // load local server mainifest files so the can be displayed
-  await this.loadLocalServer(`client2server/upload/1-manifest`,'1-manifest-local');
-  await this.loadLocalServer(`client2server/upload/2-dir`     ,'2-dir-local'     );
-  await this.loadLocalServer(`client2server/upload/3-links`   ,'3-links-local'   );
-  await this.loadLocalServer(`client2server/upload/4-hidden`  ,'4-hidde-local' );
-
+  for ( var i=0; i< serverResp.files.length; i++ ) {
+      let file = serverResp.files[i];
+      await this.loadLocalServer(serverResp.machine, file, `${file}-local`);
+  };
   // generate mainifest files on logedin server (remote)
  msg = `{
     "server"      : "sync"
@@ -93,10 +92,12 @@ async mainifestUpload(   //  sync - client-side
     alert("Did not generated on logged in server");
     return;
   }
-  await this.loadRemoteServer(`1-manifest`,'1-manifest-remote');
-  await this.loadRemoteServer(`2-dir`     ,'2-dir-remote');
-  await this.loadRemoteServer(`3-links`   ,'3-links-remote');
-  await this.loadRemoteServer(`4-hidden`  ,'4-hidden-remote');
+
+  // load maniftest files from remote server
+  for ( var i=0; i< serverResp.files.length; i++ ) {
+    let file = serverResp.files[i];
+    await this.loadRemoteServer(serverResp.machine, file, `${file}-remote`);
+  };
 
   this.dir1 = app.db.getTable("1-manifest-local"); 
   this.dir2 = app.db.getTable("1-manifest-remote");
@@ -163,14 +164,15 @@ walk(  //  sync - client-side
 
 
 async loadLocalServer( //  sync - client-side
-   fileName
+   machine
+  ,fileName
   ,tableName=fileName
   ){
   const table  = app.db.tableAdd(tableName);       // create table and add to db
   const csv    = new csvClass(table);              // create instace of CSV object
 
   // load csv file from synced desktop
-  const file   = await app.proxy.getText(`https://synergyalpha.sfcknox.org/sync/${fileName}.csv`);
+  const file   = await app.proxy.getText(`https://synergyalpha.sfcknox.org/users/sync/${machine}/${fileName}`);
 
   csv.parseCSV(file, "json");         // parse loaded CSV file and put into table
   app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
