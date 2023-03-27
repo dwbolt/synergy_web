@@ -1,4 +1,4 @@
-class diff {  //  diff - client-side
+class sync {  //  sync - client-side
   /*
   this client side code shows differences between two directors (usually on different machines).  The user can then choose which files to delete or copy.
 
@@ -17,7 +17,7 @@ class diff {  //  diff - client-side
   */
 
 
-constructor ( //  diff - client-side
+constructor ( //  sync - client-side
 ) {
 }
 
@@ -33,10 +33,12 @@ uploadDir1Only(){
 
 }
 
-async mainifestUpload(   //  diff - client-side
+async mainifestUpload(   //  sync - client-side
 ) {  // upload from local machine to server, at end server should have same version of files as local
   this.start = new Date();  // see how long it runs
   this.i        = 0;        // index into dir1 data, need this since we restart loop every 10,000 files
+ 
+  // data structure that holds lists of files
   this.tags      = {
     "dir1"      : {
       "only" : []  // array of indexes to files only in dir1
@@ -49,7 +51,7 @@ async mainifestUpload(   //  diff - client-side
     this.dir1;  // will contain table object
     this.dir2;  // will contain table object
 
-  this.index = {};  // will contian list files only in dir2
+  this.index = {};  // will contian list files only in dir2, used to build this.tags.dir2.only
 
   // generate mainifest files on dir1 server
   let msg = `{
@@ -115,7 +117,7 @@ async mainifestUpload(   //  diff - client-side
 }
 
 
-walk(  //  diff - client-side
+walk(  //  sync - client-side
 // keep calling walk until all files on dir1 have been checked to see if they live in dir2
 ) {
   const r   = this.dir1.json.rows;
@@ -160,7 +162,7 @@ walk(  //  diff - client-side
 }
 
 
-async loadLocalServer( //  diff - client-side
+async loadLocalServer( //  sync - client-side
    fileName
   ,tableName=fileName
   ){
@@ -175,7 +177,7 @@ async loadLocalServer( //  diff - client-side
 }
 
 
-async loadRemoteServer( //  diff - client-side
+async loadRemoteServer( //  sync - client-side
   fileName
   ,tableName=fileName
   ){
@@ -191,7 +193,7 @@ async loadRemoteServer( //  diff - client-side
 }
 
 
-async main(   //  diff - client-side
+async main(   //  sync - client-side
 ) {  // started from button in app.html
   this.start = new Date();  // see how long it runs
 
@@ -242,4 +244,4 @@ async main(   //  diff - client-side
 }
 
 
-}//  diff - client-side  //////// end of cass
+}//  sync - client-side  //////// end of cass

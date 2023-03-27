@@ -4,7 +4,7 @@ class appClass {  // appClass  client-side sync
       this.proxy   = new proxyClass();   //
       this.db      = new dbClass();      // model where the data will be
       this.tableUx = new tableUxClass("table","app.tableUx"); // display, search table, either db or 
-      this.diff    = new diff();
+      this.sync    = new sync();
 
       this.login   = new loginClass();
       this.login.buildForm(`login`);

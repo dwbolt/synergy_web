@@ -11,7 +11,7 @@
 <script type="text/javascript" src ="/_lib/db/csvClass.js"  ></script>
 
 <script type="text/javascript" src ="app.js"  ></script>
-<script type="text/javascript" src ="diff.js"  ></script>
+<script type="text/javascript" src ="sync.js"  ></script>
 </head>
 
 <body>
@@ -34,16 +34,19 @@
 <p id='login'></p>
 
 <h3>Client 2 Server</h3>
-<input type="button" value="create upload Manifest files" onclick="app.diff.mainifestUpload();"> 
-<input type="button" value="Upload"    onclick="app.diff.uploadDir1Only();">will read local server/sync/config.json  and will show files to be upload to server and, files to be deleted from server to make local files match server files
+<p>We want to sync user data on local and Remoter server.  Assume local and remote servers are running.  View this page from remote server and login</p>
+<input type="button" value="Manifest"   onclick="app.sync.mainifestUpload();"> create manifest files on local machine and remote machine<br>
+<input type="button" value="Sync"       onclick="app.sync.uploadDir1Only();"> Sync local machine with loged in<br>
+<input type="button" value="bacc up"    onclick="app.sync.uploadDir1Only();"> make copy of local machine<br>
+
 <br>
-<input type="button" value="Download"  onclick="app.diff.download();">will download from server to client will show files to be downloaded from server and files to be deleted from local/syc/client2server to make client match server<br>
+<input type="button" value="Download"  onclick="app.sync.download();">will download from server to client will show files to be downloaded from server and files to be deleted from local/syc/client2server to make client match server<br>
 ------------------------------- work on
 <h3>Client 2 Client</h3>
 These routines assume first row is a header<br>
 
-<input type="button" value="upload" onclick="app.diff.main();">  app.diff.main.bind(app.diff);
-<input type="button" value="diff" onclick="app.diff.main();">
+<input type="button" value="upload" onclick="app.sync.main();">  app.sync.main.bind(app.sync);
+<input type="button" value="diff" onclick="app.sync.main();">
 
 <h3>Data base</h3>
 <p id="menu"></p>
@@ -68,5 +71,4 @@ These routines assume first row is a header<br>
 
 <script>
 const app = new appClass();  // only globle variable
-
 </script>
