@@ -61,7 +61,7 @@ async mainifestUpload(   //  sync - client-side
     ,"type"       : "client2server"
     ,"location"   : "local"
   }`
-  let serverResp = await app.proxy.postJSON(msg,"https://synergyalpha.sfcknox.org/sync");   // assume local server is always https://synergyalpha.sfcknox.org
+  let serverResp = await app.proxy.postJSON(msg,"http://127.0.0.1/sync");   // assume local server is always https://synergyalpha.sfcknox.org
   if (serverResp.msg) {
     // list of all files created
     document.getElementById("json").innerHTML = "files generated on local server";
