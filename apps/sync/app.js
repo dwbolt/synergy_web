@@ -4,12 +4,13 @@ class appClass {  // appClass  client-side sync
       this.proxy   = new proxyClass();   //
       this.db      = new dbClass();      // model where the data will be
       this.tableUx = new tableUxClass("table","app.tableUx"); // display, search table, either db or 
+
+      this.tags    = {}  // will contain tags, set by sync class
       this.sync    = new sync();
 
       this.login   = new loginClass();
       this.login.buildForm(`login`);
-
-
+  
       this.tableName = null              // will contain selected table name
     }
     
@@ -29,7 +30,11 @@ class appClass {  // appClass  client-side sync
       // user has selected a table to display
       this.tableName = e.options[e.selectedIndex].value;
       this.tableUx.setModel( app.db, this.tableName );
+      
+      // set tags
       this.tableUx.display();
+      app.tableUx.tags  = app.tags[this.tableName];
+      app.tableUx.statusLine();
     }
     
 
