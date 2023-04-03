@@ -131,13 +131,15 @@ walk(  //  sync - client-side
   // display status every second
   document.getElementById("json").innerHTML = `
   elasped time = ${(new Date() - this.start)/1000} Seconds
-
-  1-manifest.csv-local     = ${this.i} of ${r.length}
-  1-manifest.csv-${this.serverResp.machine}     = ${rr.length}
-
-  1-manifest.csv-local      = ${this.tags.dir1.only.length     }
-  Both            = ${this.tags.dir1.both.length     }
-  1-manifest.csv-${this.serverResp.machine}  only       = ${ Object.keys(this.index).length}
+  
+  ${this.i} 1-manifest.csv-local rows processed
+  ${r.length} 1-manifest.csv-local 
+  
+  ${rr.length}  1-manifest.csv-${this.serverResp.machine} 
+  
+  ${this.tags.dir1.only.length     } 1-manifest.csv-local only
+  ${this.tags.dir1.both.length     } 1-manifest.csv-local both
+  ${ Object.keys(this.index).length} 1-manifest.csv-${this.serverResp.machine} only 
   `  
 
   if (this.i <r.length) {
