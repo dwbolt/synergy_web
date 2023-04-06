@@ -315,6 +315,10 @@ li.sub-menu ul { /* Gives the sub-menu the correct spacing for the mobile slide-
 	margin-left: 20px;
 	width: 140px;
 }
+.footer-img {
+	float: none;
+}
+
 .footer-content p { /* Sets the spacing around each paragraph in the footer */
 	margin: 2px 0;
 }
@@ -344,6 +348,8 @@ li.sub-menu ul { /* Gives the sub-menu the correct spacing for the mobile slide-
 	height: 50px;
 	width: 50px;
 }
+
+
 @media (min-width: 400px) { /* These styles apply only to landscape mobile or larger browsers */
 	.footer-logo { /* Floats the logo image to the left in the footer*/
 		float: left;
@@ -355,6 +361,7 @@ li.sub-menu ul { /* Gives the sub-menu the correct spacing for the mobile slide-
 		width: calc(100% - 160px);
 	}
 }
+
 
 @media (min-width: 800px) { /* These styles apply only to desktop browsers */
 	.columns { /* Keeps each columns section on its own row */
@@ -384,13 +391,14 @@ li.sub-menu ul { /* Gives the sub-menu the correct spacing for the mobile slide-
 
 	.button {
 	  background-color:yellow;
+	  border-radius: 12px;
 	}
 
 
 	.selected {
 		background-color:cyan;
+		border-radius: 12px;
 	}
-
 }
 
 /* david */
@@ -401,14 +409,3 @@ li.sub-menu ul { /* Gives the sub-menu the correct spacing for the mobile slide-
 .row3 {background-color: var(--bkg-alt-3);}
 .row4 {background-color: var(--bkg-alt-4);}
 */
-
-td {
-vertical-align:top;
-}
-
-h5 {text-align:center;padding: 1px; margin:1}
-td {border: 1px solid black; }
-
-/* for dates in the past on the calendar*/
-.past {background-color: lightgrey;}
-.today {background-color: yellow;}

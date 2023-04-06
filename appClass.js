@@ -1,9 +1,8 @@
 /*
 
-synergy.SFCKnox.org web site app
+SFCKnox.org web site app
 
 */
-
 
 class appClass {
 
@@ -22,25 +21,31 @@ constructor() {  // appClass - client side
 
 async main() { // appClass - client side
   //debugger;
-	const p = this.urlParams.get('p'); // page to load
-	if (p === null) {
+	const page = this.urlParams.get('p'); // page to load
+	if (page === null) {
 		// show home page of events
 		window.location.href = encodeURI(`${window.location.origin}/app.html?p=home`);
+		return;
 	}
 
 	// load the global css json file to be used by the classes
-	this.css                                        = await app.proxy.getJSON("/css.json");
-	document.getElementById("navigation").innerHTML = await app.proxy.getText("/menu.html");
+	//this.css                                        = await app.proxy.getJSON("/css.json");
+	//document.getElementById("navigation").innerHTML = await app.proxy.getText("/menu.html");
+	//document.getElementById("footer"    ).innerHTML = await app.proxy.getText("/footer.html");
+
+	this.css                                        = await app.proxy.getJSON("css.json");
+	document.getElementById("navigation").innerHTML = await app.proxy.getText("menu.html");
+	document.getElementById("footer"    ).innerHTML = await app.proxy.getText("footer.html");
 
 
 	// load data for page
 	this.widgetList = new widgetListClass("main");
-	this.widgetList.setJSON( await this.getPage(`${p}/_.json`) ); // add system or user path;
+	this.widgetList.setJSON( await this.getPage(`${page}/_.json`) ); // add system or user path;
 
 	// see if list or node is to be displayed
 	const list      = this.urlParams.get('l');
 	const node      = this.urlParams.get('n');
-	const domButton = document.getElementById(this.urlParams.get('b'));
+	const domButton = document.getElementById(this.urlParams.get('b'));    // see if button is being dispalyed
 
 	if (list) {
 		// display the nodes in list
@@ -69,7 +74,7 @@ async getPage(  // appClass - client side
 		url = `/users/myWeb/${page}`
 	} else {
 		// user SFC general page
-		url = `/synergyData/${page}`;
+		url = `synergyData/${page}`;
 	}
 
 	return await app.proxy.getJSON(url);
@@ -84,8 +89,12 @@ display( // appClass - client side
 	// goto url that will have the current button selected
 	const urlParams = new URLSearchParams( window.location.search );
 	let page="";
-	if (urlParams.get('p') != null) {
-		page =  "p=" +urlParams.get('p')+ "&";
+	if   (urlParams.get('p') != null) {
+		let u="";
+		if (urlParams.get('u') != null) {
+			u="&u=" + urlParams.get('u');
+		}
+		page =  "p=" +urlParams.get('p') +u+ "&";
 	}
 
 	window.location.href = encodeURI(`${window.location.origin}/app.html?${page}b=${dom.id}`);
@@ -95,5 +104,6 @@ display( // appClass - client side
 buttonURL() {  // appClass - client side
 	this.widgetList.buttonURL();
 }
+
 
 } // end appClass

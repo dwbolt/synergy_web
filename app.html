@@ -2,31 +2,33 @@
 <html lang="en">
 	<head>
 		<title id="headTitle"></title>
-		<meta name="description" content="Dev for SFC" />
-		<link rel="stylesheet" href="/app.css" />
+		<meta name="description" content="Sustainable Future Center Website" />
+		<link rel="canonical" href="https://sfcknox.org/app.html" />
+		<link rel="stylesheet" href="app.css" />
+		<link rel="stylesheet" href="calendar.css" />
 
-		<link rel="icon"             href="/icon.jpg" sizes="192x192"/>
-		<link rel="shortcut icon"    href="/icon.jpg" type="image/jpeg" />
-		<link rel="apple-touch-icon" href="/icon.jpg" type="image/jpeg" />
+		<link rel="icon"             href="icon.jpg" sizes="192x192"/>
+		<link rel="shortcut icon"    href="icon.jpg" type="image/jpeg" />
+		<link rel="apple-touch-icon" href="icon.jpg" type="image/jpeg" />
 
-		<script type="text/javascript" src="/_lib/format/formatClass.js"></script>
+		<script type="text/javascript" src="_lib/format/formatClass.js"></script>
 
-		<script type="text/javascript" src="/_lib/UX/widgetListClass.js" ></script>
-		<script type="text/javascript" src="/_lib/UX/loginClass.js" ></script>
-		<script type="text/javascript" src="/_lib/UX/tableUxClass.js" ></script>
-		<script type="text/javascript" src="/_lib/UX/calendarClass.js" ></script>
-		<script type="text/javascript" src="/_lib/UX/nodes2html.js" ></script>
-		
-		<script type="text/javascript" src="/_lib/proxy/proxyClass.js" ></script>
-		<script type="text/javascript" src="/_lib/db/dbClass.js" ></script>
-		<script type="text/javascript" src="/_lib/db/tableClass.js" ></script>
+		<script type="text/javascript" src="_lib/UX/widgetListClass.js" ></script>
+		<script type="text/javascript" src="_lib/UX/loginClass.js" ></script>
+		<script type="text/javascript" src="_lib/UX/tableUxClass.js" ></script>
+		<script type="text/javascript" src="_lib/UX/calendarClass.js" ></script>
+		<script type="text/javascript" src="_lib/UX/nodes2html.js" ></script>
 
-		<script type="text/javascript" src="/appClass.js" ></script>
+		<script type="text/javascript" src="_lib/proxy/proxyClass.js" ></script>
+		<script type="text/javascript" src="_lib/db/dbClass.js" ></script>
+		<script type="text/javascript" src="_lib/db/tableClass.js" ></script>
+
+		<script type="text/javascript" src="appClass.js" ></script>
 	</head>
 
 	<body>
 		<div id="navigation" class="nav-header"></div>
-		<!--div class="open-nav" onclick="openNav()">Menu</div-->
+		<div class="open-nav" onclick="openNav()">Menu</div>
 
 	<div class="content">
 		<h1  id="heading1"></h1>
@@ -35,13 +37,12 @@
 		<div class="update" id="updated"></div>
 	</div>
 
+	<div class="footer" id="footer"></div>
+
 	</body>
 </html>
 
 <script>
-const app = new appClass();
-app.main();
-
 /* Open the sliding menu for smaller screens */
 function openNav() {
 	document.getElementById("navigation").style.width = "100%";
@@ -51,5 +52,9 @@ function openNav() {
 function closeNav() {
 	document.getElementById("navigation").style.width = "0";
 }
+
+const app = new appClass();
+app.main();
+
 
 </script>
