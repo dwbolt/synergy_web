@@ -24,7 +24,7 @@ async main() { // appClass - client side
 	const page = this.urlParams.get('p'); // page to load
 	if (page === null) {
 		// show home page of events
-		window.location.href = encodeURI(`${window.location.origin}/app.html?p=home`);
+		window.location.href = encodeURI(`${window.location.origin}/app.html?p=logInOut`);
 		return;
 	}
 
