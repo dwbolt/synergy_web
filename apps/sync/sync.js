@@ -19,9 +19,11 @@ class sync {  //  sync - client-side
 
 constructor ( //  sync - client-side
 ) {
+  this.dir1;  // will contain table object
+  this.dir2;  // will contain table object
 }
 
-async mainifestUpload(   //  sync - client-side
+async mainifestCreate(   //  sync - client-side
 ) {  // upload from local machine to server, at end server should have same version of files as local
   this.start = new Date();  // see how long it runs
   this.i     = 0;        // index into dir1 data, need this since we restart loop every 10,000 files
@@ -36,8 +38,6 @@ this.tags      = {
        "only" : []  // array of indexes to files only in dir2
     }};
   this.index = {};  // will contian list files only in dir2, used to build this.tags.dir2.only
-  this.dir1;  // will contain table object
-  this.dir2;  // will contain table object
 
   // generate mainifest files on dir1 server
   let msg = `{
@@ -156,8 +156,9 @@ walk(  //  sync - client-side
 
 
 async loadLocalServer( //  sync - client-side
-   machine
-  ,fileName
+        // loads local manifest file
+   machine             // local machine name
+  ,fileName            // file we are loading
   ,tableName=fileName
   ){
   const table  = app.db.tableAdd(tableName);       // create table and add to db
@@ -172,6 +173,7 @@ async loadLocalServer( //  sync - client-side
 
 
 async loadRemoteServer( //  sync - client-side
+  // load remote manifest file
    machine                // remote machine name
   ,fileName               //  file to be loaded
   ,tableName=fileName     // lable to appear in menue
@@ -188,8 +190,9 @@ async loadRemoteServer( //  sync - client-side
 }
 
 
-
-uploadDir1Only(){
+uploadDir1Only( //  sync - client-side
+  // create tag of files only on remote dir2
+){
   // 
     var only = this.tags.dir1.only;
     only.forEach( index => {
@@ -198,5 +201,55 @@ uploadDir1Only(){
     this.tag.dir2.only.push( this.index[key] );
     });
   }
+
+
+async push(
+  // upload local files that are missing or newer than the the ones on the server
+){ //  sync - client-side
+
+  // upload dir1 only files to server
+  const rows = this.dir1.json.rows;
+  document.getElementById("json"). innerHTML = ""  // clear out status line
+
+  for ( let i=0; i < this.tags.dir1.only.length; i++ ) {
+    // get file name to upload
+    let dir1Index   = this.tags.dir1.only[i]; 
+    let file2Upload = rows[dir1Index][5];  // file path relative to userdata with file name
+    let path        = file2Upload.split("/");
+    let name        = path[path.length-1];
+    path            = file2Upload.slice(0, file2Upload.length - name.length);  // take file name off of path
+    // get file - assume text
+    let fileData = await app.proxy.getText(`https://synergyalpha.sfcknox.org/syncUserLocal${file2Upload}`)
+
+    // upload file
+    let msg = `
+    {"server":"web"
+    ,"msg":"uploadFile"
+    ,"path":"/users/${path}"
+    ,"name":"${name}"
+    ,"dataType": "text"
+    ,"data":"${fileData}"
+    }
+    `
+    const resp = await app.proxy.postJSON(JSON.stringify(msg));  // save
+    /*
+    const msg = {
+      "server":"web"
+      ,"msg":"uploadFile"
+      ,"path":`/users/myWeb/events/${this.year}`
+      ,"name":"_graph.json"
+      ,"data": app.format.obj2string(app.calendar.graph)
+      }
+    
+      const resp = await app.proxy.postJSON(JSON.stringify(msg));  // save
+    */
+
+  };
+
+  // update status
+  document.getElementById("json"). innerHTML += file2Upload
+
+}
+
 
 }//  sync - client-side  //////// end of cass

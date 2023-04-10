@@ -35,10 +35,13 @@
 
 <h3>Client 2 Server</h3>
 <p>We want to sync user data on local and Remoter server.  Assume local and remote servers are running.  View this page from remote server and login</p>
-<input type="button" value="Manifest"   onclick="app.sync.mainifestUpload();"> create manifest files on local machine and remote machine<br>
-<input type="button" value="Push"       onclick="app.sync.uploadDir1Only();"> Sync local machine with loged in<br>
+<input type="button" value="Manifest"   onclick="app.sync.mainifestCreate();"> create manifest files on local machine and remote machine<br>
+<input type="button" value="Push"       onclick="app.sync.push();"> copy new and updated files from local to logged into server<br><br>
+
 <input type="button" value="pull"       onclick="app.sync.uploadDir1Only();"> Sync local machine with loged in<br>
-<input type="button" value="bacc up"    onclick="app.sync.uploadDir1Only();"> make copy of local machine<br>
+
+<input type="button" value="back up"    onclick="app.sync.uploadDir1Only();"> make copy of local user directory machine<br>
+
 
 <br>
 <input type="button" value="Download"  onclick="app.sync.download();">will download from server to client will show files to be downloaded from server and files to be deleted from local/syc/client2server to make client match server<br>
