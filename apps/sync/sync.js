@@ -164,7 +164,7 @@ async loadLocalServer( //  sync - client-side
   const csv    = new csvClass(table);              // create instace of CSV object
 
   // load csv file from synced desktop
-  const file   = await app.proxy.getText(`https://synergyalpha.sfcknox.org/user/${localStorage.getItem("user")}/sync/${machine}/${fileName}`);
+  const file   = await app.proxy.getText(`https://synergyalpha.sfcknox.org/syncUserLocal/sync/${machine}/${fileName}`);
 
   csv.parseCSV(file, "json");         // parse loaded CSV file and put into table
   app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
