@@ -203,7 +203,7 @@ uploadDir1Only( //  sync - client-side
   }
 
 
-async push(
+async push(  //  sync - client-side
   // upload local files that are missing or newer than the the ones on the server
 ){ //  sync - client-side
 
@@ -219,14 +219,14 @@ async push(
     // get local server file
     let fileData = await app.proxy.getText(`https://synergyalpha.sfcknox.org/syncUserLocal${file2Upload}`)
 
-    const resp = await app.proxy.RESTpost(fileData,`/users/${file2Upload}`);  // save file to server
+    const resp = await app.proxy.RESTpost(fileData,`/users${file2Upload}`);  // save file to server
       // update status
-     document.getElementById("json"). innerHTML += file2Upload
+     document.getElementById("json"). innerHTML += `${i} - ${file2Upload}\n`;
   };
 
   // delete and upload newer files
 
-  alert("upload complete")
+  alert("upload complete");
 
 }
 
