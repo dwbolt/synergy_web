@@ -215,39 +215,18 @@ async push(
     // get file name to upload
     let dir1Index   = this.tags.dir1.only[i]; 
     let file2Upload = rows[dir1Index][5];  // file path relative to userdata with file name
-    let path        = file2Upload.split("/");
-    let name        = path[path.length-1];
-    path            = file2Upload.slice(0, file2Upload.length - name.length);  // take file name off of path
-    // get file - assume text
+
+    // get local server file
     let fileData = await app.proxy.getText(`https://synergyalpha.sfcknox.org/syncUserLocal${file2Upload}`)
 
-    // upload file
-    let msg = `
-    {"server":"web"
-    ,"msg":"uploadFile"
-    ,"path":"/users/${path}"
-    ,"name":"${name}"
-    ,"dataType": "text"
-    ,"data":"${fileData}"
-    }
-    `
-    const resp = await app.proxy.postJSON(JSON.stringify(msg));  // save
-    /*
-    const msg = {
-      "server":"web"
-      ,"msg":"uploadFile"
-      ,"path":`/users/myWeb/events/${this.year}`
-      ,"name":"_graph.json"
-      ,"data": app.format.obj2string(app.calendar.graph)
-      }
-    
-      const resp = await app.proxy.postJSON(JSON.stringify(msg));  // save
-    */
-
+    const resp = await app.proxy.RESTpost(fileData,`/users/${file2Upload}`);  // save file to server
+      // update status
+     document.getElementById("json"). innerHTML += file2Upload
   };
 
-  // update status
-  document.getElementById("json"). innerHTML += file2Upload
+  // delete and upload newer files
+
+  alert("upload complete")
 
 }
 

@@ -3,6 +3,7 @@ class appClass {  // appClass  client-side sync
     constructor() {  // appClass  client-side sync
       this.proxy   = new proxyClass();   //
       this.db      = new dbClass();      // model where the data will be
+      this.format  = new formatClass();
       this.tableUx = new tableUxClass("table","app.tableUx"); // display, search table, either db or 
 
       this.tags    = {}  // will contain tags, set by sync class
