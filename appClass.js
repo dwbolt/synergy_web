@@ -24,19 +24,17 @@ async main() { // appClass - client side
 	const page = this.urlParams.get('p'); // page to load
 	if (page === null) {
 		// show home page of events
-		window.location.href = encodeURI(`${window.location.origin}/app.html?p=logInOut`);
-		return;
+		const newURL  = encodeURI(`${window.location.pathname}`);
+		const newURLs = newURL.split('/');
+		const lastToken = newURLs[newURLs.length-1].toLowerCase();
+		if (lastToken === ""        ) { window.location.href = newURL+"app.html?p=home"; }
+		if (lastToken === "app.html") { window.location.href = newURL+"?p=home"        ; }
+		return; // will never get here 
 	}
-
-	// load the global css json file to be used by the classes
-	//this.css                                        = await app.proxy.getJSON("/css.json");
-	//document.getElementById("navigation").innerHTML = await app.proxy.getText("/menu.html");
-	//document.getElementById("footer"    ).innerHTML = await app.proxy.getText("/footer.html");
 
 	this.css                                        = await app.proxy.getJSON("css.json");
 	document.getElementById("navigation").innerHTML = await app.proxy.getText("menu.html");
 	document.getElementById("footer"    ).innerHTML = await app.proxy.getText("footer.html");
-
 
 	// load data for page
 	this.widgetList = new widgetListClass("main");
