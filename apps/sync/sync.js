@@ -19,8 +19,9 @@ class sync {  //  sync - client-side
 
 constructor ( //  sync - client-side
 ) {
-  this.dir1;  // will contain table object
-  this.dir2;  // will contain table object
+  this.dir1          ; // will contain table object
+  this.dir2          ; // will contain table object
+  this.pathIndex = 6 ; // position in CSV file where paht is
 }
 
 async mainifestCreate(   //  sync - client-side
@@ -92,7 +93,7 @@ this.tags      = {
 
   // init index
   for(let i=0; i<this.dir2.json.rows.length; i++) {
-    this.index[  this.dir2.json.rows[i][5]  ] = i;  // inext 5 is file name with full path
+    this.index[  this.dir2.json.rows[i][this.pathIndex]  ] = i;  // inext 5 is file name with full path
   }
 
   // display
@@ -119,10 +120,10 @@ walk(  //  sync - client-side
   // walk local file list for displayStatus itterations
   for (let now=new Date(); this.i < r.length && new Date()-now<1000;this.i++) {   // display status every second
     // main work of method, find which files are only in one directory or are in both
-    if (typeof(this.index[r[this.i][5]]) === 'number' ) {
-      // r[this.i][5] fileName
+    if (typeof(this.index[r[this.i][this.pathIndex]]) === 'number' ) {
+      // r[this.i][this.pathIndex] fileName
       this.tags.dir1.both.push(this.i);     // add to both
-      delete this.index[r[this.i][5]];     // delete from dir2only
+      delete this.index[r[this.i][this.pathIndex]];     // delete from dir2only
     } else {
       this.tags.dir1.only.push(this.i);     // add to dir1only
     }
@@ -214,7 +215,7 @@ async push(  //  sync - client-side
   for ( let i=0; i < this.tags.dir1.only.length; i++ ) {
     // get file name to upload
     let dir1Index   = this.tags.dir1.only[i]; 
-    let file2Upload = rows[dir1Index][5];  // file path relative to userdata with file name
+    let file2Upload = rows[dir1Index][this.pathIndex];  // file path relative to userdata with file name
 
     // get local server file
     let fileData = await app.proxy.getText(`https://synergyalpha.sfcknox.org/syncUserLocal${file2Upload}`)
