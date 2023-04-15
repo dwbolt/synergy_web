@@ -19,31 +19,63 @@ class sync {  //  sync - client-side
 
 constructor ( //  sync - client-side
 ) {
-  this.dir1          ; // will contain table object
-  this.dir2          ; // will contain table object
-  this.pathIndex = 6 ; // position in CSV file where paht is
+  this.dir1           ; // will contain table object
+  this.dir2           ; // will contain table object
+  this.pathIndex  = 6 ; // position in CSV file where path is
+  this.modifyDate = 4 ; // index into CSV file where modifyDate is
 }
 
 async mainifestCreate(   //  sync - client-side
 ) {  // upload from local machine to server, at end server should have same version of files as local
   this.start = new Date();  // see how long it runs
-  this.i     = 0;        // index into dir1 data, need this since we restart loop every 10,000 files
+  await this.generateLocal();
+  await this.generateRemote();
+  this.walkInit();
+}
+
+walkInit(){  //  sync - client-side
+  this.i     = 0;     // index into dir1 data, need this since we restart loop every 10,000 files
  
   // data structure that holds lists of files
-this.tags      = {
+  this.tags      = {
     "dir1"      : {
        "only"    : []  // array of indexes to files only in dir1
       ,"both"    : []  // array of indexes in dir1 that are also in dir2
+      ,"newer"   : []  // subset of both where dir1.modifydate ? dir2.modifydate
     } 
     ,"dir2"      : {
        "only" : []  // array of indexes to files only in dir2
     }};
   this.index = {};  // will contian list files only in dir2, used to build this.tags.dir2.only
+ 
+  // setup for calling this.walk
+  this.dir1 = app.db.getTable("1-manifest.csv-local"); 
+  this.dir2 = app.db.getTable(`1-manifest.csv-${this.serverResp.machine}`);
 
-  // generate mainifest files on dir1 server
-  let msg = `{
+  // init index
+  for(let i=0; i<this.dir2.json.rows.length; i++) {
+    this.index[  this.dir2.json.rows[i][this.pathIndex]  ] = i;  // inext 5 is file name with full path
+  }
+
+  // display
+  app.tableUx.setModel( app.db, "1-manifest.csv-local" );
+  app.tableUx.display();
+
+  this.walk();
+ 
+  app.tags["1-manifest.csv-local"]                      = this.tags.dir1;
+  app.tags[`1-manifest.csv-${this.serverResp.machine}`] = this.tags.dir2;
+
+  app.tableUx.tags  = app.tags["1-manifest.csv-local"];
+  app.tableUx.statusLine();
+}
+
+
+async generateLocal() {  //  sync - client-side
+   // generate mainifest files on dir1 server
+   let msg = `{
     "server"      : "sync"
-    ,"method"        : "manifest"
+    ,"method"     : "manifest"
     ,"user"       : "${localStorage.getItem("user")}"
     ,"type"       : "client2server"
     ,"location"   : "local"
@@ -64,9 +96,12 @@ this.tags      = {
       let file = this.serverResp.files[i];
       await this.loadLocalServer(this.serverResp.machine, file, `${file}-local`);
   };
+}
 
-  // generate mainifest files on logedin server (remote)
- msg = `{
+
+async generateRemote(){  //  sync - client-side
+   // generate mainifest files on logedin server (remote)
+  msg = `{
     "server"      : "sync"
     ,"method"     : "manifest"
     ,"type"       : "client2server"
@@ -86,29 +121,7 @@ this.tags      = {
     let file = this.serverResp.files[i];
     await this.loadRemoteServer(this.serverResp.machine, file, `${file}-${this.serverResp.machine}`);
   };
-
-  // setup for calling this.walk
-  this.dir1 = app.db.getTable("1-manifest.csv-local"); 
-  this.dir2 = app.db.getTable(`1-manifest.csv-${this.serverResp.machine}`);
-
-  // init index
-  for(let i=0; i<this.dir2.json.rows.length; i++) {
-    this.index[  this.dir2.json.rows[i][this.pathIndex]  ] = i;  // inext 5 is file name with full path
-  }
-
-  // display
-  app.tableUx.setModel( app.db, "1-manifest.csv-local" );
-  app.tableUx.display();
-
-  this.walk();
-
-  app.tags["1-manifest.csv-local"]                 = this.tags.dir1;
-  app.tags[`1-manifest.csv-${this.serverResp.machine}`] = this.tags.dir2;
-
-  app.tableUx.tags  = app.tags["1-manifest.csv-local"];
-  app.tableUx.statusLine();
 }
-
 
 walk(  //  sync - client-side
 // keep calling walk until all files on dir1 have been checked to see if they live in dir2
@@ -118,14 +131,21 @@ walk(  //  sync - client-side
   const rr  = this.dir2.json.rows;
 
   // walk local file list for displayStatus itterations
-  for (let now=new Date(); this.i < r.length && new Date()-now<1000;this.i++) {   // display status every second
+  for (let now=new Date(); this.i < r.length && new Date()-now<1000; this.i++) {   // display status every second
     // main work of method, find which files are only in one directory or are in both
-    if (typeof(this.index[r[this.i][this.pathIndex]]) === 'number' ) {
-      // r[this.i][this.pathIndex] fileName
-      this.tags.dir1.both.push(this.i);     // add to both
+    let dir2Index = this.index[r[this.i][this.pathIndex]];
+    if (typeof(dir2Index) === 'number' ) {
+      this.tags.dir1.both.push(this.i);                 // add to both
       delete this.index[r[this.i][this.pathIndex]];     // delete from dir2only
+
+      let d1 = new Date(r[    this.i][this.modifyDate]);  // 
+      let d2 = new Date(rr[dir2Index][this.modifyDate]);
+      if ( d1 > d2) {
+        this.tags.dir1.newer.push(this.i);     // newer version of file in dir1
+      }
     } else {
-      this.tags.dir1.only.push(this.i);     // add to dir1only
+      // add to dir1only
+      this.tags.dir1.only.push(this.i);     
     }
   };
 
@@ -191,44 +211,53 @@ async loadRemoteServer( //  sync - client-side
 }
 
 
-uploadDir1Only( //  sync - client-side
-  // create tag of files only on remote dir2
-){
-  // 
-    var only = this.tags.dir1.only;
-    only.forEach( index => {
-    var file=this.dir1.json.rows[index]
-    document.getElementById("json").innerHTML = "uploadDir1Only";
-    this.tag.dir2.only.push( this.index[key] );
-    });
-  }
-
-
 async push(  //  sync - client-side
   // upload local files that are missing or newer than the the ones on the server
 ){ //  sync - client-side
+  document.getElementById("json"). innerHTML = "Upload dir1 only files"  // clear out status line
+  await this.upload("only" );  // upload dir1 only  files to server
 
-  // upload dir1 only files to server
-  const rows = this.dir1.json.rows;
-  document.getElementById("json"). innerHTML = ""  // clear out status line
+  document.getElementById("json"). innerHTML += "\n\nUpload dir1 newer files\n"
+  await this.upload("newer");  // upload dir1 newer files to server
 
-  for ( let i=0; i < this.tags.dir1.only.length; i++ ) {
+  // delete dir2 only
+  document.getElementById("json"). innerHTML += "\n\ndeleted remote files\n"
+  await this.deleteRemote("only")
+  alert("upload complete");
+}
+
+
+async deleteRemote( //  sync - client-side
+  tag   // dir2 tag name 
+  ) {
+  const rows = this.dir2.json.rows;
+  for ( let i=0; i < this.tags.dir2[tag].length; i++ ) {
     // get file name to upload
-    let dir1Index   = this.tags.dir1.only[i]; 
-    let file2Upload = rows[dir1Index][this.pathIndex];  // file path relative to userdata with file name
+    let dir2Index   = this.tags.dir2[tag][i]; 
+    let file2delete = rows[dir1Index][this.pathIndex];  // file path relative to userdata with file name
+  
+    const resp = await app.proxy.RESTdelete(`/users${file2delete}`);  // deletre file on server
+     document.getElementById("json"). innerHTML += `${i} - ${file2Upload}\n`;      // update status
+  };
+}
 
+  
+async upload(//  sync - client-side
+  tag  // upload files pointed to iby dir1[tag] 
+  ) {  
+  const rows = this.dir1.json.rows;
+  for ( let i=0; i < this.tags.dir1[tag].length; i++ ) {
+    // get file name to upload
+    let dir1Index   = this.tags.dir1[tag][i]; 
+    let file2Upload = rows[dir1Index][this.pathIndex];  // file path relative to userdata with file name
+  
     // get local server file
     let fileData = await app.proxy.getText(`https://synergyalpha.sfcknox.org/syncUserLocal${file2Upload}`)
-
+  
     const resp = await app.proxy.RESTpost(fileData,`/users${file2Upload}`);  // save file to server
       // update status
      document.getElementById("json"). innerHTML += `${i} - ${file2Upload}\n`;
   };
-
-  // delete and upload newer files
-
-  alert("upload complete");
-
 }
 
 
