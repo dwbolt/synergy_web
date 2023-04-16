@@ -19,55 +19,54 @@ class sync {  //  sync - client-side
 
 constructor ( //  sync - client-side
 ) {
-  this.dir1           ; // will contain table object
-  this.dir2           ; // will contain table object
-  this.pathIndex  = 6 ; // position in CSV file where path is
-  this.modifyDate = 4 ; // index into CSV file where modifyDate is
+  this.dir1           ; // will contain table object for local machine
+  this.dir2           ; // will contain table object for remote machine
+  this.pathIndex  = 6 ; // index in CSV file where path is
+  this.modifyDate = 4 ; // index in CSV file where modifyDate is
 }
 
-async mainifestCreate(   //  sync - client-side
+
+async fetch(   //  sync - client-side  - starting point
 ) {  // upload from local machine to server, at end server should have same version of files as local
-  this.start = new Date();  // see how long it runs
-  await this.generateLocal();
-  await this.generateRemote();
-  this.walkInit();
+  this.start = new Date()    ;  // see how long it runs
+  await this.generateLocal() ;  // create mainifest files for local machine
+  await this.generateRemote();  // same for remote machine
+  this.compareInit();        ;  // initialize variables for repeated calls to compare every second until all files in dir1 have been compared to dir2.
+                             ;  // we stop work every second so status information can be updated
 }
 
-walkInit(){  //  sync - client-side
-  this.i     = 0;     // index into dir1 data, need this since we restart loop every 10,000 files
+
+compareInit(){  //  sync - client-side
+  this.i     = 0;     // index into dir1 data, need this since we restart loop every sencond
  
   // data structure that holds lists of files
   this.tags      = {
     "dir1"      : {
        "only"    : []  // array of indexes to files only in dir1
       ,"both"    : []  // array of indexes in dir1 that are also in dir2
-      ,"newer"   : []  // subset of both where dir1.modifydate ? dir2.modifydate
+      ,"newer"   : []  // subset of both where dir1.modifydate is newer than dir2.modifydate
     } 
     ,"dir2"      : {
        "only" : []  // array of indexes to files only in dir2
+       ,"both"    : []  // array of indexes in dir1 that are also in dir2
+       ,"newer"   : []  // subset of both where dir1.modifydate is newer than dir2.modifydate
     }};
-  this.index = {};  // will contian list files only in dir2, used to build this.tags.dir2.only
+  this.index = {};  // will contian list files only in dir2 - starts with all file is dir2, every file dir1 is deleted from index, what is left are files only in dir2
  
-  // setup for calling this.walk
+  // setup for calling this.compare
   this.dir1 = app.db.getTable("1-manifest.csv-local"); 
   this.dir2 = app.db.getTable(`1-manifest.csv-${this.serverResp.machine}`);
 
-  // init index
+  // init index with all files in dir2
   for(let i=0; i<this.dir2.json.rows.length; i++) {
-    this.index[  this.dir2.json.rows[i][this.pathIndex]  ] = i;  // inext 5 is file name with full path
+    this.index[  this.dir2.json.rows[i][this.pathIndex]  ] = i; 
   }
 
-  // display
+  // display tables
   app.tableUx.setModel( app.db, "1-manifest.csv-local" );
   app.tableUx.display();
 
-  this.walk();
- 
-  app.tags["1-manifest.csv-local"]                      = this.tags.dir1;
-  app.tags[`1-manifest.csv-${this.serverResp.machine}`] = this.tags.dir2;
-
-  app.tableUx.tags  = app.tags["1-manifest.csv-local"];
-  app.tableUx.statusLine();
+  this.compare();  // start the campare process
 }
 
 
@@ -84,7 +83,7 @@ async generateLocal() {  //  sync - client-side
 
   if (this.serverResp.msg) {
     // list of all files created
-    document.getElementById("json").innerHTML = "files generated on local server";
+    document.getElementById("status").innerHTML = "files generated on local server";
   } else {
     // user was not added
     alert(`User add Failed,${JSON.stringify(this.serverResp)}`);
@@ -110,7 +109,7 @@ async generateRemote(){  //  sync - client-side
   this.serverResp = await app.proxy.postJSON(msg,"/users");     // geting logged in user space
   if (this.serverResp.msg) {
     // list of all files created
-    document.getElementById("json").innerHTML = "\nfiles generated on remote server";
+    document.getElementById("status").innerHTML = "\nfiles generated on remote server";
   } else {
     alert("Did not generated on logged in server");
     return;
@@ -123,7 +122,7 @@ async generateRemote(){  //  sync - client-side
   };
 }
 
-walk(  //  sync - client-side
+compare(  //  sync - client-side
 // keep calling walk until all files on dir1 have been checked to see if they live in dir2
 // main work of method, find which files are only in one directory or are in both
 ) {
@@ -135,13 +134,18 @@ walk(  //  sync - client-side
     // main work of method, find which files are only in one directory or are in both
     let dir2Index = this.index[r[this.i][this.pathIndex]];
     if (typeof(dir2Index) === 'number' ) {
-      this.tags.dir1.both.push(this.i);                 // add to both
+      // the file path is in both dir1 and dir2
+      this.tags.dir1.both.push(this.i);                 // add to dir1.both
+      this.tags.dir2.both.push(dir2Index);              // add to dir2.both
       delete this.index[r[this.i][this.pathIndex]];     // delete from dir2only
 
-      let d1 = new Date(r[    this.i][this.modifyDate]);  // 
+      // see which version is newer   
+      let d1 = new Date(r[    this.i][this.modifyDate]);  
       let d2 = new Date(rr[dir2Index][this.modifyDate]);
       if ( d1 > d2) {
-        this.tags.dir1.newer.push(this.i);     // newer version of file in dir1
+        this.tags.dir1.newer.push(this.i);     // newer version of file in dir1, so add to tag
+      } else if (d1 < d2) {
+        this.tags.dir2.newer.push(dir2Index);  // newer version of file in dir2, so add to tag
       }
     } else {
       // add to dir1only
@@ -150,7 +154,7 @@ walk(  //  sync - client-side
   };
 
   // display status every second
-  document.getElementById("json").innerHTML = `
+  document.getElementById("status").innerHTML = `
   elasped time = ${(new Date() - this.start)/1000} Seconds
   
   ${this.i} 1-manifest.csv-local rows processed
@@ -165,13 +169,20 @@ walk(  //  sync - client-side
 
   if (this.i <r.length) {
     // more work todo, start again in 1 millisec
-    setTimeout( this.walk.bind(this), 1 );
+    setTimeout( this.compare.bind(this), 1 );
   } else {
-    // done, create tag from indexe - do not think this will work
+    // done, create tag from index
      Object.keys(this.index).forEach((key, index) => {
         this.tags.dir2.only.push( this.index[key] );
     });
 
+    // add tags to tables
+    app.tags["1-manifest.csv-local"]                      = this.tags.dir1;
+    app.tags[`1-manifest.csv-${this.serverResp.machine}`] = this.tags.dir2;
+  
+    // display data with updated tags
+    app.tableUx.tags  = app.tags["1-manifest.csv-local"];
+    app.tableUx.statusLine();
   }
 }
 
@@ -188,7 +199,7 @@ async loadLocalServer( //  sync - client-side
   // load csv file from synced desktop
   const file   = await app.proxy.getText(`https://synergyalpha.sfcknox.org/syncUserLocal/sync/${machine}/${fileName}`);
 
-  csv.parseCSV(file, "json");         // parse loaded CSV file and put into table
+  csv.parseCSV(file, "status");         // parse loaded CSV file and put into table
   app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
 }
 
@@ -206,24 +217,41 @@ async loadRemoteServer( //  sync - client-side
   //const file   = await app.proxy.getText(`/users/sync/${this.machine}/${fileName}.csv`);
   const file   = await app.proxy.getText(`/users/sync/${machine}/${fileName}`);
 
-  csv.parseCSV(file, "json");         // parse loaded CSV file and put into table
+  csv.parseCSV(file, "status");         // parse loaded CSV file and put into table
   app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
+}
+
+
+///////////////////////////////////////////  methods to suppoort push from local to remote
+async pull(  //  sync - client-side
+  // download files from server
+){ //  sync - client-side
+  document.getElementById("status"). innerHTML = "download dir2 only files"  // clear out status line
+  await this.download("only" );  // download dir2 only files
+
+  document.getElementById("status"). innerHTML += "\n\ndownload dir2 newer files\n"
+  await this.download("newer");  // upload dir1 newer files to server
+
+  document.getElementById("status"). innerHTML += "\n\ndelete dir1 only\n"
+  await this.deletelocal("only")   // delete dir2 only
+
+  alert("pull complete");
 }
 
 
 async push(  //  sync - client-side
   // upload local files that are missing or newer than the the ones on the server
 ){ //  sync - client-side
-  document.getElementById("json"). innerHTML = "Upload dir1 only files"  // clear out status line
+  document.getElementById("status"). innerHTML = "Upload dir1 only files"  // clear out status line
   await this.upload("only" );  // upload dir1 only  files to server
 
-  document.getElementById("json"). innerHTML += "\n\nUpload dir1 newer files\n"
+  document.getElementById("status"). innerHTML += "\n\nUpload dir1 newer files\n"
   await this.upload("newer");  // upload dir1 newer files to server
 
-  // delete dir2 only
-  document.getElementById("json"). innerHTML += "\n\ndeleted remote files\n"
-  await this.deleteRemote("only")
-  alert("upload complete");
+  document.getElementById("status"). innerHTML += "\n\ndeleted dir2 files that are not one dir1\n"
+  await this.deleteRemote("only")   // delete dir2 only
+
+  alert("push complete");
 }
 
 
@@ -234,16 +262,16 @@ async deleteRemote( //  sync - client-side
   for ( let i=0; i < this.tags.dir2[tag].length; i++ ) {
     // get file name to upload
     let dir2Index   = this.tags.dir2[tag][i]; 
-    let file2delete = rows[dir1Index][this.pathIndex];  // file path relative to userdata with file name
+    let file2delete = rows[dir2Index][this.pathIndex];  // file path relative to userdata with file name
   
     const resp = await app.proxy.RESTdelete(`/users${file2delete}`);  // deletre file on server
-     document.getElementById("json"). innerHTML += `${i} - ${file2Upload}\n`;      // update status
+     document.getElementById("status"). innerHTML += `${i} - ${file2delete}\n`;      // update status
   };
 }
 
   
 async upload(//  sync - client-side
-  tag  // upload files pointed to iby dir1[tag] 
+  tag  // upload files pointed to by dir1[tag] 
   ) {  
   const rows = this.dir1.json.rows;
   for ( let i=0; i < this.tags.dir1[tag].length; i++ ) {
@@ -256,7 +284,7 @@ async upload(//  sync - client-side
   
     const resp = await app.proxy.RESTpost(fileData,`/users${file2Upload}`);  // save file to server
       // update status
-     document.getElementById("json"). innerHTML += `${i} - ${file2Upload}\n`;
+     document.getElementById("status"). innerHTML += `${i} - ${file2Upload}\n`;
   };
 }
 

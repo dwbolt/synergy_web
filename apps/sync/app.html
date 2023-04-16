@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Sync local machine</title>
+<title>Sync</title>
 <link   rel ="stylesheet"      href="/apps/accounting/app.css">
 
 <script type="text/javascript" src ="/_lib/proxy/proxyClass.js"></script>
@@ -22,46 +22,37 @@
 <div id="dScript"></div>
 
 <div style="padding: 35px">
-<h1>Synergy Sync Application</h1>
-<p>This allows users to work offline on multiple computers and then sync the compters as they go online. Assume <br>
+<h1>Synergy - Sync Local and Server User Data</h1>
   <ol>
     <li>local server is running at https://synergyalpha.sfcknox.org</li>
     <li>local server has  in config file  ,"sync":         {"filePath": "/Users/davidbolt/1-topics/S/synergy/2-git/5-synergy/4-users/2023/1-Bolt,David/sync"}</li>
     <li>logged in to digital ocean server or 8433 to test</li>
   </ol> 
 
-
-  <a href='https://docs.google.com/document/d/1_m_lowTx637JIWqqwFKM5paYU9Me7AtGFu1S2ylhrGE/edit' target="_blank">Google doc</a> for support documents.</p>
-
 <h3>Must login to use</h3>
 <p id='login'></p>
 
 <h3>Client 2 Server</h3>
 <p>We want to sync user data on local and Remoter server.  Assume local and remote servers are running.  View this page from remote server and login</p>
-<input type="button" value="Manifest"   onclick="app.sync.mainifestCreate();"> create manifest files on local machine and remote machine<br>
+<input type="button" value="Manifest"   onclick="app.sync.fetch();"> create lists of all files on local machine and remote machine.  These lists are compared to create tags<br>
+<b>1-manifest.csv-local</b> 
+<br> only - files that only exist on local
+<br> both - files that exist on both local and remote
+<br> newer - files with newer version on local<br>
+<br><b>1-manifest.csv-LocalRemote</b>
+<br> only - files that only exist on remote
+<br> both - files that exist on both local and remote
+<br> newer - files with newer version on remote<br><br>
+<input type="button" value="pull"       onclick="app.sync.pull()">   download files that only exist on the cenewer version of filesSync local machine with loged in<br>
 <input type="button" value="Push"       onclick="app.sync.push();"> copy new and updated files from local to logged into server<br><br>
-
-<input type="button" value="pull"       onclick="alert('not impemented')"> Sync local machine with loged in<br>
-
-<input type="button" value="back up"    onclick="alert('not impemented')"> make copy of local user directory machine<br>
-
-
-<br>
-<input type="button" value="Download"  onclick="app.sync.download();">will download from server to client will show files to be downloaded from server and files to be deleted from local/syc/client2server to make client match server<br>
-------------------------------- work on
-<h3>Client 2 Client</h3>
-These routines assume first row is a header<br>
-
-<input type="button" value="upload" onclick="app.sync.main();">  app.sync.main.bind(app.sync);
-<input type="button" value="diff" onclick="app.sync.main();">
 
 <h3>Data base</h3>
 <p id="menu"></p>
 <p id="table"></p>
 
 <h3>Status</h3>
-<textarea id="json" rows="25" cols="500"></textarea>
-
+<textarea id="status" rows="25" cols="500"></textarea>
+<a href='https://docs.google.com/document/d/1_m_lowTx637JIWqqwFKM5paYU9Me7AtGFu1S2ylhrGE/edit' target="_blank">Google doc</a> for support documents.
 </body>
 </html>
 
