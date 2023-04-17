@@ -38,13 +38,17 @@
 <b>1-manifest.csv-local</b> 
 <br> only - files that only exist on local
 <br> both - files that exist on both local and remote
-<br> newer - files with newer version on local<br>
+<br> newer - files with newer modify date on local - (not reliable for uploaded or download files) <br>
 <br><b>1-manifest.csv-LocalRemote</b>
 <br> only - files that only exist on remote
 <br> both - files that exist on both local and remote
-<br> newer - files with newer version on remote<br><br>
-<input type="button" value="pull"       onclick="app.sync.pull()">   download files that only exist on the cenewer version of filesSync local machine with loged in<br>
-<input type="button" value="Push"       onclick="app.sync.push();"> copy new and updated files from local to logged into server<br><br>
+<br> newer - files with newer modify date on remote - (not reliable for uploaded or download files)<br><br>
+
+<input type="button" value="download"            onclick="app.sync.download();"   > download files from logged in machine that are newer or only exist on logged in machine.<br>
+<input type="button" value="delete local only"   onclick="app.sync.delete('dir1','only');"> delete local files not on remote.<br><br>
+
+<input type="button" value="upload"               onclick="app.sync.upload();"    > upload files to logged in machine that are newer or only exist on local machine<br>
+<input type="button" value="delete remote only"   onclick="app.sync.delete('dir1','only');"> delete remote files not on local.<br>
 
 <h3>Data base</h3>
 <p id="menu"></p>

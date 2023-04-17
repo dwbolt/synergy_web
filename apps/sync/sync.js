@@ -158,13 +158,16 @@ compare(  //  sync - client-side
   elasped time = ${(new Date() - this.start)/1000} Seconds
   
   ${this.i} 1-manifest.csv-local rows processed
+
   ${r.length} 1-manifest.csv-local 
-  
+  ${this.tags.dir1.only.length     } only
+  ${this.tags.dir1.both.length     } both
+  ${this.tags.dir1.newer.length    } newer
+
   ${rr.length}  1-manifest.csv-${this.serverResp.machine} 
-  
-  ${this.tags.dir1.only.length     } 1-manifest.csv-local only
-  ${this.tags.dir1.both.length     } 1-manifest.csv-local both
-  ${ Object.keys(this.index).length} 1-manifest.csv-${this.serverResp.machine} only 
+  ${Object.keys(this.index).length } only
+  ${this.tags.dir2.both.length     } both
+  ${this.tags.dir2.newer.length    } newer
   `  
 
   if (this.i <r.length) {
@@ -223,55 +226,62 @@ async loadRemoteServer( //  sync - client-side
 
 
 ///////////////////////////////////////////  methods to suppoort push from local to remote
-async pull(  //  sync - client-side
+async download(  //  sync - client-side
   // download files from server
 ){ //  sync - client-side
   document.getElementById("status"). innerHTML = "download dir2 only files"  // clear out status line
-  await this.download("only" );  // download dir2 only files
+  await this.download("only", );  // download dir2 only files
 
   document.getElementById("status"). innerHTML += "\n\ndownload dir2 newer files\n"
   await this.download("newer");  // upload dir1 newer files to server
 
-  document.getElementById("status"). innerHTML += "\n\ndelete dir1 only\n"
-  await this.deletelocal("only")   // delete dir2 only
+  //document.getElementById("status"). innerHTML += "\n\ndelete dir1 only\n"
+ // await this.delete("only")   // delete dir2 only
 
   alert("pull complete");
 }
 
 
-async push(  //  sync - client-side
+async upload(  //  sync - client-side
   // upload local files that are missing or newer than the the ones on the server
 ){ //  sync - client-side
   document.getElementById("status"). innerHTML = "Upload dir1 only files"  // clear out status line
-  await this.upload("only" );  // upload dir1 only  files to server
+  await this.upload("only","post" );  // upload dir1 only  files to server
 
   document.getElementById("status"). innerHTML += "\n\nUpload dir1 newer files\n"
-  await this.upload("newer");  // upload dir1 newer files to server
+  await this.upload("newer","put");  // upload dir1 newer files to server
 
-  document.getElementById("status"). innerHTML += "\n\ndeleted dir2 files that are not one dir1\n"
-  await this.deleteRemote("only")   // delete dir2 only
+  //document.getElementById("status"). innerHTML += "\n\ndeleted dir2 files that are not one dir1\n"
+  //await this.delete("only")   // delete dir2 only
 
   alert("push complete");
 }
 
 
-async deleteRemote( //  sync - client-side
-  tag   // dir2 tag name 
+async delete( //  sync - client-side
+  dir    // directory
+  ,tag   // tag name 
   ) {
-  const rows = this.dir2.json.rows;
-  for ( let i=0; i < this.tags.dir2[tag].length; i++ ) {
+  const rows = this[dir].json.rows;
+  let server="";  // default is machine logged into
+  if (dir==="dir1") {
+    server="https://synergyalpha";   // switch to local server
+  }
+
+  for ( let i=0; i < this.tags[dir][tag].length; i++ ) {
     // get file name to upload
-    let dir2Index   = this.tags.dir2[tag][i]; 
-    let file2delete = rows[dir2Index][this.pathIndex];  // file path relative to userdata with file name
+    let dirIndex   = this.tags[dir][tag][i]; 
+    let file2delete = rows[dirIndex][this.pathIndex];  // file path relative to userdata with file name
   
-    const resp = await app.proxy.RESTdelete(`/users${file2delete}`);  // deletre file on server
-     document.getElementById("status"). innerHTML += `${i} - ${file2delete}\n`;      // update status
+    const resp = await app.proxy.RESTdelete(`${server}/users${file2delete}`);  // deletre file on server
+    document.getElementById("status"). innerHTML += `${i} - ${file2delete}\n`;      // update status
   };
 }
 
   
 async upload(//  sync - client-side
   tag  // upload files pointed to by dir1[tag] 
+  ,method="post"   // post -> it is a new resoure, err if already there, put -> update/replace resouce with new version
   ) {  
   const rows = this.dir1.json.rows;
   for ( let i=0; i < this.tags.dir1[tag].length; i++ ) {
@@ -282,7 +292,11 @@ async upload(//  sync - client-side
     // get local server file
     let fileData = await app.proxy.getText(`https://synergyalpha.sfcknox.org/syncUserLocal${file2Upload}`)
   
-    const resp = await app.proxy.RESTpost(fileData,`/users${file2Upload}`);  // save file to server
+    let resp = await app.proxy.RESTpost(fileData,`/users${file2Upload}`,method);  // save file to server
+    if (true) {
+      //resp = await app.proxy.RESTpatch(msg,`/users${file2Upload}`);  // update creationan and modify date to match original file
+    }
+
       // update status
      document.getElementById("status"). innerHTML += `${i} - ${file2Upload}\n`;
   };
