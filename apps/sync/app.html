@@ -44,11 +44,11 @@
 <br> both - files that exist on both local and remote
 <br> newer - files with newer modify date on remote - (not reliable for uploaded or download files)<br><br>
 
-<input type="button" value="download"            onclick="app.sync.download();"   > download files from logged in machine that are newer or only exist on logged in machine.<br>
+<input type="button" value="pull"            onclick="app.sync.pull();"   > download files from logged in machine that are newer or only exist on logged in machine.<br>
 <input type="button" value="delete local only"   onclick="app.sync.delete('dir1','only');"> delete local files not on remote.<br><br>
 
-<input type="button" value="upload"               onclick="app.sync.upload();"    > upload files to logged in machine that are newer or only exist on local machine<br>
-<input type="button" value="delete remote only"   onclick="app.sync.delete('dir1','only');"> delete remote files not on local.<br>
+<input type="button" value="push"               onclick="app.sync.push();"    > upload files to logged in machine that are newer or only exist on local machine<br>
+<input type="button" value="delete remote only"   onclick="app.sync.delete('dir2','only');"> delete remote files not on local.<br>
 
 <h3>Data base</h3>
 <p id="menu"></p>

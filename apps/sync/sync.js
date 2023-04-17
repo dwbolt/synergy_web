@@ -226,7 +226,7 @@ async loadRemoteServer( //  sync - client-side
 
 
 ///////////////////////////////////////////  methods to suppoort push from local to remote
-async download(  //  sync - client-side
+async pull(  //  sync - client-side
   // download files from server
 ){ //  sync - client-side
   document.getElementById("status"). innerHTML = "download dir2 only files"  // clear out status line
@@ -242,7 +242,7 @@ async download(  //  sync - client-side
 }
 
 
-async upload(  //  sync - client-side
+async push(  //  sync - client-side
   // upload local files that are missing or newer than the the ones on the server
 ){ //  sync - client-side
   document.getElementById("status"). innerHTML = "Upload dir1 only files"  // clear out status line
@@ -268,6 +268,7 @@ async delete( //  sync - client-side
     server="https://synergyalpha";   // switch to local server
   }
 
+  document.getElementById("status"). innerHTML = ""  // clear status line
   for ( let i=0; i < this.tags[dir][tag].length; i++ ) {
     // get file name to upload
     let dirIndex   = this.tags[dir][tag][i]; 
