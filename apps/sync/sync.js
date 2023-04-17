@@ -72,7 +72,7 @@ compareInit(){  //  sync - client-side
 
 async generateLocal() {  //  sync - client-side
    // generate mainifest files on dir1 server
-   let msg = `{
+   const msg = `{
     "server"      : "sync"
     ,"method"     : "manifest"
     ,"user"       : "${localStorage.getItem("user")}"
@@ -100,7 +100,7 @@ async generateLocal() {  //  sync - client-side
 
 async generateRemote(){  //  sync - client-side
    // generate mainifest files on logedin server (remote)
-  msg = `{
+   const msg = `{
     "server"      : "sync"
     ,"method"     : "manifest"
     ,"type"       : "client2server"
