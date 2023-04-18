@@ -200,7 +200,7 @@ async loadLocalServer( //  sync - client-side
   const csv    = new csvClass(table);              // create instace of CSV object
 
   // load csv file from synced desktop
-  const file   = await app.proxy.getText(`https://synergyalpha.sfcknox.org/syncUserLocal/sync/${machine}/${fileName}`);
+  const file   = await app.proxy.getText(`https://synergyalpha.sfcknox.org/user/${localStorage.getItem("user")}/sync/${machine}/${fileName}`);
 
   csv.parseCSV(file, "status");         // parse loaded CSV file and put into table
   app.db.displayMenu('menu', "app.displayTable(this)", "app.export()"); // display menu of tables, user can select one to display
@@ -291,7 +291,7 @@ async upload(//  sync - client-side
     let file2Upload = rows[dir1Index][this.pathIndex];  // file path relative to userdata with file name
   
     // get local server file
-    let fileData = await app.proxy.getText(`https://synergyalpha.sfcknox.org/syncUserLocal${file2Upload}`)
+    let fileData = await app.proxy.getText(`https://synergyalpha.sfcknox.org/user/${localStorage.getItem("user")}${file2Upload}`)
   
     let resp = await app.proxy.RESTpost(fileData,`/users${file2Upload}`,method);  // save file to server
     if (true) {

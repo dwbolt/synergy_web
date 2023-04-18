@@ -18,18 +18,11 @@
 </head>
 
 <body>
-<!-- dynamically load js  -->
-<div id="dScript"></div>
 
 <div style="padding: 35px">
-<h1>Synergy - Sync Local and Server User Data</h1>
-  <ol>
-    <li>local server is running at https://synergyalpha.sfcknox.org</li>
-    <li>local server has  in config file  ,"sync":         {"filePath": "/Users/davidbolt/1-topics/S/synergy/2-git/5-synergy/4-users/2023/1-Bolt,David/sync"}</li>
-    <li>logged in to digital ocean server or 8433 to test</li>
-  </ol> 
-
-<h3>Must login to use</h3>
+<h1>Sync Synergy User data of Local Server and Remote Server</h1>
+<h3>login to Remote server</h3>
+<a href="#localserver">How to configure local server</a>
 <p id='login'></p>
 
 <h3>Client 2 Server</h3>
@@ -57,6 +50,31 @@
 <h3>Status</h3>
 <textarea id="status" rows="25" cols="500"></textarea>
 <a href='https://docs.google.com/document/d/1_m_lowTx637JIWqqwFKM5paYU9Me7AtGFu1S2ylhrGE/edit' target="_blank">Google doc</a> for support documents.
+
+<h3 id="localserver">How to configure local server</h3>
+<ol>
+  <li>local server is running at https://synergyalpha.sfcknox.org</li>
+  <li>Sample user config file:<br>  
+    <textarea rows="15" cols="50">
+    {
+      "nameFirst"  : "David"
+      ,"nameLast"  : "Bolt"
+      ,"pwdDigest" : "0LPLpx9yVWPTFuo1FgmTKAQgldEPRXG+JcB/nOMZhaU="
+      ,"phone"     : "865.603.0520"
+      ,"email"     : "David.Bolt@SFCknox.org"
+      
+      ,"publicDirectorys" : {
+          "sync"         : "sync"
+          ,"Hack4Impact" : "Hack4Impact"
+         }
+      }
+    </textarea><br>
+   The "publicDirectorys" maps .....  The sync code needs public access to the sync directory.  This only needs to be the case on the local server.  
+
+  </li>
+  <li>logged in to digital ocean server or 8433 to test</li>
+</ol> 
+
 </body>
 </html>
 
