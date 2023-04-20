@@ -19,13 +19,6 @@ constructor() {  // appClass - client side
 }
 
 
-
-LoginTrue() {// appClass - client side
-	// user just logged in, so change to user menu
-
-}
-
-
 async main() { // appClass - client side
   //debugger;
 	const page = this.urlParams.get('p'); // page to load
@@ -41,15 +34,11 @@ async main() { // appClass - client side
 
 	this.css                                        = await app.proxy.getJSON("css.json");
 	document.getElementById("footer"    ).innerHTML = await app.proxy.getText("footer.html");
-	/*
-	document.getElementById("navigation").innerHTML = ( this.login.getStatus() ?
-		await app.proxy.getText("menuUser.html") :
-		await app.proxy.getText("menu.html")   )
-	*/
+
 	if (this.login.getStatus()) {
 		// user logged in
 		document.getElementById("navigation").innerHTML = await app.proxy.getText("menuUser.html") 
-		document.getElementById("userName").innerHTML = `${sessionStorage.nameFirst} ${sessionStorage.nameLast}`
+		document.getElementById("userName").innerHTML = `Home for: ${sessionStorage.nameFirst} ${sessionStorage.nameLast}`
 	} else {
 		// user not logged in
 		document.getElementById("navigation").innerHTML = await app.proxy.getText("menu.html")
