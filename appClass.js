@@ -10,12 +10,19 @@ constructor() {  // appClass - client side
 	this.urlParams  = new URLSearchParams( window.location.search );
 
 	this.proxy      = new proxyClass();
-	this.login      = new loginClass();
 	this.calendar   = new calendarClass("weeks");
 	this.format     = new formatClass();  // format time and dates
+	this.login      = new loginClass();
 
 	this.widgetList;    // will hold instance of widgetListClass
 	this.css;           // var to hold json css file
+}
+
+
+
+LoginTrue() {// appClass - client side
+	// user just logged in, so change to user menu
+
 }
 
 
@@ -33,8 +40,20 @@ async main() { // appClass - client side
 	}
 
 	this.css                                        = await app.proxy.getJSON("css.json");
-	document.getElementById("navigation").innerHTML = await app.proxy.getText("menu.html");
 	document.getElementById("footer"    ).innerHTML = await app.proxy.getText("footer.html");
+	/*
+	document.getElementById("navigation").innerHTML = ( this.login.getStatus() ?
+		await app.proxy.getText("menuUser.html") :
+		await app.proxy.getText("menu.html")   )
+	*/
+	if (this.login.getStatus()) {
+		// user logged in
+		document.getElementById("navigation").innerHTML = await app.proxy.getText("menuUser.html") 
+		document.getElementById("userName").innerHTML = `${sessionStorage.nameFirst} ${sessionStorage.nameLast}`
+	} else {
+		// user not logged in
+		document.getElementById("navigation").innerHTML = await app.proxy.getText("menu.html")
+	}
 
 	// load data for page
 	this.widgetList = new widgetListClass("main");

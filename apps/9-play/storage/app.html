@@ -81,14 +81,23 @@ app.proxy = new proxyClass();
 app.login.buildForm(`login`);
 main()
 
-function getCookie(){
-  alert("not written yet")
-}
 
 function main(){
   sessionStorage.setItem('Obj', ["one",1, new Date()]);
   localStorage.setItem('Obj', ["one",1, new Date()]);
-  alert( typeof(localStorage.getItem('Obj')) );
+}
+
+function getCookie(){  //https://www.w3schools.com/js/js_cookies.asp
+  const key     = document.getElementById("key").value;   // cookie I want to read
+  const cookies = document.cookie       // convert to string
+  const cookiesA = cookies.split(';')        // create arry of keys
+  for (let i=0; i<cookiesA.length ;i++) {
+    let keyValue = cookiesA[i].split('=');
+    if (keyValue[0]===key) {
+      // found match
+      alert(keyValue[1]);
+    }
+  }
 }
 
 
