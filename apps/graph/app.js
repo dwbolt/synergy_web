@@ -9,7 +9,7 @@ constructor() {
 
 async main(){
 	//app.login.buildForm(`login`);
-	await this.load('/graph/_graph.json');
+	await this.load('_graph.json');
 }
 
 
