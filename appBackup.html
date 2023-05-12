@@ -10,6 +10,20 @@
 		<link rel="icon"             href="icon.jpg" sizes="192x192"/>
 		<link rel="shortcut icon"    href="icon.jpg" type="image/jpeg" />
 		<link rel="apple-touch-icon" href="icon.jpg" type="image/jpeg" />
+
+		<script type="text/javascript" src="_lib/format/formatClass.js"></script>
+
+		<script type="text/javascript" src="_lib/UX/widgetListClass.js" ></script>
+		<script type="text/javascript" src="_lib/UX/loginClass.js" ></script>
+		<script type="text/javascript" src="_lib/UX/tableUxClass.js" ></script>
+		<script type="text/javascript" src="_lib/UX/calendarClass.js" ></script>
+		<script type="text/javascript" src="_lib/UX/nodes2html.js" ></script>
+
+		<script type="text/javascript" src="_lib/proxy/proxyClass.js" ></script>
+		<script type="text/javascript" src="_lib/db/dbClass.js" ></script>
+		<script type="text/javascript" src="_lib/db/tableClass.js" ></script>
+
+		<script type="text/javascript" src="appClass.js" ></script>
 	</head>
 
 	<body>
@@ -28,24 +42,19 @@
 	</body>
 </html>
 
-<script>var app; // will point to appClass
-</script>
-
-<script type="module">
-/* Open the sliding menu for smaller screens
+<script>
+/* Open the sliding menu for smaller screens */
+function openNav() {
 	document.getElementById("navigation").style.width = "100%";
 }
 
-/* Close the sliding menu 
+/* Close the sliding menu */
 function closeNav() {
 	document.getElementById("navigation").style.width = "0";
 }
-*/
 
-import  {appModule}   from './appModule.js';
-
-//debugger;
-app = new appModule();
+const app = new appClass();
 app.main();
+
 
 </script>
