@@ -1,4 +1,3 @@
-
 class dataClass {
 /*
 
@@ -12,8 +11,7 @@ allows user to CRUD
 */
 
 
-// dataClass - client side
-constructor() {
+constructor() { // dataClass - client side
   this.books  = "";    // data directory
   this.year   = 0;     // index into dropdowns for year of data selected
   this.tableI = 2;     // index into dropdown, table being displayed defaut to journal
@@ -21,17 +19,14 @@ constructor() {
   this.table;          // is selected tableClass
   this.tableUx;        //ux for table being displayed
   this.tableUxB;      // ux for  buffer, view, edit, append
-//  this.location;       // does not seem to be used
 
   this.searchList=null;    // null-> no search filter,  [] -> search filter saved
   this.userConfig;
-
-
 }
 
 
-// dataClass - client side
-async main() {// starts the ball rolling, called from pageload
+async main() {  // dataClass - client side
+  // starts the ball rolling, called from pageload
   this.createTableMenu();
 }
 

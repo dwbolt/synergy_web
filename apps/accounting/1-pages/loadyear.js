@@ -83,8 +83,8 @@ setBooks() {
 }
 
 
-// loadYearClass - client side
-async loadYear() { // user just selected the year of data they want to load
+async loadYear() {  // loadYearClass - client side
+  // user just selected the year of data they want to load
   const tablesURL  = this.getURL();
 
   if (0 < this.year) {
@@ -97,8 +97,10 @@ async loadYear() { // user just selected the year of data they want to load
   app.menu(); // update app menu to to show/hide menu selections that depend on data being loaded
 }
 
-// loadYearClass - client side
-async initTableUx(tablesURL) {
+
+async initTableUx( // loadYearClass - client side
+  tablesURL        //
+  ) {
   await app.db.load(tablesURL);
 
   document.getElementById("books").innerHTML = `Books:${this.books.name} &nbsp Year:${this.books.year} &nbsp Journal entries: ${app.db.getTable("journal").json.rows.length}`
