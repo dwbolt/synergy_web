@@ -8,8 +8,6 @@
 <script type="text/javascript" src ="/_lib/db/dbClass.js"   ></script>
 <script type="text/javascript" src ="/_lib/db/tableClass.js"></script>
 <script type="text/javascript" src ="/_lib/db/csvClass.js"  ></script>
-
-<script type="text/javascript" src ="/desktop/synergy/3-syncCode/diff.js"  ></script>
 </head>
 
 <body>
@@ -21,12 +19,9 @@
 
 <h3>Load file from local machine</h3>
 These routines assume first row is a header<br>
-<input type="button" value="diff" onclick="app.diff.main();"><br>
 <input type="file" accept=".csv"  onchange="app.loadLocalCSV(this)"> *.csv<br/>
 <input type="file" accept=".js"   onchange="app.loadLocalJS(this)" > *.js<br/>
 <input type="file" accept=".json" onchange="app.loadLocal(this)"   > -rdb.json
-
-
 
 <h3>Data base</h3>
 <p id="menu"></p>
@@ -157,7 +152,6 @@ export() {
 } // End
 
 const app = new appClass();  // only globle variable
-app.diff = new diff();
 
 
 </script>

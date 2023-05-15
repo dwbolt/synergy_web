@@ -1,4 +1,4 @@
-import  {calendarClass  }   from '/_lib/UX/calendarModule.js'  ;
+import  {calendarClass  }   from '/_lib/UX/calendarModule.js'  ;  // think about dynamic load
 import  {loginClass     }   from '/_lib/UX/loginModule.js'     ;
 import  {proxyClass     }   from '/_lib/proxy/proxyModule.js'  ;
 import  {widgetListClass}   from '/_lib/UX/widgetListModule.js';
@@ -9,7 +9,7 @@ class appModule { // SFCKnox.org web site
 
 constructor() {  // appClass - client side
 	this.urlParams  = new URLSearchParams( window.location.search );
-	this.calendar   = new calendarClass("weeks");
+	this.calendar   = new calendarClass("weeks");  // think about dynamic load
 	this.login      = new loginClass();
 	this.proxy      = new proxyClass();
 	this.widgetList;    // will hold instance of widgetListClass

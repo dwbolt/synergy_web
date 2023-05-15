@@ -3,7 +3,7 @@
 	<head>
 		<title id="headTitle"></title>
 		<meta name="description" content="Sustainable Future Center Website" />
-		<link rel="canonical" href="https://sfcknox.org/app.html" />
+		<link rel="canonical" href="https://synergy.sfcknox.org/app.html" />
 		<link rel="stylesheet" href="app.css" />
 		<link rel="stylesheet" href="calendar.css" />
 
@@ -28,23 +28,13 @@
 	</body>
 </html>
 
-<script>var app; // will point to appClass
+<script>
+var app; // will point to appClass
 </script>
 
 <script type="module">
-/* Open the sliding menu for smaller screens
-	document.getElementById("navigation").style.width = "100%";
-}
-
-/* Close the sliding menu 
-function closeNav() {
-	document.getElementById("navigation").style.width = "0";
-}
-*/
-
 import  {appModule}   from './appModule.js';
 
-//debugger;
 app = new appModule();
 app.main();
 
