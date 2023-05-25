@@ -1,15 +1,13 @@
-import  {calendarClass  }   from '/_lib/UX/calendarModule.js'  ;  // think about dynamic load
 import  {loginClass     }   from '/_lib/UX/loginModule.js'     ;
 import  {proxyClass     }   from '/_lib/proxy/proxyModule.js'  ;
 import  {widgetListClass}   from '/_lib/UX/widgetListModule.js';
 
 
-class appModule { // SFCKnox.org web site
+class appModule { // synergy.SFCKnox.org web site
 
 
 constructor() {  // appClass - client side
 	this.urlParams  = new URLSearchParams( window.location.search );
-	this.calendar   = new calendarClass("weeks");  // think about dynamic load
 	this.login      = new loginClass();
 	this.proxy      = new proxyClass();
 	this.widgetList;    // will hold instance of widgetListClass
@@ -18,16 +16,18 @@ constructor() {  // appClass - client side
 
 
 async main() { // appClass - client side
-  //debugger;
-	const page = this.urlParams.get('p'); // page to load
-	if (page === null) {
-		// show home page of events
+	this.page = this.urlParams.get('p'); // page to load
+	if (this.page === null) {
+		// show home page
 		const newURL  = encodeURI(`${window.location.pathname}`);
 		const newURLs = newURL.split('/');
 		const lastToken = newURLs[newURLs.length-1].toLowerCase();
 		if (lastToken === ""        ) { window.location.href = newURL+"app.html?p=home"; }
 		if (lastToken === "app.html") { window.location.href = newURL+"?p=home"        ; }
-		return; // will never get here 
+
+		// should never get here 
+		alert(`appModule.main() error lastToken=${lastToken}`);
+		return; 
 	}
 
 	this.css                                        = await this.proxy.getJSON("css.json");
@@ -36,7 +36,7 @@ async main() { // appClass - client side
 	if (this.login.getStatus()) {
 		// user logged in
 		document.getElementById("navigation").innerHTML = await this.proxy.getText("menuUser.html") 
-		document.getElementById("userName").innerHTML = `Home for: ${sessionStorage.nameFirst} ${sessionStorage.nameLast}`
+		document.getElementById("userName"  ).innerHTML = `Home for: ${sessionStorage.nameFirst} ${sessionStorage.nameLast}`
 	} else {
 		// user not logged in
 		document.getElementById("navigation").innerHTML = await this.proxy.getText("menu.html")
@@ -44,7 +44,7 @@ async main() { // appClass - client side
 
 	// load data for page
 	this.widgetList = new widgetListClass("main");
-	this.widgetList.setJSON( await this.getPage(`${page}/_.json`) ); // add system or user path;
+	this.widgetList.setJSON( await this.getPage(`${this.page}/_.json`) ); // add system or user path;
 
 	// see if list or node is to be displayed
 	const list      = this.urlParams.get('l');
