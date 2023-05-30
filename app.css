@@ -11,6 +11,12 @@
 	--bkg-alt-4:       #d1a7c0; /*rose*/
 }
 
+td {
+    vertical-align:top;
+    }
+td {border: 1px solid black; }  
+
+
 /* Global styles */
 body { /* The font face, size, and color to be used as the base for the entire site */
 	color: var(--font-color);

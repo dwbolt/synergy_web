@@ -1,7 +1,7 @@
 import  {loginClass     }   from '/_lib/UX/loginModule.js'     ;
 import  {proxyClass     }   from '/_lib/proxy/proxyModule.js'  ;
 import  {widgetListClass}   from '/_lib/UX/widgetListModule.js';
-
+import  {calendarClass  }   from '/_lib/UX/calendarModule.js'  ;
 
 class appModule { // synergy.SFCKnox.org web site
 
@@ -10,14 +10,15 @@ constructor() {  // appClass - client side
 	this.urlParams  = new URLSearchParams( window.location.search );
 	this.login      = new loginClass();
 	this.proxy      = new proxyClass();
+	this.calendar   = new calendarClass("weeks","app.calendar");
 	this.widgetList;    // will hold instance of widgetListClass
 	this.css;           // var to hold json css file
 }
 
 
 async main() { // appClass - client side
-	this.page = this.urlParams.get('p'); // page to load
-	if (this.page === null) {
+	this.pageName = this.urlParams.get('p'); // page to load
+	if (this.pageName === null) {
 		// show home page
 		const newURL  = encodeURI(`${window.location.pathname}`);
 		const newURLs = newURL.split('/');
@@ -44,7 +45,7 @@ async main() { // appClass - client side
 
 	// load data for page
 	this.widgetList = new widgetListClass("main");
-	this.widgetList.setJSON( await this.getPage(`${this.page}/_.json`) ); // add system or user path;
+	this.widgetList.setJSON( await this.getPage(`${this.pageName}/_.json`) ); // add system or user path;
 
 	// see if list or node is to be displayed
 	const list      = this.urlParams.get('l');
