@@ -1,6 +1,6 @@
 /*
 
-SFCKnox.org web site app
+main class of a synergy web site
 
 */
 
