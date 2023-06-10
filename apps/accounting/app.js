@@ -1,4 +1,4 @@
-class appClass {
+class appClass {  // old accounting app
 
 constructor() {   // appClass - accounting - client side
   this.proxy    = new proxyClass(); // async load server files, json and html fragments
@@ -52,6 +52,7 @@ menu(  // appClass - accounting - client side
   }
 
   if (0<app.pages.loadYear.year) {
+    // data is loaded, show allow options that use data
     html += `
     <option value= "reconcile" >Reconcile</option>
     <option value= "statements">Statements</option>
