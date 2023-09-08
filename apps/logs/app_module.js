@@ -2,6 +2,7 @@ import  {proxyClass     }   from '/_lib/proxy/proxyModule.js' ;
 import  {dbClass        }   from '/_lib/db/dbModule.js'       ;
 import  {tableUxClass   }   from '/_lib/db/tableUxModule.js'  ;
 import  {csvClass       }   from '/_lib/db/csv_module.js'     ;
+import  {groupByClass   }   from '/_lib/db/groupByModule.js'  ;
 
 class appClass {
 
@@ -74,14 +75,12 @@ loadLocalCSV(  // appClass  client-side
     if (element.files[0].name === "error.csv") {
 
       const fields    = table.meta_get("fields");
-      fields.time     = {"header":"Time"      };
-      fields.session  = {"header":"Session"   };
-      fields.request  = {"header":"Request"  };
-      fields.Message  = {"header":"Message"};
+      fields.time     = {"header":"Time"       };
+      fields.session  = {"header":"Session"    };
+      fields.request  = {"header":"Request"    };
+      fields.message  = {"header":"Message"    };
     
-      table.set_select(["Time","Session","Request","Message"]);  // select all the fields      
-
-
+      table.set_select(["time","session","request","message"]);  // select all the fields      
 
       csv.parseCSV(fr.result, "json",["Time","Session","Request","Message"]);
        //          table.json.fieldA = ["time","session","request","message"] ;
@@ -121,8 +120,9 @@ export() {  app.db.export(this.tableName);} // appClass  client-side
 displayGroupBy(){  // appClass  client-side
   // put buttons for each field
   let html = "<b>Group By Fields:</b>";
-  this.tableUx.model.json.fieldA.forEach((field, i) => {
-    html += `<input type="button" value="${field}" onclick="app.groupBy('${field}')"> `
+  const fields = this.tableUx.model.meta_get("fields");
+  this.tableUx.model.meta_get("select").forEach((field, i) => {
+    html += `<input type="button" value="${fields[field].header}" onclick="app.groupBy('${field}')"> `
   });
 
   document.getElementById("groupByMenu").innerHTML = html;
