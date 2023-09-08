@@ -2,16 +2,6 @@
 <head>
 <title>Server logs</title>
 <link   rel ="stylesheet"      href="/apps/accounting/app.css">
-
-<script type="text/javascript" src ="/_lib/proxy/proxyClass.js"></script>
-<script type="text/javascript" src ="/_lib/UX/tableUXClass.js"></script>
-
-<script type="text/javascript" src ="/_lib/db/dbClass.js"   ></script>
-<script type="text/javascript" src ="/_lib/db/tableClass.js"></script>
-<script type="text/javascript" src ="/_lib/db/csvClass.js"  ></script>
-<script type="text/javascript" src ="/_lib/db/groupbyClass.js"  ></script>
-<script type="text/javascript" src ="appClass.js"  ></script>
-
 </head>
 
 <body>
@@ -40,7 +30,11 @@ These routines assume first row is a header<br>
 </html>
 
 <script>
+    var app; // will point to appClass
+</script>
 
+<script type="module">
 // appClass  client-side
-const app = new appClass();  // only globle variable
+import  {appClass}   from '/apps/logs/app_module.js';
+app = new appClass();  // only globle variable
 </script>

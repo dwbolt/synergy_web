@@ -1,7 +1,16 @@
+import  {proxyClass     }   from '/_lib/proxy/proxyModule.js' ;
+import  {dbClass        }   from '/_lib/db/dbModule.js'       ;
+import  {tableUxClass   }   from '/_lib/db/tableUxModule.js'  ;
+import  {csvClass       }   from '/_lib/db/csv_module.js'     ;
+
 class appClass {
 
-// appClass  client-side
-constructor() {
+/*
+view server logs
+*/
+
+
+constructor() { // appClass  client-side
   this.proxy     = new proxyClass();   //
   this.db        = new dbClass();      // model where the data will be
   this.tableName = null                // will contain selected table name
@@ -21,8 +30,8 @@ async load(  // appClass  client-side
 }
 
 
-// appClass  client-side
-displayTable( // user selected a log file to desplay
+displayTable(  // appClass  client-side
+  // user selected a log file to desplay
   e  // dom select element
 ){
   // user has selected a table to display
@@ -34,11 +43,9 @@ displayTable( // user selected a log file to desplay
 }
 
 
-
-
-// appClass  client-side
-// load local csv file and display class
-loadLocalJS(element) {
+loadLocalJS(   // appClass  client-side
+  element) {
+  // load local csv file and display class
   // user just selected a new js file from their local drive
   const fr = new FileReader();
   fr.onload =  () => {
@@ -47,16 +54,16 @@ loadLocalJS(element) {
     document.getElementById('dScript').appendChild(dScript);
   };
 
-element.files.forEach((item, i) => {
-    fr.readAsText( item );
-});
-
-
+  element.files.forEach((item, i) => {
+      fr.readAsText( item );
+  });
 }
 
 
-loadLocalCSV(element) {  // appClass  client-side
+loadLocalCSV(  // appClass  client-side
   // load local csv file and display class
+  element  // ?
+  ) {  
   // user just selected a new CSV file from their local drive
   const fr = new FileReader();
   fr.onload =  () => {      // call back function when file has finished loading
@@ -65,8 +72,19 @@ loadLocalCSV(element) {  // appClass  client-side
 
     // hard code hearder and field names based on file name
     if (element.files[0].name === "error.csv") {
+
+      const fields    = table.meta_get("fields");
+      fields.time     = {"header":"Time"      };
+      fields.session  = {"header":"Session"   };
+      fields.request  = {"header":"Request"  };
+      fields.Message  = {"header":"Message"};
+    
+      table.set_select(["Time","Session","Request","Message"]);  // select all the fields      
+
+
+
       csv.parseCSV(fr.result, "json",["Time","Session","Request","Message"]);
-                 table.json.fieldA = ["time","session","request","message"] ;
+       //          table.json.fieldA = ["time","session","request","message"] ;
     } else if (element.files[0].name === "request.csv") {
       csv.parseCSV(fr.result, "json",["Time","Session","Request","Message","IP","URL"]);
                  table.json.fieldA = ["time","session","request","message","ip","url"] ;
@@ -136,3 +154,5 @@ groupBy(// appClass  client-side
 
 
 } // End appClass  client-side
+
+export { appClass };
