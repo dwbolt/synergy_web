@@ -1,15 +1,14 @@
+/*
+view server logs  - synergy/apps/logs/app_module.js
+*/
+
 import  {proxyClass     }   from '/_lib/proxy/proxyModule.js' ;
 import  {dbClass        }   from '/_lib/db/dbModule.js'       ;
 import  {tableUxClass   }   from '/_lib/db/tableUxModule.js'  ;
 import  {csvClass       }   from '/_lib/db/csv_module.js'     ;
 import  {groupByClass   }   from '/_lib/db/groupByModule.js'  ;
 
-class appClass {
-
-/*
-view server logs
-*/
-
+class appClass {  // appClass  client-side
 
 constructor() { // appClass  client-side
   this.proxy     = new proxyClass();   //
@@ -39,8 +38,6 @@ displayTable(  // appClass  client-side
   this.tableName = e.value;
   this.tableUx.setModel( app.db, this.tableName );
   this.tableUx.display();
-
-  this.displayGroupBy();
 }
 
 
@@ -115,18 +112,6 @@ async loadLocal(element) {  // appClass  client-side
 
 
 export() {  app.db.export(this.tableName);} // appClass  client-side
-
-
-displayGroupBy(){  // appClass  client-side
-  // put buttons for each field
-  let html = "<b>Group By Fields:</b>";
-  const fields = this.tableUx.model.meta_get("fields");
-  this.tableUx.model.meta_get("select").forEach((field, i) => {
-    html += `<input type="button" value="${fields[field].header}" onclick="app.groupBy('${field}')"> `
-  });
-
-  document.getElementById("groupByMenu").innerHTML = html;
-}
 
 
 groupBy(// appClass  client-side
