@@ -113,7 +113,7 @@ async loadLocal(element) {  // appClass  client-side
 
 export() {  app.db.export(this.tableName);} // appClass  client-side
 
-
+/*
 groupBy(// appClass  client-side
   field // field to group by
 ) { // selected a column, then pressed the groupBy button
@@ -136,7 +136,7 @@ groupBy(// appClass  client-side
   this.tableUxG.tableName = this.tableName+"-GroupBy";  //
   this.tableUxG.display();                   // show table to user
 }
-
+*/
 
 } // End appClass  client-side
 
