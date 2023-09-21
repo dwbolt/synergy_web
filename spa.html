@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title id="headTitle"></title>
+		<meta name="description" content="Synergy SPA Single Page App" />
+		<link rel="canonical" href="https://synergy.sfcknox.org/spa.html" />
+		<link rel="stylesheet" href="app.css" />
+
+		<link rel="icon"             href="icon.jpg" sizes="192x192"/>
+		<link rel="shortcut icon"    href="icon.jpg" type="image/jpeg" />
+		<link rel="apple-touch-icon" href="icon.jpg" type="image/jpeg" />
+	</head>
+
+	<body>
+		<div id="navigation" class="nav-header"></div>
+		<div id="main" class="content"></div>
+		<div class="footer" id="footer"></div>
+	</body>
+</html>
+
+<script>
+var app; // will point to appClass, the only globle varible
+</script>
+
+<script type="module">
+import  {loginClass     }   from '/_lib/UX/loginModule.js'     ;
+import  {proxyClass     }   from '/_lib/proxy/proxyModule.js'  ;
+
+class app_class { // synergy.SFCKnox.org web site
+
+
+constructor() {  // spa_class - client side
+	this.urlParams  = new URLSearchParams( window.location.search );
+	this.login      = new loginClass();
+	this.proxy      = new proxyClass();
+	//this.format     = new formatClass();
+	//this.widgetList;    // will hold instance of widgetListClass
+	//this.css;           // var to hold json css file
+}
+
+
+async main() { // appClass - client side
+	this.pageName = this.urlParams.get('p'); // Single page app to load
+	if (this.pageName === null) {
+		// SPA not specifed, show synergy home page, from there they can login and select a SPA
+		const newURL  = encodeURI(`${window.location.pathname}`);
+		const newURLs = newURL.split('/');
+		const lastToken = newURLs[newURLs.length-1].toLowerCase();
+		if (lastToken === ""        ) { window.location.replace(newURL+"app.html?p=home"); }
+		if (lastToken === "app.html") { window.location.replace(newURL+"?p=home"        ); }
+		// should  never get here, since above code replaces this page 
+	}
+
+	//this.css                                        = await this.proxy.getJSON("css.json");
+	document.getElementById("footer"    ).innerHTML = await this.proxy.getText("footer.html");
+/*
+	if (await this.login.getStatus()) {
+		// user logged in
+		//document.getElementById("navigation").innerHTML = await this.proxy.getText(`/synergyData/${this.pageName}/menu.html`) 
+		//document.getElementById("userName"  ).innerHTML = `${localStorage.nameFirst} ${localStorage.nameLast}`
+	} else {
+		// user not logged in
+		//document.getElementById("navigation").innerHTML = await this.proxy.getText("menu.html")
+	}
+*/
+	// load main html
+	document.getElementById("main").innerHTML = await this.proxy.getText(`/synergyData/${this.pageName}/_.html`);
+
+	// load spa_module
+	const element = document.createElement('script');
+	element.src = `/synergyData/${this.pageName}/_.js`;
+    element.type = "module";
+    document.head.appendChild(element);
+}} //  appClass - client side
+
+
+app = new app_class();
+app.main();
+
+</script>
