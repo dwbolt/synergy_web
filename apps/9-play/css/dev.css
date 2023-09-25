@@ -4,4 +4,22 @@
 	background-color: yellow;
 }
 
+.parent{
+position: relative;
+
+}
+
+
+.child-1 {
+text-align: left;
+}
+
+.child-2 {
+text-align: center;
+}
+
+.child-3 {
+text-align:right
+}
+
 /*p {background-color: red;}*/
