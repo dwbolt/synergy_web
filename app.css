@@ -5,10 +5,11 @@
 	--header-color:    #002833; /*navy*/
 	--emphasis-color:  #ff9166; /*orange*/
 	--background:      #f0f0f0; /*light gray*/
-	--bkg-alt-1:       #ffc8b3; /*peach*/
-	--bkg-alt-2:       #abcdd6; /*light blue*/
-	--bkg-alt-3:       #acd3c2; /*light green*/
-	--bkg-alt-4:       #d1a7c0; /*rose*/
+	/*--bkg-alt-1:       #ffc8b3; peach
+	--bkg-alt-2:       #abcdd6; /*light blue
+	--bkg-alt-3:       #acd3c2; /*light green
+	--bkg-alt-4:       #d1a7c0; /*rose
+	*/
 }
 
 td {
@@ -104,11 +105,11 @@ ul.nav-menu li { /* How much space should surround each individual menu item */
 ul.nav-menu a { /* Sets the link styles for each menu item */
 	color: var(--header-color);
 	font-family: proxima-n-w01-reg, sans-serif;
-	font-size: 14px;
+	font-size: 1.2rem; /* was 14px */
 	font-weight: 700;
 	padding: 8px 0;
 	text-decoration: none;
-	text-transform: uppercase;
+	/* text-transform: capitalize; */
 	transition: 0.3s;
 }
 ul.nav-menu a:hover { /* When you hover over a menu item, show an underline */
@@ -121,6 +122,7 @@ li.sub-menu ul { /* Gives the sub-menu the correct spacing for the mobile slide-
 	list-style: none;
 	margin-top: 8px;
 	margin-bottom: -8px;
+	font-size: 14px;  /* dwb */
 }
 .hidden { /* Hides the slide-out menu for mobile */
 	height: 200px;
@@ -137,7 +139,7 @@ li.sub-menu ul { /* Gives the sub-menu the correct spacing for the mobile slide-
 	font-weight: 700;
 	margin: -10px -5px;
 	padding: 8px;
-	text-transform: uppercase;
+	/* text-transform: capitalize; */
 	transition: 0.3s;
 }
 .close-nav { /* Styles the x button that closes the slide-out menu for mobile */
