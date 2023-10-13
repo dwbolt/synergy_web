@@ -19,15 +19,15 @@ main() {  // appClass - clientside
 
   // set path and name to default or get from URL
   const urlParams = new URLSearchParams( window.location.search );
-  let parm = urlParams.get('path');
-  if ( parm != null)  {
+  let param = urlParams.get('path');
+  if ( param != null)  {
     // set path to one on url
     document.getElementById('path').value = param;
   }
-  parm = urlParams.get('name') ;
-  if ( parm != null)  {
+  param = urlParams.get('name') ;
+  if ( param != null)  {
     // set file name to one on url
-    document.getElementById('name').value = parm;
+    document.getElementById('name').value = param;
   }
 }
 
