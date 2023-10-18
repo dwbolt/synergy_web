@@ -4,7 +4,7 @@
 		<title id="headTitle"></title>
 		<meta name="description" content="Synergy SPA Single Page App" />
 		<link rel="canonical" href="https://synergy.sfcknox.org/spa.html" />
-		<link rel="stylesheet" href="app.css" />
+		<!--link rel="stylesheet" href="app.css" /-->
 
 		<link rel="icon"             href="icon.jpg" sizes="192x192"/>
 		<link rel="shortcut icon"    href="icon.jpg" type="image/jpeg" />
@@ -71,7 +71,26 @@ async main() { // appClass - client side
 	element.src = `/synergyData/${this.pageName}/_.js`;
     element.type = "module";
     document.head.appendChild(element);
-}} //  appClass - client side
+}
+
+
+show(dom){ // appClass - client side
+	document.getElementById(dom).hidden = false;
+//	document.getElementById(dom).style.visibility = "visible";
+//	document.getElementById(dom).style.display = "initial";
+//	document.getElementById(dom).style.transform = "scale(1,1)";
+}
+
+
+hide(dom) { // appClass - client side
+	document.getElementById(dom).hidden = true;
+//	document.getElementById(dom).style.visibility = "hidden";
+//	document.getElementById(dom).style.display = "none";
+//document.getElementById(dom).style.transform = "scale(.20,.20)";
+}
+
+
+} //  appClass - client side
 
 
 app = new app_class();
