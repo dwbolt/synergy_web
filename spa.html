@@ -4,7 +4,7 @@
 		<title id="headTitle"></title>
 		<meta name="description" content="Synergy SPA Single Page App" />
 		<link rel="canonical" href="https://synergy.sfcknox.org/spa.html" />
-		<!--link rel="stylesheet" href="app.css" /-->
+		<!--link rel="stylesheet" href="spa.css" /-->
 
 		<link rel="icon"             href="icon.jpg" sizes="192x192"/>
 		<link rel="shortcut icon"    href="icon.jpg" type="image/jpeg" />
@@ -12,7 +12,7 @@
 	</head>
 
 	<body>
-		<div id="navigation" class="nav-header"></div>
+		<div id="navigation"></div>
 		<div id="main" class="content"></div>
 		<div class="footer" id="footer"></div>
 	</body>
@@ -75,7 +75,12 @@ async main() { // appClass - client side
 
 
 show(dom){ // appClass - client side
-	document.getElementById(dom).hidden = false;
+	const element = document.getElementById(dom);
+	element.display = false;
+	if(dom==="sss") {
+		// does not belong here, testing
+		element.style.display = "flex";
+	}
 //	document.getElementById(dom).style.visibility = "visible";
 //	document.getElementById(dom).style.display = "initial";
 //	document.getElementById(dom).style.transform = "scale(1,1)";
@@ -83,7 +88,12 @@ show(dom){ // appClass - client side
 
 
 hide(dom) { // appClass - client side
-	document.getElementById(dom).hidden = true;
+	const element = document.getElementById(dom)
+	element.hidden = true;
+	if(dom==="sss") {
+		// does not belong here, testing
+		element.style.display = "none";
+	}
 //	document.getElementById(dom).style.visibility = "hidden";
 //	document.getElementById(dom).style.display = "none";
 //document.getElementById(dom).style.transform = "scale(.20,.20)";
