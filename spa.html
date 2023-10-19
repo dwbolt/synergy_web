@@ -23,87 +23,9 @@ var app; // will point to appClass, the only globle varible
 </script>
 
 <script type="module">
-import  {loginClass     }   from '/_lib/UX/loginModule.js'     ;
-import  {proxyClass     }   from '/_lib/proxy/proxyModule.js'  ;
+import  {spa_class     }   from '/_lib/UX/spa_module.js'  ;
 
-class app_class { // synergy.SFCKnox.org web site
-
-
-constructor() {  // spa_class - client side
-	this.urlParams  = new URLSearchParams( window.location.search );
-	this.login      = new loginClass();
-	this.proxy      = new proxyClass();
-	//this.format     = new formatClass();
-	//this.widgetList;    // will hold instance of widgetListClass
-	//this.css;           // var to hold json css file
-}
-
-
-async main() { // appClass - client side
-	this.pageName = this.urlParams.get('p'); // Single page app to load
-	if (this.pageName === null) {
-		// SPA not specifed, show synergy home page, from there they can login and select a SPA
-		const newURL  = encodeURI(`${window.location.pathname}`);
-		const newURLs = newURL.split('/');
-		const lastToken = newURLs[newURLs.length-1].toLowerCase();
-		if (lastToken === ""        ) { window.location.replace(newURL+"app.html?p=home"); }
-		if (lastToken === "app.html") { window.location.replace(newURL+"?p=home"        ); }
-		// should  never get here, since above code replaces this page 
-	}
-
-	//this.css                                        = await this.proxy.getJSON("css.json");
-	document.getElementById("footer"    ).innerHTML = await this.proxy.getText("footer.html");
-/*
-	if (await this.login.getStatus()) {
-		// user logged in
-		//document.getElementById("navigation").innerHTML = await this.proxy.getText(`/synergyData/${this.pageName}/menu.html`) 
-		//document.getElementById("userName"  ).innerHTML = `${localStorage.nameFirst} ${localStorage.nameLast}`
-	} else {
-		// user not logged in
-		//document.getElementById("navigation").innerHTML = await this.proxy.getText("menu.html")
-	}
-*/
-	// load main html
-	document.getElementById("main").innerHTML = await this.proxy.getText(`/synergyData/${this.pageName}/_.html`);
-
-	// load spa_module
-	const element = document.createElement('script');
-	element.src = `/synergyData/${this.pageName}/_.js`;
-    element.type = "module";
-    document.head.appendChild(element);
-}
-
-
-show(dom){ // appClass - client side
-	const element = document.getElementById(dom);
-	element.display = false;
-	if(dom==="sss") {
-		// does not belong here, testing
-		element.style.display = "flex";
-	}
-//	document.getElementById(dom).style.visibility = "visible";
-//	document.getElementById(dom).style.display = "initial";
-//	document.getElementById(dom).style.transform = "scale(1,1)";
-}
-
-
-hide(dom) { // appClass - client side
-	const element = document.getElementById(dom)
-	element.hidden = true;
-	if(dom==="sss") {
-		// does not belong here, testing
-		element.style.display = "none";
-	}
-//	document.getElementById(dom).style.visibility = "hidden";
-//	document.getElementById(dom).style.display = "none";
-//document.getElementById(dom).style.transform = "scale(.20,.20)";
-}
-
-
-} //  appClass - client side
-
-
-app = new app_class();
+app = new spa_class();
 app.main();
 
 </script>
