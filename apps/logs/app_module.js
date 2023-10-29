@@ -2,11 +2,11 @@
 view server logs  - synergy/apps/logs/app_module.js
 */
 
-import  {proxyClass     }   from '/_lib/proxy/proxyModule.js' ;
-import  {dbClass        }   from '/_lib/db/dbModule.js'       ;
-import  {tableUxClass   }   from '/_lib/db/tableUxModule.js'  ;
+import  {proxyClass     }   from '/_lib/proxy/proxy_module.js' ;
+import  {dbClass        }   from '/_lib/db/db_module.js'       ;
+import  {tableUxClass   }   from '/_lib/db/tableUx_module.js'  ;
 import  {csvClass       }   from '/_lib/db/csv_module.js'     ;
-import  {groupByClass   }   from '/_lib/db/groupByModule.js'  ;
+import  {groupByClass   }   from '/_lib/db/groupBy_module.js'  ;
 
 class appClass {  // appClass  client-side
 
