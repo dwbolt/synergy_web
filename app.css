@@ -269,7 +269,7 @@ li.sub-menu ul { /* Gives the sub-menu the correct spacing for the mobile slide-
 }
 .content div { /* Sets the spacing for the main content section */
 	margin: 0 auto;
-	min-width: 300px;
+	/*min-width: 300px;*/
 	max-width: 1000px;
 }
 .content-row {
