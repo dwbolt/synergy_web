@@ -5,11 +5,6 @@
 	--header-color:    #002833; /*navy*/
 	--emphasis-color:  #ff9166; /*orange*/
 	--background:      #f0f0f0; /*light gray*/
-	/*--bkg-alt-1:       #ffc8b3; peach
-	--bkg-alt-2:       #abcdd6; /*light blue
-	--bkg-alt-3:       #acd3c2; /*light green
-	--bkg-alt-4:       #d1a7c0; /*rose
-	*/
 }
 
 td {
@@ -43,7 +38,7 @@ a, a:visited { /* The color of links */
 	width: 100%;
 }
 .row div + div { /* Sets the second div (containing the images) to center the content and to be full width (for mobile) */
-	text-align: center;
+	/*text-align: center;*/
 	width: 100%;
 }
 .row p:first-child { /* Sets the style for the first paragraph of each row */
@@ -52,14 +47,7 @@ a, a:visited { /* The color of links */
 p.url a + a { /* Adds spacing between the links in the url paragraph  */
 	margin-left: 20px;
 }
-img { /* Sets the default styles for all images */
-	object-fit:contain;
-	 float: right;  /* dwb try to make text wrap around picture */
-	/*
-	width:320px;
-	height:200px;
-	*/
-}
+
 @media (min-width: 768px) { /* These styles apply only to desktop browsers, not mobile */
 	.row div:first-of-type { /* The first div within a row should float to the left like a table cell */
 		position: relative;
@@ -203,47 +191,6 @@ li.sub-menu ul { /* Gives the sub-menu the correct spacing for the mobile slide-
 	.open-nav, .close-nav { /* Hides the open and close buttons for the slide-out menu */
 		display: none;
 	}
-}
-
-/* Hero styles */
-.hero { /* Sets the background image and spacing for the hero image on the home page */
-	background-attachment: fixed;
-	background-image: url("/synergyData/app/background.webp");
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	color: #ffffff;
-	font-size: 16px;
-	padding: 60px 20px 40px 20px;
-	position: relative;
-	top: 0;
-}
-.hero div { /* Centers the text within the hero */
-	margin: 0 auto;
-	min-width: 300px;
-	max-width: 1000px;
-}
-.hero div div { /* Keeps the hero text set to the correct width */
-	min-width: 300px;
-	max-width: 600px;
-	margin: 0;
-}
-.hero h1 { /* Sets the font size and boldness for h1s in the hero */
-	font-size: 48px;
-	font-weight: 700;
-}
-@media (min-width: 450px) { /* These styles apply only to landscape mobile or larger browsers */
-	.hero h1 { /* Sets the font size for the firts header in the hero */
-		font-size: 72px;
-	}
-}
-.hero h2 { /* Sets the font size and boldness for the h2s in the hero */
-	font-size: 25px;
-	font-weight: 400;
-}
-.hero a { /* Sets the color and underline for links in the hero */
-	color: #ffffff;
-	text-decoration: underline;
 }
 
 /* Content area styles */
@@ -408,12 +355,3 @@ li.sub-menu ul { /* Gives the sub-menu the correct spacing for the mobile slide-
 		border-radius: 12px;
 	}
 }
-
-/* david */
-
-/*
-.row1 {background-color: var(--bkg-alt-1);}
-.row2 {background-color: var(--bkg-alt-2);}
-.row3 {background-color: var(--bkg-alt-3);}
-.row4 {background-color: var(--bkg-alt-4);}
-*/
