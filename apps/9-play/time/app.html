@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>Date Time</title>
+<link rel="stylesheet" href="..\app.css">
+</head>
+
+<body>
+<h1>Date Time output formates</h1>
+<textarea id="output"><=</textarea>
+</body>
+</html>
+
+<script>
+let date = new Date();
+let html=`
+--- local time
+date = ${date}
+getDay()            = ${date.getDay()}    0=> Sunday  6=> Saturday
+getMonth()          = ${date.getMonth()}  0 => january
+getDate()           = ${date.getDate()}  day in month 1-31
+getFullYear()       = ${date.getFullYear()}
+
+getHours()          = ${date.getHours()}
+getMinutes()        = ${date.getMinutes()}
+getSeconds()        = ${date.getSeconds()}
+getMilliseconds()   = ${date.getMilliseconds()}
+
+getTimezoneOffset() =${date.getTimezoneOffset()} minutes  or ${date.getTimezoneOffset()/60} hours
+
+------ UTC
+toUTCString()       = ${date.toUTCString()}
+getUTCDay()         = ${date.getUTCDay()}    0=> Sunday  6=> Saturday
+getUTCMonth()       = ${date.getUTCMonth()}  0 => january
+getUTCDate()        = ${date.getUTCDate()}  day in month 1-31
+getUTCFullYear()    = ${date.getUTCFullYear()}
+
+getUTCHours()       = ${date.getUTCHours()}
+getUTCMinutes()     = ${date.getUTCMinutes()}
+getUTCSeconds()     = ${date.getUTCSeconds()}
+getUTCMilliseconds()= ${date.getUTCMilliseconds()}
+
+toGMTString()       = ${date.toGMTString()}
+
+getTime()          =${date.getTime()} milliseconds since 1970-01-01 0:0:0
+
+toDateString()=${date.toDateString()}
+toTimeString()=${date.toTimeString()}
+toISOString() =${date.toISOString()}
+toJSON()=${date.toJSON()}
+`
+/*
+
+
+
+
+toLocaleDateString()
+toLocaleString()
+toLocaleTimeString()
+toString()
+
+
+
+
+=${date.}
+
+=${date.}
+=${date.}
+=${date.}
+=${date.}
+=${date.}
+=${date.}
+
+*/
+document.getElementById("output").innerHTML = html;
+
+</script>
