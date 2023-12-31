@@ -88,12 +88,6 @@ displayTable() { // user clicked on a table
   this.tableUxB = app.tableUx[table+"B"];
   this.tableUx.display();  // display table
 
-  // display buffer
-  //app.tableUxB.createEmpty(5);
-  //app.tableUxB.display();
-  //this.tableUxBuffer.setModel()
-  // display journal
-
 }
 
 // dataClass - client side
