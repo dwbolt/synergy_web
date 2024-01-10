@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Change Log test</title>
+</head>
+
+<body>
+<h1>Test save recall of json</h1>
+
+<h3>Input text below</h3>
+<textarea id="input">
+<b>input</b>
+</textarea>
+<br>
+<br><input type="button" value="save - retrieve" onclick="app.save()">
+
+<h3>shoud be the same after save button is pushed</h3>
+<textarea id="retrieve">
+retreved
+</textarea>
+
+<h3>HTML</h3>
+<div id="html">html</div>
+
+<script>
+const app = {};
+</script>
+
+<script type="module">
+import  {proxyClass}   from '/_lib/proxy/proxy_module.js'  ;
+
+const proxy = new proxyClass();
+
+export async function save() {
+    // save file
+    const url = "/users/test.json";
+
+    let obj={};
+    obj.un  = undefined;  // will not be saved, so if you refere to it, the value will be undefined
+    obj.bool = true;
+    obj.num  = 1.1
+    obj.nul  = null;
+    obj.date = new Date(); // will come back as a string
+    obj.string = document.getElementById("input").value;
+    let str    = JSON.stringify(obj);
+    const last   = str.slice(-2); // test removing last to character to simpulte an append mode
+    let resp      = await proxy.RESTpost(str.slice(0,str.length-2),url);
+
+    // retreive file
+    resp      = await proxy.RESTget(url);
+    obj       = JSON.parse(resp.value+last);  // simpulate adding back after appending
+    str = obj.string;
+    document.getElementById("retrieve").value = str;
+
+    // html
+    document.getElementById("html").innerHTML = str;
+}
+
+app.save = save;
+</script>
+
+</body>
+</html>
+
+
