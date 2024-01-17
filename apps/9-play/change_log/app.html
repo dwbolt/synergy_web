@@ -22,6 +22,14 @@ const app = {};
 </script>
 
 <script type="module">
+
+/*
+1) form_create
+2) obj = form_read
+    form_value
+3) form_write(obj)
+
+*/
 import  {proxyClass}   from '/_lib/proxy/proxy_module.js'  ;
 
 const fields = {
@@ -49,29 +57,13 @@ const fields_list = ["name","description","boolean","integer","float","date","da
 
 const proxy = new proxyClass();
 
-export async function save() {
-    // read object from form
-    const obj=form_read("form_2_obj",fields,fields_list);
-
-    let str   = JSON.stringify(obj);
-    const url = "/users/test.json";
-    let resp  = await proxy.RESTpost(str,url);  // save object   -- assume no errors
-        resp  = await proxy.RESTget(url);       // retreive string version of object 
-    const obj_r = JSON.parse(resp.value);       // convert back to json
-
-    // save object to form
-    form_write(obj_r,"obj_2_form",fields,fields_list)
-
-    // vew textarea as html
-    document.getElementById("html").innerHTML = obj_r.description;
-}
-
+// ----------------
 function form_create(
     dom // id 
     ,fields_meta
     ,fields_list
 ){
-    let html = "";
+    let html = ``;
     for(let i=0; i<fields_list.length; i++) {
         html += form_add(dom, fields_meta, fields_list[i]);
     }
@@ -87,8 +79,8 @@ function form_add(
     switch (field.type) {
     case "text"    : return `${field.header} <input    id="${dom}_${field_name}" type="text">    <br>`;
     case "textarea": return `${field.header} <textarea id="${dom}_${field_name}"></textarea>     <br>`;
-    case "integer" : return `${field.header} <input    id="${dom}_${field_name}" type="number">  <br>`;
-    case "float"   : return `${field.header} <input    id="${dom}_${field_name}" type="number">  <br>`;
+    case "integer" : return `${field.header} <input    id="${dom}_${field_name}" type="number" onfocusout="app.integer_validate(this)">  <br>`;
+    case "float"   : return `${field.header} <input    id="${dom}_${field_name}" type="number" onfocusout="app.float_validate(  this)">  <br>`;
     case "date"    : return `${field.header} <input    id="${dom}_${field_name}" type="date">    <br>`;
     case "date-time": return `${field.header}<input    id="${dom}_${field_name}" type="date"> <input id="${dom}_${field_name}_time" type="time"> <br>`;
     case "boolean" : return `${field.header} <input    id="${dom}_${field_name}" type="checkbox"><br>`;
@@ -96,7 +88,27 @@ function form_add(
     }
 }
 
-function form_read(
+export function integer_validate(
+    dom // input file
+){
+    const value = dom.value;
+    const re    = /^[+-]?[0-9]{1,10}$/ ;
+    if (!re.test(value)) {
+        alert("Integer must be only contain numbers")
+    }
+} 
+
+export function float_validate(
+    dom // input file
+){
+    const value = dom.value;
+    const re    = /^[+-]?([0-9]*[.])?[0-9]$/
+    if (!re.test(value)) {
+        alert("Float must be only contain numbers")
+    }
+} 
+
+function form_read( /////
     dom // id 
     ,fields_meta
     ,fields_list
@@ -153,7 +165,7 @@ function form_value(
     }
 }
 
-function form_write(
+function form_write(  /////
     obj
     ,dom // id 
     ,fields_meta
@@ -180,7 +192,29 @@ function form_write(
 
 }
 
-app.save = save;
+
+export async function save() {
+    // read object from form
+    const obj=form_read("form_2_obj",fields,fields_list);
+
+    let str   = JSON.stringify(obj);
+    const url = "/users/test.json";
+    let resp  = await proxy.RESTpost(str,url);  // save object   -- assume no errors
+        resp  = await proxy.RESTget(url);       // retreive string version of object 
+    const obj_r = JSON.parse(resp.value);       // convert back to json
+
+    // save object to form
+    form_write(obj_r,"obj_2_form",fields,fields_list)
+
+    // vew textarea as html
+    document.getElementById("html").innerHTML = obj_r.description;
+}
+
+
+app.save             = save;
+app.integer_validate = integer_validate;
+app.float_validate   = float_validate;
+
 
 form_create("form_2_obj",fields,fields_list);
 form_create("obj_2_form",fields,fields_list);
