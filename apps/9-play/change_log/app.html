@@ -5,18 +5,14 @@
 
 <body>
 <h1>Test save recall of json</h1>
+<h3>Input types</h3>
+<div style="display:flex; flex-wrap: wrap; ">
+    <div id="form_2_obj"></div>
+    <div id="obj_2_form"></div>
+</div>
 
-<h3>Input text below</h3>
-<textarea id="input">
-<b>input</b>
-</textarea>
-<br>
 <br><input type="button" value="save - retrieve" onclick="app.save()">
 
-<h3>shoud be the same after save button is pushed</h3>
-<textarea id="retrieve">
-retreved
-</textarea>
 
 <h3>HTML</h3>
 <div id="html">html</div>
@@ -28,34 +24,166 @@ const app = {};
 <script type="module">
 import  {proxyClass}   from '/_lib/proxy/proxy_module.js'  ;
 
+const fields = {
+    "pk"           : {"header":"PK"        , "type":"pk"         , "location":"column"}
+    ,"name"        : {"header":"Name"      , "type":"text"       , "location":"column"}
+    ,"url"         : {"header":"URL"       , "type":"url"        , "location":"column"}
+    ,"dateStart"   : {"header":"Start Date", "type":"date-time"  , "location":"column"}
+    ,"dateEnd"     : {"header":"End Date"  , "type":"date_time"  , "location":"column"}
+    ,"timeZone"    : {"header":"Time Zone" , "type":"text", "location":"column"}
+    ,"timeDuration": {"header":"Duration"  , "type":"text", "location":"column"}
+
+    ,"repeat"         : {"header":"Repeat"        , "type":"text", "location":"column"}
+    ,"repeat_inc"     : {"header":"Repeat Inc"    , "type":"number", "location":"column"}
+    ,"repeat_end_date": {"header":"Repeat End"    , "type":"date-time"  , "location":"column"}
+    ,"repeat_details" : {"header":"Repeat Details", "type":"json"  , "location":"column"}
+
+    ,"description"    : {"header":"Comment"       ,"type":"textarea","location":"column"}
+    ,"boolean"        : {"header":"Boolean"       ,"type":"boolean" ,"location":"column"} 
+    ,"integer"        : {"header":"Integer"       ,"type":"integer" ,"location":"column"}
+    ,"float"          : {"header":"Float"         ,"type":"float"   ,"location":"column"}
+    ,"date"           : {"header":"date"          ,"type":"date"    ,"location":"column"} 
+}
+
+const fields_list = ["name","description","boolean","integer","float","date","dateStart"];
+
 const proxy = new proxyClass();
 
 export async function save() {
-    // save file
+    // read object from form
+    const obj=form_read("form_2_obj",fields,fields_list);
+
+    let str   = JSON.stringify(obj);
     const url = "/users/test.json";
+    let resp  = await proxy.RESTpost(str,url);  // save object   -- assume no errors
+        resp  = await proxy.RESTget(url);       // retreive string version of object 
+    const obj_r = JSON.parse(resp.value);       // convert back to json
 
-    let obj={};
-    obj.un  = undefined;  // will not be saved, so if you refere to it, the value will be undefined
-    obj.bool = true;
-    obj.num  = 1.1
-    obj.nul  = null;
-    obj.date = new Date(); // will come back as a string
-    obj.string = document.getElementById("input").value;
-    let str    = JSON.stringify(obj);
-    const last   = str.slice(-2); // test removing last to character to simpulte an append mode
-    let resp      = await proxy.RESTpost(str.slice(0,str.length-2),url);
+    // save object to form
+    form_write(obj_r,"obj_2_form",fields,fields_list)
 
-    // retreive file
-    resp      = await proxy.RESTget(url);
-    obj       = JSON.parse(resp.value+last);  // simpulate adding back after appending
-    str = obj.string;
-    document.getElementById("retrieve").value = str;
+    // vew textarea as html
+    document.getElementById("html").innerHTML = obj_r.description;
+}
 
-    // html
-    document.getElementById("html").innerHTML = str;
+function form_create(
+    dom // id 
+    ,fields_meta
+    ,fields_list
+){
+    let html = "";
+    for(let i=0; i<fields_list.length; i++) {
+        html += form_add(dom, fields_meta, fields_list[i]);
+    }
+    document.getElementById(dom).innerHTML = html;
+}
+
+function form_add(
+    dom
+    ,fields_meta
+    , field_name
+){
+    const field=fields_meta[field_name]
+    switch (field.type) {
+    case "text"    : return `${field.header} <input    id="${dom}_${field_name}" type="text">    <br>`;
+    case "textarea": return `${field.header} <textarea id="${dom}_${field_name}"></textarea>     <br>`;
+    case "integer" : return `${field.header} <input    id="${dom}_${field_name}" type="number">  <br>`;
+    case "float"   : return `${field.header} <input    id="${dom}_${field_name}" type="number">  <br>`;
+    case "date"    : return `${field.header} <input    id="${dom}_${field_name}" type="date">    <br>`;
+    case "date-time": return `${field.header}<input    id="${dom}_${field_name}" type="date"> <input id="${dom}_${field_name}_time" type="time"> <br>`;
+    case "boolean" : return `${field.header} <input    id="${dom}_${field_name}" type="checkbox"><br>`;
+    default        : alert(`function="form_add"`);
+    }
+}
+
+function form_read(
+    dom // id 
+    ,fields_meta
+    ,fields_list
+){
+    const obj = {};
+    for(let i=0; i<fields_list.length; i++) {
+        obj[fields_list[i]] = form_value(dom, fields_meta, fields_list[i]);
+        if (obj[fields_list[i]] === undefined){
+            delete obj[fields_list[i]];  // do not save undevined attributes
+        }
+    }
+    return obj;
+}
+
+
+function form_value(
+    dom // id 
+    ,fields_meta
+    ,fields_name
+){
+    let date,time,value;
+    const field = fields_meta[fields_name];
+    switch (field.type) {
+    case "float":
+    case "integer" :
+    case "text"    :
+    case "textarea": value = document.getElementById(`${dom}_${fields_name}`).value; break;
+    case "date"    : 
+        date = document.getElementById(`${dom}_${fields_name}`).value.split("-");
+        if (date[0] === "" && date.length === 1) {
+            value = "";
+        } else {
+            value = [parseInt(date[0]), parseInt(date[1]), parseInt(date[2]) ];
+        }
+        break;
+
+    case "date-time"    : 
+        date = document.getElementById(`${dom}_${fields_name}`).value.split("-");
+        time = document.getElementById(`${dom}_${fields_name}_time`).value.split(":");
+        if (date[0] === "" && date.length === 1 && time[0] === "" && time.length === 1) {
+            value = "";
+        } else {
+            value = [ parseInt(date[0]), parseInt(date[1]), parseInt(date[2]), parseInt(time[0]), parseInt(time[1])];
+        }
+        break;
+    case "boolean" : value = document.getElementById(`${dom}_${fields_name}`).checked; break;
+    default        : alert(`function="form_value"`);
+    }
+
+    if (value === "" ) {
+        return undefined;
+    } else {
+        return value;
+    }
+}
+
+function form_write(
+    obj
+    ,dom // id 
+    ,fields_meta
+    ,fields_list
+){
+    for(let i=0; i<fields_list.length; i++) {
+        let field_name = fields_list[i];
+        let value = obj[field_name];
+        let type = fields_meta[field_name].type;
+        
+        if (value!==undefined) {
+        switch (type) {
+        case "float":
+        case "integer":
+        case "text":
+        case "textarea": document.getElementById(`${dom}_${field_name}`).value        =  value;                                break;
+        case "boolean" : document.getElementById(`${dom}_${field_name}`).checked      =  value;                                break;
+        case "date"    : document.getElementById(`${dom}_${field_name}`).valueAsDate  =  new Date(value[0],value[1],value[2]); break;
+        case "date-time": document.getElementById(`${dom}_${field_name}`).valueAsDate =  new Date(value[0],value[1],value[2]); 
+                          document.getElementById(`${dom}_${field_name}_time`).value  =  `${value[3]}:${value[4]}`           ; break;
+        default        : alert(`form_write`);
+        }}
+    }
+
 }
 
 app.save = save;
+
+form_create("form_2_obj",fields,fields_list);
+form_create("obj_2_form",fields,fields_list);
 </script>
 
 </body>
