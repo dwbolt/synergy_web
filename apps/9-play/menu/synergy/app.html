@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Synergy Menu</title>
+  <link  href="app.css" rel="stylesheet" >
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <div style="display:grid; grid-template-columns:1fr 4fr;">
+
+    <div class="left_column">
+      <img src="/synergyData/app/logo.webp" class="footer-logo" alt="Sustainable Future Center Logo">
+      <input type="text" placeholder="search" >
+      <div id="menu" class="menu" style="border-radius: 6px; border-style: solid; margin: 5px 5px 5px 5px;">
+        <select size="6" class="menu" style="border: none;" onclick="goto(this)">
+          <option value="home">Home</option>
+          <option value="about">About Us</option>
+          <option value="calendar">Calendar</option>
+          <option value="involve">Get Invcolved</option>
+          <option value="Resources">Resources"</option>
+          <option value="Donate">Donate</option>
+        </select>
+      </div>
+
+      <div class="menu" style="border-radius: 6px; border-style: solid; margin: 5px 5px 5px 5px;">
+      <p><b>Phone:</b>
+        <br>1-865-294-0154
+        <br>call or txt</p>
+
+      <p><b>Adress:</b>
+      <br>201 Ogle Ave
+      <br>Knoxville, TN 37920</p>
+
+      <p class="copyright"><b>Copyright</b>
+        <br>© 2024</p>
+      </div>
+    </div>
+
+    <div id="right_column" class="right_column">
+      content 1<br>
+      content <br>
+      content <br>
+      content <br>
+      content <br>
+      content <br>
+      content <br>
+      content <br>
+      content <br>
+      content <br>
+      content <br>
+      content <br>
+      content <br>
+    </div>
+
+  </div>
+</body>
+</html>
