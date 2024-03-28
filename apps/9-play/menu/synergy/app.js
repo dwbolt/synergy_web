@@ -29,8 +29,4 @@ home page
 
 ,"about": `about us stuff`
 
-
-
-
-
 }
