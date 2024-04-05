@@ -1,3 +1,10 @@
+/* jsonEditor cocer */
+
+import  {formatClass} from '/_lib/format/format_module.js';
+import  {proxyClass}  from '/_lib/proxy/proxy_module.js';
+import  {loginClass}  from '/_lib/UX/login_module.js';
+import  {menuClass}   from '/_lib/UX/menu_module.js';
+
 class appClass {  // appClass - clientside
 /*
 
@@ -11,6 +18,7 @@ constructor() {  // appClass - clientside
   this.proxy   = new proxyClass(); // async load server files, json and html fragments
   this.format  = new formatClass();
   this.login   = new loginClass();
+  this.menu    = new menuClass("menu");
   this.changeLog = {};  // will contain change long, one
 }
 
@@ -39,6 +47,8 @@ loginTrue(){  // appClass - clientside
 
 
 async loadJSON(){ // appClass - clientside
+  this.menu.init();
+
   // load json file to view/edit
   this.path = document.getElementById('path').value;
   this.name = document.getElementById('name').value;
@@ -55,7 +65,7 @@ async save2Memory( // appClass - clientside
 ){ // save change to memory and update changeLog
 
   // build path to selected object
-  const childNodes = document.getElementById("root").childNodes;  // should be <td> of <tr>
+  const childNodes = document.getElementById("menu").childNodes;  // should be <td> of <tr>
   let path="",value;
   for (var i = 0; i < childNodes.length; i++) {
      value = childNodes[i].lastChild.value; // should be <selected>
@@ -93,7 +103,7 @@ async save2Memory( // appClass - clientside
 
 async save2Server(// appClass - clientside
 ){
-  const obj = ((document.getElementById('format').checked) ? this.format.obj2string(this.json) : JSON.stringify(this.json)
+  const obj = (document.getElementById('format').checked) ? this.format.obj2string(this.json) : JSON.stringify(this.json)
   // save updated object back to server
   const msg = {
   "server":"web"
@@ -118,7 +128,6 @@ dataChanged(element){
   alert(element.value);
 }
 
-
 displayDetail(  // appClass - clientside
   element  // DOM element clicked on
 ) {
@@ -127,13 +136,13 @@ displayDetail(  // appClass - clientside
   let obj = this.json;   // will be displayed in value
 
   // delete menu past selection, narrow obj to one clicked on
-  let childNodes = document.getElementById("root").childNodes;  // should be <td> of <tr>
+  let childNodes = document.getElementById("menu").childNodes;  // will be <div>
   for (var i = 0; i < childNodes.length; i++) {
-     let e = childNodes[i].lastChild // should be <slected>
+     let e = childNodes[i].lastChild // should be <selected>
      obj = obj[e.value];
      if (e === element) {
        // done - delete any remaining children
-       this.menuDeleteTo(i);
+       this.menu.deleteTo(i+1);
      }
   }
 
@@ -171,9 +180,7 @@ displayDetail(  // appClass - clientside
     document.getElementById("value").value         = JSON.stringify(        obj);
     document.getElementById("valueFormated").value = this.format.obj2string(obj);
     // add menu to select atributes
-    const newMenue = document.createElement("td")
-    newMenue.innerHTML = html + "</select>";
-    document.getElementById('root').appendChild(newMenue);
+    this.menu.add(`${html}</select>`);
   } else {
     document.getElementById("value").value         = obj;
     document.getElementById("valueFormated").value = obj;
@@ -234,15 +241,8 @@ next(  // appClass - clientside
 }
 
 
-menuDeleteTo(   // appClass - clientside
-  index // delete all memnues past index
-) {
-  const e = document.getElementById('root');
-
-  while ( index < e.childElementCount -1 ) {
-    e.removeChild(e.lastElementChild);
-  }
-}
-
 
 } // appClass - clientside  end
+
+
+export { appClass };
