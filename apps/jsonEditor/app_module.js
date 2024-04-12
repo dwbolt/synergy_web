@@ -39,6 +39,30 @@ main() {  // appClass - clientside
   }
 }
 
+attribute_add() { // appClass - clientside
+  const name = document.getElementById("attribute_name").value;
+  const type = document.getElementById("attribute_type").value;
+
+  this.statement("app.json",`.${name}=${type}`); // redisplay, selected attibute should be added
+}
+
+
+attribute_delete(){ // appClass - clientside
+  // delete selecct attribute
+  this.statement("delete app.json","");
+}
+
+
+statement(stm_start,stm_end){ // appClass - clientside
+  // delete selecct attribute
+  let statment = stm_start;
+  for(var i=0; i<this.path.length; i++) {
+    statment +=  `.${this.path[i]}`;
+  }
+  eval(statment+stm_end);      // do not like using eval, need to find another way
+  this.displayDetail(); // redisplay, selected attibute should be deleted
+}
+
 
 loginTrue(){  // appClass - clientside
   // show the load div
@@ -134,12 +158,14 @@ displayDetail(  // appClass - clientside
 
   // save clicked attribute
   let obj = this.json;   // will be displayed in value
+  this.path = [];  // remeber path to selected
 
   // delete menu past selection, narrow obj to one clicked on
   let childNodes = document.getElementById("menu").childNodes;  // will be <div>
   for (var i = 0; i < childNodes.length; i++) {
      let e = childNodes[i].lastChild // should be <selected>
      obj = obj[e.value];
+     this.path.push(e.value);
      if (e === element) {
        // done - delete any remaining children
        this.menu.deleteTo(i+1);

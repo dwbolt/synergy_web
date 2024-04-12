@@ -31,6 +31,20 @@
        <h2>Navigate JSON object</h2>
 
        <div id="menu" style="display:flex; flex-wrap: wrap;"></div>
+       <div>
+       <input type="button" value="delete" onclick="app.attribute_delete()">
+       name <input id="attribute_name" type="text" size="15"> 
+       <select     id="attribute_type">
+              <option value="``">string</option>
+              <option value="0">number</option>
+              <option value="true">boolean</option>
+              <option value="[]">array</option>
+              <option value="{}">object</option>
+              <option>?</option>
+              <option>?</option>
+       </select>
+       <input type="button" value="add attribute" onclick="app.attribute_add()">
+       </div>
 
        <h2>Compact, all newlines removed</h2>
        <textarea id="value"         rows="5" cols="200"></textarea>
