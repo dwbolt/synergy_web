@@ -10,6 +10,11 @@ class appClass {  // appClass - clientside
 
 JSON editor
 
+load json from server
+create change log as attribes are added, deleted, modified
+supprt append change log to server
+support merge change log to create new json file
+
 */
 
 constructor() {  // appClass - clientside
@@ -164,12 +169,16 @@ displayDetail(  // appClass - clientside
   let childNodes = document.getElementById("menu").childNodes;  // will be <div>
   for (var i = 0; i < childNodes.length; i++) {
      let e = childNodes[i].lastChild // should be <selected>
-     obj = obj[e.value];
-     this.path.push(e.value);
-     if (e === element) {
+     obj = obj[e.value];             // sub object the user clicked on
+     if (obj !== undefined) { this.path.push(e.value);}
+     if (e === element  ) {
        // done - delete any remaining children
        this.menu.deleteTo(i+1);
      }
+     if (obj === undefined ) {
+      this.menu.deleteTo(i); // delete current menu and any remaining children - we deleted an attribute on current menu
+      this.displayDetail(e);  // redraw current menu
+    }
   }
 
   let html = `
