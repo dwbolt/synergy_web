@@ -1,0 +1,14 @@
+
+/* for dates in the past on the calendar*/
+.box {
+	margin: 10px 10px 10px 10px;
+	padding: 10px 10px 10px 10px;
+	display: inline;
+	border: solid;
+	background-color: yellow;
+	position: fixed;
+/*	width: auto; */
+
+}
+
+/*p {background-color: red;}*/

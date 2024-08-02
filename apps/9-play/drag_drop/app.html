@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>constraints</title>
+<link rel="stylesheet" type="text/css" href="_.css"  />
+</head>
+
+<body>
+	<a href="https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_draganddrop">example</a>
+<div id="box_1" class="box" ondrop="drop(event)" ondragover="allowDrop(event)" 
+width="200"; height="200">drop</div>
+
+<div id="box_2" class="box" ondrop="drop(event)" ondragover="allowDrop(event)" 
+width="200"; height="200">drop</div>
+
+
+
+<div id="drag1"  draggable="true" ondragstart="drag(event)" width="336" height="69">drag box</div>
+</body>
+</html>
+
+
+<script>
+	function allowDrop(ev) {
+	  ev.preventDefault();
+	}
+	
+	function drag(ev) {
+	  ev.dataTransfer.setData("text", ev.target.id);
+	}
+	
+	function drop(ev) {
+	  ev.preventDefault();
+	  var data = ev.dataTransfer.getData("text");
+	  ev.target.appendChild(document.getElementById(data));
+	}
+	</script>
