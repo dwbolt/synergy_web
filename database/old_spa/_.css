@@ -1,0 +1,25 @@
+.table { /* back ground color for table1 */
+  border: 1px;
+  margin: 10px 10px 10px 10px;
+  padding:  10px 10px 10px 10px;
+	background-color: cyan;
+  display: none
+}
+
+
+
+.changed { /* back ground color for changed values */
+	background-color: yellow;
+}
+
+.border {
+  margin: 10px 10px 10px 10px;
+  border-style: solid;
+  border-radius: 10px;
+  padding: 10px 10px 10px 10px;
+}
+
+.record {
+  display: grid; 
+  grid-template-columns: 20px 100px 300px;
+}
