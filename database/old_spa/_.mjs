@@ -12,7 +12,7 @@ import {sfc_db_tables_class}        from '/_lib/db/sfc-db-tables/_.mjs'         
 import {sfc_record_relations_class} from '/_lib/db/sfc-record-relations/_.mjs'       ;  // <sfc-record-relations>
 import {sfc_table_class    }        from '/_lib/db/sfc-table/_.mjs'                  ;  // <sfc-table>
 import {sfc_record_class   }        from '/_lib/db/sfc-record/_.mjs'                 ;  // <sfc-record>
-import {select_order_class }        from '/_lib/web_componets/select-order-sfc/_.mjs';  // <select-order-sfc>
+import {sfc_select_order }        from '/_lib/web_componets/sfc-select-order/_.mjs';  // <sfc-select-order>
 
 class dbUXClass { // client side dbUXClass - SPA (Single Page App)
   /*
@@ -45,7 +45,7 @@ constructor( // client side dbUXClass - for a spa
   this.relation_record       = document.getElementById("relation_record");
 
   this.stack_record         = document.getElementById("stack_record");        // <sfc-record>
-  this.stack_list           = document.getElementById("stack_list");                //  <select-order-sfc>
+  this.stack_list           = document.getElementById("stack_list");                //  <sfc-select-order>
   this.stack_list.multi_set(false);                                             // hide selected, work with array directly
   this.stack_list.choices_click_custom = this.choices_click_custom.bind(this);  // set custom_click
 }
