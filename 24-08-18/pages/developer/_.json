@@ -1,13 +1,13 @@
 {
-"header": "Development"
+"header": "<h1>Development</h1>"
 
 ,"buttons":[
    {"list":["sites", "digital_ocean"]}
 ]
 
 ,"load": {
-   "sites"        : [["/synergyData/developer/sites.html"]]
-  ,"digital_ocean": [["/synergyData/developer/digital_ocean.html"]]
+   "sites"        : "./pages/developer/sites.html"
+  ,"digital_ocean": "./pages/developer/digital_ocean.html"
 }
 
 }

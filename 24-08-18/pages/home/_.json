@@ -1,0 +1,13 @@
+{
+"header": "<h1>Synergy Project</h1>"
+
+,"buttons": [
+  {"list": ["overview","synergy"]}
+]
+
+,"load": {
+  "overview": "./pages/home/overview.html"
+  ,"synergy": "./pages/home/synergy.html" 
+}
+
+}
