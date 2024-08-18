@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" href="_.css" />
+</head>
+<html lang="en">
+	<body>
+		<div style="display:grid; grid-template-columns: 1fr auto;">
+			<sfc-html id="nav"></sfc-html>
+			<div id="page">
+				<div id="header"></div>
+				<div id="buttons"></div>
+				<div id="main"></div>
+			</div>
+		</div>
+		<sfc-dialog id="dialog"></sfc-dialog>
+	</body>
+</html>
+
+<script>
+let app; // only globle variable
+</script>
+
+<script type="module">
+import  {appClass}   from 'https://synergy_local.sfcknox.org/_lib/UX/app_24-08.mjs';
+import  {sfc_img }   from 'https://synergy_local.sfcknox.org/_lib/web_componets/sfc-img/_.mjs';  // preload sfc-img web component
+import  {sfc_html}   from 'https://synergy_local.sfcknox.org/_lib/web_componets/sfc-html/_.mjs' // preload sfc-html web component
+import  {sfc_urls}   from 'https://synergy_local.sfcknox.org/_lib/web_componets/sfc-urls/_.mjs' // preload sfc-urls web component
+
+app = new appClass();
+await app.main();
+
+</script>
