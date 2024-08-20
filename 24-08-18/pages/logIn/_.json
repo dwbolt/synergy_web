@@ -1,0 +1,15 @@
+{
+"header": "<h1>Login<h1>"
+
+,"buttons":[
+   {"value":"Login"                   ,"list":["login"]}
+  ,{"value":"Create Login"            ,"list":["userAdd"]}
+]
+
+,"html": {
+
+  "login"   : "<sfc-login></sfc-login>"
+  ,"userAdd": "<sfc-login>user_add</sfc-login>"
+}
+
+}
