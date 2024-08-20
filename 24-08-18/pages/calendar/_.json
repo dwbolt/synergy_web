@@ -1,20 +1,11 @@
 {
-"headTitle":"Synergy"
-,"heading1": "Calendar"
-,"updated": "2024-01-07"
+"header": "<h1>Calendar</h1>"
 
-,"lists": {"rows": ["weeks"]}
+,"buttons": [ {"list": ["weeks"]} ]
 
-,"node": {
+,"html": {
 
-"weeks":{
-  "text":[
-     ["","","<sfc-calendar id='calendar' class='content'></sfc-calendar>"]
-    ,["script","","/synergyData/calendar/page_module.mjs"]
-  ]
-
-  ,"u_urls": [
-  ]
+"weeks": "<sfc-calendar id='calendar' class='content'></sfc-calendar>"
 }
 
-}}
+}
