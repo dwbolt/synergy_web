@@ -1,0 +1,18 @@
+{
+
+"rowColors": [
+   "#ffc8b3"
+	,"#abcdd6"
+	,"#acd3c2"
+	,"#d1a7c0"
+]
+
+,"button_colors" : [
+	 "--logo_orange"
+	,"--logo_yellow"
+	,"--logo_sky"
+	,"--logo_green"
+	,"--logo_water"
+]
+  
+}
