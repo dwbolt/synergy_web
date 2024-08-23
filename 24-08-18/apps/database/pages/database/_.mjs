@@ -3,7 +3,7 @@ import {csvClass    } from '/_lib/db/csv_module.js'    ;
 import {dbClass     } from '/_lib/db/db_module.js'     ;
 
 import {menuClass   } from '/_lib/UX/menu_module.js'    ;
-import {proxyClass  } from '/_lib/proxy/proxy_module.js';
+import {proxyClass  } from '/_lib/proxy/_.mjs';
 
 // web components that are used in this module
 import {sfc_db_tables_class}        from '/_lib/db/sfc-db-tables/_.mjs'            ; // <sfc-db-tables>

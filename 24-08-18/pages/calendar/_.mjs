@@ -2,7 +2,7 @@
 import  {page_         }    from '/_lib/UX/page_.mjs'
 import  {calendar_class}    from '/_lib/web_componets/sfc-calendar/_.mjs';  // support <sfc-calendar> web componet
 
-class page_calendar  extends page_ { // sfcknox2/pages/clandar
+export class page_calendar  extends page_ { // sfcknox2/pages/clandar
 
 async display(){
       super.display();              //
@@ -14,8 +14,6 @@ async display(){
 
 
 }
-
-export {page_calendar};
 
 const page         = new page_calendar("calendar");
 app.pages.calendar =  page;
