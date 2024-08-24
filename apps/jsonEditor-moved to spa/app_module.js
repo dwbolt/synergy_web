@@ -1,6 +1,6 @@
 /* jsonEditor cocer */
 
-import  {formatClass} from '/_lib/format/format_module.js';
+import  {formatClass} from '/_lib/format/_.mjs';
 import  {proxyClass}  from '/_lib/proxy/_.mjs';
 import  {loginClass}  from '/_lib/UX/login_module.js';
 import  {menuClass}   from '/_lib/UX/menu_module.js';
