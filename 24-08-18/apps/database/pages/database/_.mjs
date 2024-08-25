@@ -14,10 +14,9 @@ import {sfc_select_order }          from '/_lib/web_componets/sfc-select-order/_
 
 class app_db extends page_ {
 
-async init(){  // client side app_db
-    await super.init();
+async init(name, url){  // client side app_db
+    await super.init(name, url);
 
-    //this.login        = app.sfc_login
     this.proxy        = new proxyClass();
     this.recordUXs            = document.getElementById("recordUXs");           //  one <sfc-record> for each table
 
@@ -630,8 +629,10 @@ choices_click_custom(event){  // client side app_db
 } // end client side app_db
 
 const name = "database";
-const page           = new app_db(name);  // give app access to page methods
-app.pages[name]  = page;
-await page.init();
-//await page.main(app.urlParams.get('url'));
+const page                       = new app_db(name);  // give app access to page methods
+app.pages[app.page_json.url_dir] = page;
+
+await page.init(app.page_json);      
 await page.main("/users/databases");
+
+                // app.page_json was defined app_24-08.mjs

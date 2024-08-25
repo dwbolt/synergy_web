@@ -17,5 +17,6 @@
   ,"relations": "<h3>Relations of Selected Record</h3> <sfc-record-relations id='sfc-record-relations'></sfc-record-relations>"
 }
 
+,"module": true
 
 }
