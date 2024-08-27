@@ -12,7 +12,7 @@
     --logo_yellow_border: rgb(191, 102, 46);
     --logo_yellow_fill:   rgb(245, 196, 97);
   
-    --logo_sky_border: rgb(57, 111, 147);
+    --logo_sky_border: rgb(57, 111, 147);  
     --logo_sky_fill:   rgb(111, 208, 246);
   
     --logo_green_border: rgb(173, 205, 187);
@@ -124,10 +124,3 @@ h1 { /* Sets the base header style */
 	font-size: 50px;
 	text-align: center;
 }
-
-/*
-a {
-  cursor: pointer;
-  
-}
-  */
