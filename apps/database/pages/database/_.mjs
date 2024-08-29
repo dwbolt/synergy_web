@@ -103,7 +103,7 @@ choices_click_custom(event){  // client side app_db
       let msg = await app.proxy.RESTpost(JSON.stringify(this.meta), this.url_meta );
     } else {
       //this.meta   = obj.json; 
-      this.meta   = obj.json.meta; 
+      this.meta   = obj.json; 
     }
     return true;
   }

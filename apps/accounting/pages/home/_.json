@@ -6,8 +6,8 @@
 ]
 
 ,"load": {
-  "overview": "./pages/home/overview.html"
-  ,"technical": "./pages/home/technical.html" 
+  "overview"  : "overview.html"
+  ,"technical": "technical.html" 
 }
 
 }

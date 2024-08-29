@@ -24,12 +24,6 @@
 
 
 /*******************************************  style ids on template */
-#nav {  /* navigation container on left of screen*/
-	background-color: cyan;
-	margin:  10px 10px 10px 10px;
-	padding:  10px 10px 10px 10px;
-	max-width: 150px;
-}
 
 /* inside navication container */
 #menu_choices {
@@ -54,6 +48,7 @@
 
 /* inside navication container */
 #contact {
+  display: block;
 	background-color: var( --logo_yellow_fill);
 	margin:  10px 10px 10px 10px;
 	padding: 10px 10px 10px 10px;
@@ -123,4 +118,12 @@ h1 { /* Sets the base header style */
 	color: var(--emphasis-color);
 	font-size: 50px;
 	text-align: center;
+}
+
+
+nav {  /* navigation container on left of screen*/
+	background-color: cyan;
+	margin:  10px 10px 10px 10px;
+	padding:  10px 10px 10px 10px;
+	max-width: 150px;
 }

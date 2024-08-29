@@ -24,12 +24,7 @@
 
 
 /*******************************************  style ids on template */
-#nav {  /* navigation container on left of screen*/
-	background-color: cyan;
-	margin:  10px 10px 10px 10px;
-	padding:  10px 10px 10px 10px;
-	max-width: 150px;
-}
+
 
 /* inside navication container */
 #menu_choices {
@@ -63,13 +58,6 @@
   margin: 5px 5px 5px 5px;
 }
 
-/* main page content*/
-#page {
-	background-color: yellow;
-	padding:  10px 10px 10px 10px;
-  /*max-width: 1150px;*/
-  /*width: 800;*/
-}
 
 
 /************************************ style custom components */
@@ -125,9 +113,17 @@ h1 { /* Sets the base header style */
 	text-align: center;
 }
 
-/*
-a {
-  cursor: pointer;
-  
+nav {  /* navigation container on left of screen*/
+	background-color: cyan;
+	margin:  10px 10px 10px 10px;
+	padding:  10px 10px 10px 10px;
+	max-width: 150px;
 }
-  */
+
+/* main page content*/
+main {
+	background-color: yellow;
+	padding:  10px 10px 10px 10px;
+  /*max-width: 1150px;*/
+  /*width: 800;*/
+}

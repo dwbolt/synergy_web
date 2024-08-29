@@ -3,21 +3,23 @@
 	<title>SFC synergy</title>
 	<link rel="stylesheet" href="_.css" />
 </head>
+
 <html lang="en"><body>
 
-<div style="display:grid; grid-template-columns: 1fr auto;">
-	<sfc-html id="nav" href="nav.html"></sfc-html>
+	<div style="display:grid; grid-template-columns: 1fr auto;">
+		
+		<nav><sfc-html href="nav.html"></sfc-html></nav>
 
-	<div id="page">
-		<div id="header"></div>
-		<div id="buttons"></div>
-		<div id="main"></div>
+		<main id="page">
+			<div id="header"></div>
+			<div id="buttons"></div>
+			<div id="main"></div>
+		</main>
+
 	</div>
 
-</div>
-
-<sfc-login> </sfc-login>
-<sfc-dialog></sfc-dialog>
+	<sfc-login> </sfc-login>
+	<sfc-dialog></sfc-dialog>
 
 
 </body></html>
