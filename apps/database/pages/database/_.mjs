@@ -388,6 +388,15 @@ async table_process(  // client side app_db - for a spa
     // see if 
     switch(dom.value) {
       
+    case "rename":
+      detail = `
+      <p><b>Rename Table</b><br>
+      New Name <input type='text' ><br>
+      <button>Rename</button>
+      </p>
+      <textarea id='msg'>Not impemented yet</textarea>`;
+      break;
+
     case "import":
       detail = `
       <p><b>import csv file</b><br>
@@ -503,10 +512,12 @@ table_select(   // client side app_db
     DOM       // DOM.value is table user clicked on
   ) { 
     const table_name = DOM.value;
-    
-    if (this.table_active.name === "") {
+    const table_ops = document.getElementById("table_operations");
+
+    if (table_ops.children.length < 3) {
       // first table is selected, so add more options
-      document.getElementById("table_operations").innerHTML += `
+      table_ops.innerHTML += `
+      <option value="rename" >Rename</option>
       <option value="merge"  >Merge</option>
       <option value="delete" >Delete</option>
       <option value="meta"   >Meta</option>
