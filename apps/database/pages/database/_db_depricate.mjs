@@ -155,7 +155,7 @@ menu_db_list() {  // dbClass - client-side
   <input type="button" value="Database Menu" onclick="app.spa.id_show('database_dialog')"> 
   <p id="database_dialog" style="display:none">
   <b>Database Operation</b><br>
-  <select size="4" onclick="app.spa.database_dialog_process(this)">
+  <select size="10" onclick="app.spa.database_dialog_process(this)">
   <option value="new">New</option>
   <option value="delete">Delete</option>
   <option value="cancel">Cancel</option>
