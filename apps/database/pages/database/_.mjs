@@ -71,8 +71,9 @@ async main( // client side app_db - for a spa
     return; 
   }
   
-  // create menu and tableUX's
-    this.menu_db_list();
+  
+  this.menu_db_list();  // create menu
+  this.id_show("show_hide");
 }
   
   
@@ -146,7 +147,8 @@ async database_select( // client side app_db
   database_name  //  user clicked on
 ) {
   this.db_name = database_name;
-
+  this.table_active = {name:""};             // no active table yet
+  
   if (!await app.sfc_login.login_force( this.database_select.bind(this,database_name) )) {
     // user not logged in
     return;
@@ -269,14 +271,36 @@ id_hide(id){  // client side app_db - for a spa
 }
   
 
-toggle( // client side app_db - for a spa
-  section_name  // used to show/hide major section.  If hiden the section shows in the top level menu so the user can later show it.  
+id_toggle( // client side app_db - for a spa
+   section_name  // used to show/hide major section.  If hiden the section shows in the top level menu so the user can later show it. 
+  ,element       // dom element that was checked 
 ) {
   const section = document.getElementById(section_name);
 
   if (section) {
     // toggle visibiltuy of section
     section.style.display = section.style.display === "none" ? "block" : "none";
+    this.checkbox_update(section,element);
+  } else {
+    // error
+    alert(`file="spa/database/_.js"
+method="toggle" 
+section_name="${section_name}"`);
+  }
+
+
+}
+
+id_show( // client side app_db - for a spa
+   section_name  // used to show/hide major section.  If hiden the section shows in the top level menu so the user can later show it. 
+  ,element  
+) {
+  const section = document.getElementById(section_name);
+
+  if (section) {
+    // toggle visibiltuy of section
+    section.style.display =  "block";
+    this.checkbox_update(section,element);
   } else {
     // error
     alert(`file="spa/database/_.js"
@@ -284,21 +308,32 @@ method="toggle"
 section_name="${section_name}"`);
   }
 }
-  
-  
-show(  // client side app_db - for a spa
-  section_name  // force the section to show, remove from menu
+
+id_hide( // client side app_db - for a spa
+  section_name  // used to show/hide major section.  If hiden the section shows in the top level menu so the user can later show it.  
+  ,element  
 ) {
-  const section = document.getElementById(section_name);
+  const section = document.getElementById(section,section_name);
+
   if (section) {
-    // show section
-    section.style.display = "block";
+    // toggle visibiltuy of section
+    section.style.display =  "none";
+    this.checkbox_update(element,element);
   } else {
     // error
-    alert(`file="spa/database/_.js
-method="show"
+    alert(`file="spa/database/_.js"
+method="toggle" 
 section_name="${section_name}"`);
   }
+}
+
+
+checkbox_update(  // client side app_db - for a spa
+   section
+  ,element=null
+){
+  if(element===null) return  // nothing todo
+  //element.checked = ( section.style.display === "none" ? false :  true )
 }
   
   
@@ -523,13 +558,17 @@ table_select(   // client side app_db
       <option value="meta"   >Meta</option>
       `
     }
+    if ( 0 < this.table_active.name.length ) {
+      // hide the record assocaited with the old active table 
+      document.getElementById(this.table_active.name).style.display = "none";
+    }
     this.table_active.name = table_name;  // remember active table - (safari does not suport style="display:none;" on optons tag, )
     this.sfc_db_tables.show(table_name);                              // hide all tables but table_name
     this.record_selected = document.getElementById(table_name)
-    this.record_selected.style.display = "block";      // show record
+    this.record_selected.style.display = "block";      // show record assciated with table being displayed
     
-    this.show("tables"   );  // show the tables section
-    this.show("records"  );  // show record section
+    //this.id_show("tables"   );  // show the tables section
+    //this.id_show("records"  );  // show record section
 }
   
   
