@@ -8,7 +8,7 @@
 ,"html": {
   "db": "<h3>Select Database/Table</h3> <h4 id='db_url'></h4> <div id='menu_page' style='display:flex; flex-wrap: wrap; justify-content:flex-start'></div>"
 
-  ,"sss":"<h3>Search, Sort and Sum</h3><div class='table1' style='display:inline-block; width:300px'><div id='table1UXDOM__group_by_fields'></div><div id='table1UXDOM__intersection'></div></div> <div  class='table2' style='display:inline-block; width:300px'><div id='table2UXDOM__group_by_fields'></div><div id='table2UXDOM__intersections'></div></div>"
+  ,"sss":"<sfc-sssg></sfc-sssg>"
 
   ,"tables":"<h3>Selected Table</h3> <sfc-db-tables id='sfc-db-tables'><sfc-db-tables>"
 
