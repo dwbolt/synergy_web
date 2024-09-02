@@ -14,22 +14,22 @@ import {sfc_sssg                  } from '/_lib/db/sfc-sssg/_.mjs'              
 import {sfc_select_order          } from '/_lib/web_componets/sfc-select-order/_.mjs'; // <sfc-select-order>
 
 
-class app_db extends page_ {
+class app_db extends page_ {  // only refereced in this file, no need to export
 
 async init(name, url){  // client side app_db
   await super.init(name, url);
 
-  this.proxy        = new proxyClass();
-  this.recordUXs            = document.getElementById("recordUXs");           //  one <sfc-record> for each table
+  this.proxy                = new proxyClass();
+  this.sfc_records          = document.getElementById("sfc_records")         ; //  one <sfc-record> for each table
 
-  this.sfc_db_tables        = document.getElementById("sfc-db-tables");       // <sfc-db-tables>
-  this.sfc_record_relations = document.getElementById("sfc-record-relations");// <sfc-record-relation>
+  this.sfc_db_tables        = document.getElementById("sfc-db-tables")       ; // <sfc-db-tables>
+  this.sfc_record_relations = document.getElementById("sfc-record-relations"); // <sfc-record-relation>
 
   this.relation_record       = document.getElementById("relation_record");
 
-  this.stack_record         = document.getElementById("stack_record");        // <sfc-record>
-  this.stack_list           = document.getElementById("stack_list");                //  <sfc-select-order>
-  this.stack_list.multi_set(false);                                             // hide selected, work with array directly
+  this.stack_record         = document.getElementById("stack_record")        ; // <sfc-record>
+  this.stack_list           = document.getElementById("stack_list")          ; //  <sfc-select-order>
+  this.stack_list.multi_set(false)                                           ; // hide selected, work with array directly
   this.stack_list.choices_click_custom = this.choices_click_custom.bind(this);  // set custom_click
 }
 
@@ -195,18 +195,19 @@ db_tables_display(// dbClass - client-side
 ) {
   // build table menu list and create web componet viewers
   const action       = "app.page.table_select(this,'table1UX')";
-  let html_menu      = `<select id="database_tables" size="9" onclick="${action}" oninput="${action}">`;
-  let html_recordUX  = "";
+  //let html_menu      = `<select id="database_tables" size="9" onclick="${action}" oninput="${action}">`;
+  let html_menu      = `<select id="database_tables" size="9" onclick="${action}">`;
+  let html_sfc_records  = "";
   Object.keys(this.db.tables).forEach((table, i) => {
-    html_menu          += `<option value="${table}">${table}</option>`  ;
-    html_recordUX      += `<sfc-record id="${table}" style="display: none;"></sfc-record>`    ; 
+    html_menu          += `<option  value="${table}">${table}</option>`  ;
+    html_sfc_records      += `<sfc-record id="${table}" style="display: none;"></sfc-record>`; 
   });
   html_menu += `</select>`;
-  document.getElementById("menu_page_tables").innerHTML = html_menu;      // add table menu to dom
-  this.recordUXs.innerHTML = html_recordUX;  // add place to display a record for each table in 
+  document.getElementById("menu_page_tables").innerHTML = html_menu; // add table menu to dom
+  this.sfc_records.innerHTML = html_sfc_records                    ; // add place to display a record for each table in 
 
-  // add function to edit relation for all <sfc-records> in this.recordUXs.children
-  const children = this.recordUXs.children;
+  // add function to edit relation for all <sfc-record> in this.sfc_records.children
+  const children = this.sfc_records.children;
   for(let i=0; i<children.length; i++) {
     children[i].show_custom = this.relation_edit.bind(this);
   };
@@ -546,11 +547,12 @@ async table_delete(){
   
 table_select(   // client side app_db
   // user clicked on a table - so display it
-    DOM       // DOM.value is table user clicked on
+    DOM       
   ) { 
-    const table_name = DOM.value;
-    const table_ops = document.getElementById("table_operations");
+    const table_name = DOM.value                                  ; // remember table_name user clicked on
 
+    // add more table operations if not already done
+    const table_ops  = document.getElementById("table_operations");
     if (table_ops.children.length < 3) {
       // first table is selected, so add more options
       table_ops.innerHTML += `
@@ -560,17 +562,19 @@ table_select(   // client side app_db
       <option value="meta"   >Meta</option>
       `
     }
+
+    // hide old active table
     if ( 0 < this.table_active.name.length ) {
-      // hide the record assocaited with the old active table 
       document.getElementById(this.table_active.name).style.display = "none";
     }
-    this.table_active.name = table_name;  // remember active table - (safari does not suport style="display:none;" on optons tag, )
-    this.sfc_db_tables.show(table_name);                              // hide all tables but table_name
-    this.record_selected = document.getElementById(table_name)
-    this.record_selected.style.display = "block";      // show record assciated with table being displayed
+
+    // show new active table and record
+    this.table_active.name = table_name                         ;  // remember active table - (safari does not suport style="display:none;" on optons tag, )
+    this.sfc_db_tables.show(table_name)                         ;  // hide all tables but table_name
+    this.record_selected   = document.getElementById(table_name);
+    this.record_selected.style.display = "block"                ; // show record assciated with table being displayed
+
     
-    //this.id_show("tables"   );  // show the tables section
-    //this.id_show("records"  );  // show record section
 }
   
   
