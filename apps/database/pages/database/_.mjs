@@ -10,7 +10,6 @@ import {sfc_db_tables_class       } from '/_lib/db/sfc-db-tables/_.mjs'         
 import {sfc_record_relations_class} from '/_lib/db/sfc-record-relations/_.mjs'       ; // <sfc-record-relations>
 import {sfc_table_class           } from '/_lib/db/sfc-table/_.mjs'                  ; // <sfc-table>
 import {sfc_record_class          } from '/_lib/db/sfc-record/_.mjs'                 ; // <sfc-record>
-import {sfc_sssg                  } from '/_lib/db/sfc-sssg/_.mjs'                   ; // <sfc-ssssg>
 import {sfc_select_order          } from '/_lib/web_componets/sfc-select-order/_.mjs'; // <sfc-select-order>
 
 
