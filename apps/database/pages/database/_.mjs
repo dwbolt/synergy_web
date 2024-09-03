@@ -1,9 +1,9 @@
-import {page_       } from '/_lib/UX/page_.mjs'
+import {page_       } from '/_lib/UX/page_.mjs'        ;
 import {csvClass    } from '/_lib/db/csv_module.js'    ;
 import {dbClass     } from '/_lib/db/db_module.js'     ;
 
-import {menuClass   } from '/_lib/UX/menu_module.js'    ;
-import {proxyClass  } from '/_lib/proxy/_.mjs';
+import {menuClass   } from '/_lib/UX/menu_module.js'   ;
+import {proxy       } from '/_lib/proxy/_.mjs'         ;
 
 // web components that are used in this module
 import {sfc_db_tables_class       } from '/_lib/db/sfc-db-tables/_.mjs'              ; // <sfc-db-tables>
@@ -17,8 +17,6 @@ class app_db extends page_ {  // only refereced in this file, no need to export
 
 async init(name, url){  // client side app_db
   await super.init(name, url);
-
-  this.proxy                = new proxyClass();
   this.sfc_records          = document.getElementById("sfc_records")         ; //  one <sfc-record> for each table
 
   this.sfc_db_tables        = document.getElementById("sfc-db-tables")       ; // <sfc-db-tables>
@@ -83,7 +81,7 @@ async load_db_list(  // dbClass - client-side
   ) {
 
   // load list of tables in database
-  const obj = await app.proxy.getJSONwithError(this.url_meta);   // get list of tables;
+  const obj = await proxy.getJSONwithError(this.url_meta);   // get list of tables;
   if(obj.status === 404) {
     alert(`file="/appps/database/pages/home/_.mjs" 
 method="load_db_list"
@@ -99,7 +97,7 @@ creating from template`
         }
     }
     // now save it
-    let msg = await app.proxy.RESTpost(JSON.stringify(this.meta), this.url_meta );
+    let msg = await proxy.RESTpost(JSON.stringify(this.meta), this.url_meta );
   } else {
     //this.meta   = obj.json; 
     this.meta   = obj.json; 
@@ -160,11 +158,11 @@ async database_select( // client side app_db
     const dir_db = this.meta.databases[database_name].location;
     await this.db.load(dir_db); // load database and tables into memory
   } catch (error) {
-    alert(`
-file="spa/database/_.js"
-method="database_select"
-error="${error}"`);
+    await app.sfc_dialog.show_error(`${error}`);
   }
+
+
+
   
   // display table menu
   this.menu.deleteTo(1);   // remove menues to the right of database memnu
@@ -367,7 +365,7 @@ async database_delete(){ // client side app_db - for a spa
 
   // delet from list of databases
   delete this.meta.databases[this.db_name];
-  const msg = await app.proxy.RESTpost(JSON.stringify(this.meta),`${this.url_dir}/_meta.json`); // save meta data
+  const msg = await proxy.RESTpost(JSON.stringify(this.meta),`${this.url_dir}/_meta.json`); // save meta data
   this.menu_db_list();    //
 }
   
@@ -399,7 +397,7 @@ async database_new(){ // client side app_db - for a spa
   const url_meta = `${this.url_dir}/_meta.json`      
   this.meta.databases[name] = {"location": url_db};   
                   
-  const msg = await app.proxy.RESTpost(JSON.stringify(this.meta),url_meta); // save meta data
+  const msg = await proxy.RESTpost(JSON.stringify(this.meta),url_meta); // save meta data
   if (!msg.success) {
     alert(`file="/synergydata/spa/database_.js
 method="database_new"
@@ -475,7 +473,7 @@ async table_process(  // client side app_db - for a spa
     case "meta":
       document.getElementById('dialog_detail').innerHTML = `<p>edit meta
       <input type='button' value="Save" onclick='app.page.meta_save()'></p><textarea id="meta" rows="20" cols="90"></textarea>`;
-      let msg = await app.proxy.RESTget( this.db.getTable(this.table_active.name).dir + "/_meta.json");  // get as text file so we can edit it
+      let msg = await proxy.RESTget( this.db.getTable(this.table_active.name).dir + "/_meta.json");  // get as text file so we can edit it
       if (msg.ok) {
         document.getElementById('meta').innerHTML = msg.value;
       }
@@ -505,7 +503,7 @@ not fully implemented, resolve pk_max issue before turninng on"`)
   
 async meta_save() {  // client side app_db - for a s
   const text = document.getElementById("meta").value;
-  const msg = await app.proxy.RESTpost(text, this.db.getTable(this.table_active.name).dir + "/_meta.json");
+  const msg = await proxy.RESTpost(text, this.db.getTable(this.table_active.name).dir + "/_meta.json");
   if (msg.success) {
     document.getElementById('meta').innerHTML = "save compete"
   } else {
@@ -572,8 +570,6 @@ table_select(   // client side app_db
     this.sfc_db_tables.show(table_name)                         ;  // hide all tables but table_name
     this.record_selected   = document.getElementById(table_name);
     this.record_selected.style.display = "block"                ; // show record assciated with table being displayed
-
-    
 }
   
   

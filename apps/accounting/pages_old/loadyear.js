@@ -27,7 +27,7 @@ constructor() {
 // code depends on None being the first option
 async main() {
   // get users accounting configuration
-  this.userConfig = await app.proxy.getJSON("/users/accounting/_.json");
+  this.userConfig = await proxy.getJSON("/users/accounting/_.json");
 
   // create drop down option to select set of books to work on
   let options="";

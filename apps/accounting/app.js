@@ -1,7 +1,6 @@
 class appClass {
 
 constructor() {   // appClass - accounting - client side
-  this.proxy    = new proxyClass(); // async load server files, json and html fragments
   this.db       = new dbClass();    // contains journal, chart of accounts, and ending statement balance for accounts that need reconsiliation
   this.format   = new formatClass();
   this.login    = new loginClass();
@@ -95,7 +94,7 @@ async loadPage( // appClass - accounting - client side
   this.menuDeleteTo(1);
 
   // fist load html
-  document.getElementById("html").innerHTML = await app.proxy.getText(`1-pages/${url}.html`);
+  document.getElementById("html").innerHTML = await proxy.getText(`1-pages/${url}.html`);
 
   // execute main code for loaded page
   if ( app.pages[url] != undefined) {

@@ -69,7 +69,7 @@ async saveYear() {
   ,"data": "${app.format.escStringForJson(s_file)}"
   }`
 
-  const resp = await app.proxy.postJSON(msg);
+  const resp = await proxy.postJSON(msg);
   alert(resp.message)
 }
 
