@@ -2,7 +2,6 @@ class appClass {
 
 constructor() {   // appClass - accounting - client side
   this.db       = new dbClass();    // contains journal, chart of accounts, and ending statement balance for accounts that need reconsiliation
-  this.format   = new formatClass();
   this.login    = new loginClass();
   
   this.tableUx  = {}
