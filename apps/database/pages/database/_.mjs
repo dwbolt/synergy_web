@@ -159,10 +159,8 @@ async database_select( // client side app_db
     await this.db.load(dir_db); // load database and tables into memory
   } catch (error) {
     await app.sfc_dialog.show_error(`${error}`);
+    return;
   }
-
-
-
   
   // display table menu
   this.menu.deleteTo(1);   // remove menues to the right of database memnu
@@ -221,7 +219,8 @@ db_tables_display(// dbClass - client-side
     // set up <sfc-table>  inside <sfc-db-tablses>
     const table_viewer      = this.sfc_db_tables.shadow.getElementById(table_name);  // get table viewer  <sfc-table> 
     table_viewer.relations  = this.sfc_record_relations;                             // display relations with record
-    table_viewer.record_sfc = document.getElementById(table_name);                   // attach <sfc-record> to  <sfc-table> 
+    table_viewer.record_sfc = document.getElementById(table_name);                   // attach <sfc-record> to  <sfc-table>
+    table_viewer.set_model(model,table_name)
 
     // set up <sfc-record> used by above table
     const record_viewer    = table_viewer.record_sfc;                                // get record viewer  <sfc-record> 
@@ -230,6 +229,7 @@ db_tables_display(// dbClass - client-side
 
     // setup sfc-record-relations
     const viewer = this.sfc_record_relations.shadow.getElementById(table_name); //  
+    viewer.set_model(model,table_name);
     viewer.record_sfc = this.stack_record;                                // attach <sfc-record> to  <sfc-table> 
   });
 
