@@ -1,6 +1,6 @@
 // page module, exectued wwhen page finish loading
 import  {page_         }    from '/_lib/UX/page_.mjs'
-import  {calendar_class}    from '/_lib/web_componets/sfc-calendar/_.mjs';  // support <sfc-calendar> web componet
+import  {calendar_class}    from '/_lib/web_components/sfc-calendar/_.mjs';  // support <sfc-calendar> web componet
 
 export class page_calendar  extends page_ { // sfcknox2/pages/clandar
 
