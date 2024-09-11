@@ -3,17 +3,18 @@ import  {page_         }    from '/_lib/UX/page_.mjs'
 
 //import { csvClass    } from '/_lib/db/csv_module.js'       ;
 import { dbClass     } from '/_lib/db/db_module.js'      ;
-import { tableUXClass} from '/_lib/db/tableUx_module.js' ;
+//import { tableUXClass} from '/_lib/db/tableUx_module.js' ;
 
 import { menuClass   } from '/_lib/UX/menu_module.js'     ;
 
+/*
 import { reconcileClass  } from '/synergyData/accounting/1-pages/reconcile.js';
 import { statementsClass } from '/synergyData/accounting/1-pages/statements.js';
 import { dataClass       } from '/synergyData/accounting/1-pages/data.js';
 import { homeClass       } from '/synergyData/accounting/1-pages/home.js';
+*/
 
-
-export class accountingClass extends page_ { // client side dbUXClass - for a page
+export class page_accounting extends page_ { // client side dbUXClass - for a page
 
   #DOMid
 
@@ -21,6 +22,7 @@ constructor( // client side dbUXClass - for a page
 ){
   super();
   
+  /*
   this.db       = new dbClass();
   this.table    = new tableClass();
   //this.groupby  = new groupByClass();
@@ -46,11 +48,12 @@ constructor( // client side dbUXClass - for a page
   this.pages.statements = new statementsClass();
   this.pages.data       = new dataClass();
   this.pages.home       = new homeClass();
+  */
 }
 
 }
 
 
-const page                       = new page_calendar("accounting",app.page_json.url_dir);
+const page                       = new page_accounting("accounting",app.page_json.url_dir);
 app.pages[app.page_json.url_dir] =  page;
 await page.init(app.page_json);            
