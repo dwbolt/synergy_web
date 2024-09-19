@@ -9,7 +9,7 @@ async display(){
             // login was not successfull, nothing todo
             return;
       }
-      this.json.header = `<h1>${app.sfc_login.displayUser()}</h1>`
+      this.json.header = `<h1>${app.sfc_login.user_display()}</h1>`
       super.display();              //
       this.calendar = document.getElementById("calendar");
       this.calendar.calendar_add("/users/databases/synergy/calendar"); // logged on users calender
