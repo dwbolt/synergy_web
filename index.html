@@ -2,6 +2,21 @@
 <head>
 	<title>SFC synergy</title>
 	<link rel="stylesheet" href="_.css" />
+
+	<script>
+	let app; // only globle variable
+	</script>
+	
+	
+	<script type="module">
+	const {app_spa} = await import(`/_lib/app_spa.mjs`);  
+	
+	// preload web componts used in site
+	app = new app_spa();
+	await app.main();
+	
+	</script>
+
 </head>
 
 <html lang="en"><body>
@@ -18,24 +33,4 @@
 
 	</div>
 
-	<sfc-login> </sfc-login>
-	<sfc-dialog></sfc-dialog>
-
-
 </body></html>
-
-
-<script>
-let app; // only globle variable
-</script>
-
-
-<script type="module">
-
-const {appClass} = await import(`/_lib/UX/app_24-08.mjs`);  
-
-// preload web componts used in site
-app = new appClass();
-await app.main();
-
-</script>
