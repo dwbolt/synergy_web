@@ -23,7 +23,7 @@
 <script>var app; // only globle variable</script>
 
 <script type="module">
-import  {appClass}   from 'https://synergy_local.sfcknox.org/_lib/UX/app_24-08.mjs';  // change domain for production, beta, and dev
-app = new appClass();
+import  {app_spa}   from '/_lib/app_spa.mjs';
+app = new app_spa();
 await app.main();
 </script>
