@@ -1,0 +1,51 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+</head>
+
+<body>
+    <h1>QR Code Generator</h1>
+    <input type="text" id="urlInput" placeholder="Enter URL here" size="80"/><br>
+    1 - <button onclick="generateQRCode()">Generate QR Code</button> You can test the QR code with you phone<br>
+    2 - <button onclick="downloadQRCode()">Download QR Code</button> You can import the jpec into a document<br>
+    <br><br>
+    <canvas id="qrCanvas"></canvas>
+</body>
+
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<script>
+    function generateQRCode() {
+        const url    = document.getElementById('urlInput').value;
+        const canvas = document.getElementById('qrCanvas');
+
+        if (!url) {
+            alert('Please enter a valid URL.');
+            return;
+        }
+
+        QRCode.toCanvas(canvas, url, {
+            errorCorrectionLevel: 'H' // Set the error correction level to 'H' for high
+        }, function (error) {
+            if (error) {
+                console.error(error);
+                alert('Error generating QR code.');
+            } else {
+                console.log('QR code generated successfully with high error correction!');
+            }
+        });
+    }
+
+    function downloadQRCode() {
+            const canvas = document.getElementById('qrCanvas');
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/jpeg');  // Converts the canvas to JPEG format
+            link.download = 'qrcode.jpg';  // Sets the file name for download
+            link.click();  // Triggers the download
+    }
+</script>
