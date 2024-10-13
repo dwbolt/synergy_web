@@ -6,9 +6,11 @@
 ]
 
 ,"html": {
-  "url":"<input type='text' id='urlInput' placeholder='Enter URL here' size='80'/><br><br> <button onclick='generateQRCode()'>Generate QR Code</button> So you can test the QR code with you phone"
+  "url":"<input type='text' id='urlInput' placeholder='Enter URL here' size='80'/><br><br> <button onclick='app.page.generateQRCode()'>Generate QR Code</button> So you can test the QR code with you phone"
 
-  ,"canvas": "<button onclick='downloadQRCode()'>Download QR Code</button> So you can import the jpg into a document <canvas id='qrCanvas'></canvas>"
+  ,"canvas": "<button onclick='app.page.downloadQRCode()'>Download QR Code</button> So you can import the jpg into a document <canvas id='qrCanvas'></canvas>"
 }
+
+,"module" : true
 
 }

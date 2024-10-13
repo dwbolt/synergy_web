@@ -1,9 +1,13 @@
 
 //<script> {src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-import  {QRCode        }    from 'https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js'
+//import QRCode from 'https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.esm.js';
+
+
 import  {page_         }    from '/_lib/UX/page_.mjs'
+import  {QRCode        }    from  './qrcode.mjs'
 
 export class page_qrcode extends page_ {
+
 
 generateQRCode() {
     const url    = document.getElementById('urlInput').value;
@@ -27,15 +31,18 @@ generateQRCode() {
 }
 
 downloadQRCode() {
-    const canvas = document.getElementById('qrCanvas');
-    const link = document.createElement('a');
-    link.href = canvas.toDataURL('image/jpeg');  // Converts the canvas to JPEG format
+    // download qrcode to local computer
+    const canvas  = document.getElementById('qrCanvas');
+    const link    = document.createElement('a');
+    link.href     = canvas.toDataURL('image/jpeg');  // Converts the canvas to JPEG format
     link.download = 'qrcode.jpg';  // Sets the file name for download
     link.click();  // Triggers the download
 }
 
+
 }
 
-const page         = new page_qrcode("calendar", app.page_json.url_dir);
-app.pages[app.page_json.url_dir] =  page;
-await page.init(app.page_json);                      // app.page_json was defined app_24-08.mjs
+debugger
+const page                       = new page_qrcode(app.page_json.url_dir);  // give app access to page methods
+app.pages[app.page_json.url_dir] = page;
+await page.init(app.page_json);      // app.page_json was defined app_24-08.mjs
