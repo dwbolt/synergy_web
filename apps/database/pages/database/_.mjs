@@ -418,22 +418,25 @@ table_structure(dom){ // client side app_db - for a spa
 async table_process(  // client side app_db - for a spa
     dom
     ){
-    let detail;
-
+    let detail="";
+    const dialog_detail = document.getElementById('dialog_detail');
     // see if 
     switch(dom.value) {
       
     case "rename":
-      detail = `
+      dialog_detail.innerHTML = `
       <p><b>Rename Table</b><br>
       New Name <input type='text' ><br>
       <button>Rename</button>
       </p>
-      <textarea id='msg'>Not impemented yet</textarea>`;
+      <textarea id='msg'>Rename table</textarea>`;
+      debugger
+      const button =  dialog_detail.querySelector("button");
+
       break;
 
     case "import":
-      detail = `
+      dialog_detail.detail = `
       <p><b>import csv file</b><br>
       <input type='file' accept='.csv' multiple="multiple" onchange='app.page.local_CSV_import(this)' ><br>
       <textarea id='msg'></textarea>
@@ -442,7 +445,7 @@ async table_process(  // client side app_db - for a spa
       break;
     
     case "new":
-      detail = `create a new table<br>
+      dialog_detail.detail = `create a new table<br>
       <select id="table_meta" onChange="app.page.table_structure(this)">
       <option value="addresses" >addresses</option>
       <option value="calendar"  >calendar</option>
@@ -460,18 +463,18 @@ async table_process(  // client side app_db - for a spa
 
     case "delete":
       // table
-      detail = `<p>Delete selected table.
+      dialog_detail.detail = `<p>Delete selected table.
       <input type='button' value="Delete" onclick='app.page.table_delete();'></p>`;
       break;
 
     case "merge":
-      document.getElementById('dialog_detail').innerHTML = `<p>columns will be saved, and a new change file started.
+      dialog_detail.innerHTML = `<p>columns will be saved, and a new change file started.
       Need to decide where pk_max is stored, currently it is in meta.json 
       <input type='button' value="Merge" onclick='app.page.merge();'></p><p id="changes"></p>`;
       return;
 
     case "meta":
-      document.getElementById('dialog_detail').innerHTML = `<p>edit meta
+      dialog_detail.innerHTML = `<p>edit meta
       <input type='button' value="Save" onclick='app.page.meta_save()'></p><textarea id="meta" rows="20" cols="90"></textarea>`;
       let msg = await proxy.RESTget( this.db.getTable(this.table_active.name).dir + "/_meta.json");  // get as text file so we can edit it
       if (msg.ok) {
@@ -481,14 +484,12 @@ async table_process(  // client side app_db - for a spa
 
     default:
       // code block
-      detail = `
+      dialog_detail.detail = `
 file="synergyData/spa/database/_.js" 
 method="table_process" 
 dom.value="${dom.value}"
 not implemented`
     }
-
-    document.getElementById('dialog_detail').innerHTML = detail;
 }
   
   
