@@ -426,13 +426,10 @@ async table_process(  // client side app_db - for a spa
     case "rename":
       dialog_detail.innerHTML = `
       <p><b>Rename Table</b><br>
-      New Name <input type='text' ><br>
-      <button>Rename</button>
+      New Name <input id="name_new" type='text' value="projects"><br>
+      <button onclick="app.page.table_rename()">Rename</button>
       </p>
       <textarea id='msg'>Rename table</textarea>`;
-      debugger
-      const button =  dialog_detail.querySelector("button");
-
       break;
 
     case "import":
@@ -490,6 +487,13 @@ method="table_process"
 dom.value="${dom.value}"
 not implemented`
     }
+}
+
+
+table_rename() {  //client side app_db
+  // rename table
+  const name_new = document.getElementById("name_new").value;
+  debugger;
 }
   
   
