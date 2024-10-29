@@ -17,16 +17,16 @@ class app_db extends page_ {  // only refereced in this file, no need to export
 
 async init(name, url){  // client side app_db
   await super.init(name, url);
-  this.sfc_records          = document.getElementById("sfc_records")         ; //  one <sfc-record> for each table
+  this.sfc_records          = document.getElementById("sfc_records"         ); //  one <sfc-record> for each table
 
-  this.sfc_db_tables        = document.getElementById("sfc-db-tables")       ; // <sfc-db-tables>
+  this.sfc_db_tables        = document.getElementById("sfc-db-tables"       ); // <sfc-db-tables>
   this.sfc_record_relations = document.getElementById("sfc-record-relations"); // <sfc-record-relation>
 
-  this.relation_record       = document.getElementById("relation_record");
+  this.relation_record      = document.getElementById("relation_record"     );
 
-  this.stack_record         = document.getElementById("stack_record")        ; // <sfc-record>
-  this.stack_list           = document.getElementById("stack_list")          ; //  <sfc-select-order>
-  this.stack_list.multi_set(false)                                           ; // hide selected, work with array directly
+  this.stack_record         = document.getElementById("stack_record"        ); // <sfc-record>
+  this.stack_list           = document.getElementById("stack_list"          ); //  <sfc-select-order>
+  this.stack_list.multi_set(false                                           ); // hide selected, work with array directly
   this.stack_list.choices_click_custom = this.choices_click_custom.bind(this);  // set custom_click
 }
 
@@ -492,7 +492,10 @@ not implemented`
 
 table_rename() {  //client side app_db
   // rename table
-  const name_new = document.getElementById("name_new").value;
+  const name_current = document.getElementById("database_tables").value;  // get current table name
+  const name_new     = document.getElementById("name_new"       ).value;  // get new     table name
+
+  // rename 
   debugger;
 }
   
