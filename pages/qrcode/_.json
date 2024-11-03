@@ -2,11 +2,13 @@
 "header": "<h1>URL to QR Code</h1>"
 
 ,"buttons": [
-  {"list": ["url","canvas"]}
+  {"list": ["notworking","url","canvas"]}
 ]
 
 ,"html": {
-  "url":"<input type='text' id='urlInput' placeholder='Enter URL here' size='80'/><br><br> <button onclick='app.page.generateQRCode()'>Generate QR Code</button> So you can test the QR code with you phone"
+  "notworking":"This page is still under construction, use <a href='/pages/qrcode/index.html' target='_blank'>this link</a> for a working version"
+
+  ,"url":"<input type='text' id='urlInput' placeholder='Enter URL here' size='80'/><br><br> <button onclick='app.page.generateQRCode()'>Generate QR Code</button> So you can test the QR code with you phone"
 
   ,"canvas": "<button onclick='app.page.downloadQRCode()'>Download QR Code</button> So you can import the jpg into a document <canvas id='qrCanvas'></canvas>"
 }

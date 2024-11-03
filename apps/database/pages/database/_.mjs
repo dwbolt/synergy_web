@@ -433,7 +433,7 @@ async table_process(  // client side app_db - for a spa
       break;
 
     case "import":
-      dialog_detail.detail = `
+      dialog_detail.innerHTML = `
       <p><b>import csv file</b><br>
       <input type='file' accept='.csv' multiple="multiple" onchange='app.page.local_CSV_import(this)' ><br>
       <textarea id='msg'></textarea>
@@ -442,7 +442,7 @@ async table_process(  // client side app_db - for a spa
       break;
     
     case "new":
-      dialog_detail.detail = `create a new table<br>
+      dialog_detail.innerHTML = `create a new table<br>
       <select id="table_meta" onChange="app.page.table_structure(this)">
       <option value="addresses" >addresses</option>
       <option value="calendar"  >calendar</option>
@@ -460,7 +460,7 @@ async table_process(  // client side app_db - for a spa
 
     case "delete":
       // table
-      dialog_detail.detail = `<p>Delete selected table.
+      dialog_detail.innerHTML = `<p>Delete selected table.
       <input type='button' value="Delete" onclick='app.page.table_delete();'></p>`;
       break;
 
@@ -481,7 +481,7 @@ async table_process(  // client side app_db - for a spa
 
     default:
       // code block
-      dialog_detail.detail = `
+      dialog_detail.innerHTML = `
 file="synergyData/spa/database/_.js" 
 method="table_process" 
 dom.value="${dom.value}"

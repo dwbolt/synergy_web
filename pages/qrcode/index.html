@@ -8,11 +8,13 @@
 
 <body>
     <h1>QR Code Generator</h1>
-    <input type="text" id="urlInput" placeholder="Enter URL here" size="80"/><br>
-    1 - <button onclick="generateQRCode()">Generate QR Code</button> You can test the QR code with you phone<br>
-    2 - <button onclick="downloadQRCode()">Download QR Code</button> You can import the jpec into a document<br>
-    <br><br>
+    <input type="text" id="urlInput" placeholder="Enter URL here" size="80"/>
+    <p><button onclick="generateQRCode()">Generate QR Code</button></p>
+    
     <canvas id="qrCanvas"></canvas>
+
+    <p id="download" style="display:none;">You can test the QR code with you phone<br><br><button onclick="downloadQRCode()">Download QR Code</button><br><br> You can import 'qrcode.jpg' into a document</p>
+    
 </body>
 
 </html>
@@ -36,9 +38,13 @@
                 console.error(error);
                 alert('Error generating QR code.');
             } else {
-                console.log('QR code generated successfully with high error correction!');
+                // show download button
+                document.getElementById("download").style.display = "block";
+                //console.log('QR code generated successfully with high error correction!');
             }
         });
+
+
     }
 
     function downloadQRCode() {
