@@ -6,10 +6,10 @@ import {menuClass   } from '/_lib/UX/menu_module.js'   ;
 import {proxy       } from '/_lib/proxy/_.mjs'         ;
 
 // web components that are used in this module
-import {sfc_db_tables_class       } from '/_lib/db/sfc-db-tables/_.mjs'              ; // <sfc-db-tables>
-import {sfc_record_relations_class} from '/_lib/db/sfc-record-relations/_.mjs'       ; // <sfc-record-relations>
-import {sfc_table_class           } from '/_lib/db/sfc-table/_.mjs'                  ; // <sfc-table>
-import {sfc_record_class          } from '/_lib/db/sfc-record/_.mjs'                 ; // <sfc-record>
+import {sfc_db_tables_class       } from '/_lib/db/sfc-db-tables/_.mjs'               ; // <sfc-db-tables>
+import {sfc_record_relations_class} from '/_lib/db/sfc-record-relations/_.mjs'        ; // <sfc-record-relations>
+import {sfc_table_class           } from '/_lib/db/sfc-table/_.mjs'                   ; // <sfc-table>
+import {sfc_record_class          } from '/_lib/db/sfc-record/_.mjs'                  ; // <sfc-record>
 import {sfc_select_order          } from '/_lib/web_components/sfc-select-order/_.mjs'; // <sfc-select-order>
 
 
@@ -133,6 +133,7 @@ menu_db_list() {  // dbClass - client-side
   <select size="10" onclick="app.page.database_dialog_process(this)">
   <option value="new">New</option>
   <option value="delete">Delete</option>
+  <option value="relations">Relations</option>
   <option value="cancel">Cancel</option>
   </select>
   
@@ -182,6 +183,9 @@ async database_select( // client side app_db
   </div>`);
 
   this.db_tables_display();
+
+  // create relation index
+  //this.database_relations_start(); // can delete after debug & save
 }
   
   
@@ -309,6 +313,7 @@ section_name="${section_name}"`);
   }
 }
 
+/*
 id_hide( // client side app_db - for a spa
   section_name  // used to show/hide major section.  If hiden the section shows in the top level menu so the user can later show it.  
   ,element  
@@ -326,6 +331,7 @@ method="toggle"
 section_name="${section_name}"`);
   }
 }
+  */
 
 
 checkbox_update(  // client side app_db - for a spa
@@ -341,25 +347,119 @@ database_dialog_process(  // client side app_db - for a spa
   dom
   ){
   switch(dom.value) {
-    case "new":
-      // code block
-      this.database_detail_new()
-      break;
-
-    case "delete":
-      this.database_delete();
-      break;
-
-    case "cancel":
-      this.id_hide("database_dialog");
-      break;      
-
+    case "new"       : this.database_detail_new()     ; break;
+    case "delete"    : this.database_delete()         ; break;
+    case "relations" : this.database_relations()      ; break;
+    case "cancel"    : this.id_hide("database_dialog"); break;      
     default:
-      document.getElementById('dialog_detail').innerHTML = `"${dom.value}" not yet implemented for database`
+      document.getElementById('database_dialog_detail').innerHTML = `"${dom.value}" not yet implemented for database`
   }
 }
-  
-  
+
+
+database_relations() {  // client side app_db - for a spa
+  // user pushed relations button - show dialog box to start or close process
+  app.sfc_dialog.set("title","Update Objects Relations Fields");
+  app.sfc_dialog.set("body",`Check each object refereced in the relations table and makes sure object's relation field is up todate
+    <div id="msg"></div>`);
+  app.sfc_dialog.set("buttons",`<button id="start">Start</button>`);
+  app.sfc_dialog.addEventListener("start",'click', this.database_relations_start.bind(this));
+  app.sfc_dialog.show_modal();
+}
+
+/**
+the _relations field of each object is of the structure, it is a readonly meta data field
+
+  _relations: {
+  "order": []
+  ,"tables": {
+    "people":{
+      pk?: pk_relation
+    ,pkpN, pke]...
+  }
+**/
+async database_relations_start(){   // client side app_db - for a spa
+  // user pushed start button
+
+  // make sure a database is selected
+  if (this.db_name === undefined) {
+    app.sfc_dialog.set("msg","<br>Must Select database first<br>");
+    return;
+  }
+
+  // make sure a relations table exists
+	const relation_table = app.page.db.getTable("relations");
+	if (relation_table === undefined) {
+    app.sfc_dialog.set("msg","<br>database must have a relations table<br>");
+		return // this database does not have a relation table.
+	}
+
+  // update in memory all the records that missing relation information  
+	let pks       = relation_table.get_PK();    // array of PK keys for entire relation table;
+
+  // walk relation table and update relations field
+  const update = {};  // store pks that need to be saved to disk {"table_name":[pk1,pk2...], "table_name2":[pk1,pk2....]}
+  for(let i=0; i< pks.length; i++) {
+    const pkr = pks[i];                              // pk for a relatoin record
+    const  record = relation_table.get_object(pkr);  // get the relation record to process
+
+    this.relations_update(pkr,record.table_1, record.pk_1, record.table_2, record.pk_2, update); // update 1st object
+    this.relations_update(pkr,record.table_2, record.pk_2, record.table_1, record.pk_1, update); // update 2nd object
+  }
+
+  // build & save change log for each table
+  const table_names = Object.keys(update);
+  // walk tables
+  for(let i=0; i<table_names.length; i++) {
+    const table_name = table_names[i]
+    const table = app.page.db.getTable(table_name);  // table
+    const pks   = Object.keys(update[table_name]);  // get list of pks in table where _relations needs to be saved
+    let   nsj = "" ;  // build change log string 
+    for(let ii=0; ii<pks.length; ii++){
+      const pk = pks[ii];   // record to update
+      nsj += table.change_log_add(pk, "_relations", table.get_value(pk,"_relations"));
+    }
+    await table.change_log_patch(nsj);  // save change log for table
+  }
+}
+
+
+relations_update(  // client side app_db - for a spa
+   pkr           // pk of relation
+  ,table_name_c  // table  to change
+  ,pk_c          // record to change
+  ,table_name_r  // table   to reference
+  ,pk_r          // recored to referenc
+  ,update        // holds pks that need to be saved on disk
+){
+  // find record to change
+  const table_c = app.page.db.getTable(table_name_c);  // get table to change
+
+  // get _relations
+  let _relations;
+  if ( table_c.get_value(pk_c,"_relations") === undefined){
+    // define as empty object if not defined
+    table_c.set_value(pk_c,"_relations",{});
+  }
+  _relations = table_c.get_value(pk_c,"_relations");  // create short cut to _relations
+
+  if (_relations.tables               === undefined) {_relations.tables               = {};}
+  if (_relations.tables[table_name_r] === undefined) {_relations.tables[table_name_r] = {};}
+
+  // see if reference table and pk in already recorded
+  const list = Object.keys(_relations.tables[table_name_r]);
+  if (list.find( val => val[0] === pk_r && val[1] === pkr) ) {
+    return;  // it is already there, nothing todo
+  }
+ 
+  // referenc is not in the list, so addit, and mark it for update
+  _relations.tables[table_name_r][pk_r] = pkr;  // update memory
+
+  if (update[table_name_c] === undefined) {update[table_name_c]={}}
+  update[table_name_c][pk_c] = true;  // value is not needed, there maybe multiple canges to _relation, but we only want to save once at the end
+}
+
+
 async database_delete(){ // client side app_db - for a spa
   await this.db.delete();  // delete database
 
@@ -660,18 +760,14 @@ relation_edit( // client side relation_class
   const pk_2    = this.stack_record.get_pk();
 
   // return pk for relation, or undefine if does not exist
-  this.pk = undefined;
-  const index = this.sfc_record_relations.index;
-  if (index[table_1] && index[table_1][pk_1] && index[table_1][pk_1][table_2]) {
-    this.pk =  index[table_1][pk_1][table_2][pk_2]; // may still be undefined
-  }
+  const pk_r = this.record_selected.table.get_value(pk_1,"_relations")?.tables?.[table_2]?.[pk_2];
 
   // will be relation pk or undefined
   this.relation_record.hidden = false;
-  this.relation_record.set_pk(this.pk);
-  this.relation_record.edit();
+  this.relation_record.set_pk(pk_r);
+  this.relation_record.edit();  // will fill form values if edit, blank if new
 
-  if (this.pk === undefined) {
+  if (pk_r === undefined) {
     // add table1 and table 2 values, so new relation can be saved
     this.relation_record.shadow_by_id("pk_1"   ).value = pk_1 ;  
     this.relation_record.shadow_by_id("table_1").value = table_1;

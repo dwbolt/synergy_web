@@ -42,7 +42,7 @@ downloadQRCode() {
 
 }
 
-debugger
+
 const page                       = new page_qrcode(app.page_json.url_dir);  // give app access to page methods
 app.pages[app.page_json.url_dir] = page;
 await page.init(app.page_json);      // app.page_json was defined app_24-08.mjs
