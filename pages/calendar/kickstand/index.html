@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title id="headTitle"></title>
+		<meta name="description" content="Kickstand Calendar" />
+		<link rel="canonical" href="https://mlc.sfcknox.org/index.html" />
+
+		<script>
+		let app // only globle variable
+		</script>
+			
+		<script type="module">
+		import {app_light} from "/_lib/app_light.mjs"; // import form production when tested
+		app                    = new app_light();                                       // create instance of app_light module
+		app.page               = document.querySelector("sfc-calendar");                // get web-componet
+		const {calendar_class} = await app.load(`web_components/sfc-calendar/_.mjs`);   // get web-componet sfc-calendar
+		
+		// init calendar
+		app.page.calendar_add("/user/paull/calendar");     //  pulic readonly link to mlc user calender
+		app.page.css_add("/_.css" );
+		await app.page.init();                                // load calenders and create html place holders
+		await app.page.main();                                // create and display calendar
+		app.page.rows_displayed(5);                           // display 5 weeks
+		</script>
+	</head>
+
+	<body style="background-color: rgb(106,172,216);">
+	<sfc-calendar></sfc-calendar>
+	</body>
+</html>
+
