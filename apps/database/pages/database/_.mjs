@@ -218,26 +218,28 @@ db_tables_display(// dbClass - client-side
 
   // attach table model to viewers & record views to tables
   Object.keys(this.db.tables).forEach((table_name, i) => {
-    let model  = this.db.getTable(table_name);
-
+/*
     // set up <sfc-table>  inside <sfc-db-tablses>
-    const table_viewer      = this.sfc_db_tables.shadow.getElementById(table_name);  // get table viewer  <sfc-table> 
     table_viewer.relations  = this.sfc_record_relations;                             // display relations with record
-    table_viewer.record_sfc = document.getElementById(table_name);                   // attach <sfc-record> to  <sfc-table>
     table_viewer.set_model(model,table_name)
-
+*/
     // set up <sfc-record> used by above table
-    const record_viewer    = table_viewer.record_sfc;                                // get record viewer  <sfc-record> 
-    record_viewer.table_set(model);                                                  // attach table       to <sfc-record>
-    record_viewer.table_viewer_set(table_viewer);                                    // attach <sfc-table> to <sfc-record>
+    const model             = this.db.getTable(table_name                        );
+    const table_viewer      = this.sfc_db_tables.shadow.getElementById(table_name); // get table viewer  <sfc-table> 
+    table_viewer.record_sfc = document.getElementById(table_name                 ); // attach <sfc-record> to  <sfc-table>
+
+    const record_viewer     = table_viewer.record_sfc                             ; // get record viewer  <sfc-record> 
+    record_viewer.table_set(model                                                ); // attach table       to <sfc-record>
+    record_viewer.table_viewer_set(table_viewer                                  ); // attach <sfc-table> to <sfc-record>
 
     // setup sfc-record-relations
     const viewer = this.sfc_record_relations.shadow.getElementById(table_name); //  
-    viewer.set_model(model,table_name);
+    //viewer.set_model(model,table_name);
     viewer.record_sfc = this.stack_record;                                // attach <sfc-record> to  <sfc-table> 
   });
 
-  document.getElementById("relation_record").table_set(this.db.getTable("relations"));   // <record_sfc> displays relation record between selected record and stack record 
+  // <record_sfc> displays relation record between selected record and stack record 
+  document.getElementById("relation_record").table_set(this.db.getTable("relations"));  
 }
   
   

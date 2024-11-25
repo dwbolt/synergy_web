@@ -2,28 +2,16 @@
 <head>
 	<title>SFC synergy</title>
 	<link rel="stylesheet" href="_.css" />
-
-	<script>
-	let app; // only globle variable
-	</script>
-	
-	
-	<script type="module">
-	const {app_spa} = await import(`/_lib/app_spa.mjs`);  
-	
-	// preload web componts used in site
-	app = new app_spa();
-	await app.main();
-	
-	</script>
-
 </head>
 
 <html lang="en"><body>
 
 	<div style="display:flex;">
 		
-		<nav><sfc-html href="nav.html"></sfc-html></nav>
+		<nav>
+			<sfc-html href="nav.html"></sfc-html>
+			<sfc-html  id="contact" href="https://beta.sfcknox.org/contact.html"></sfc-html>
+		</nav>
 
 		<main id="page" style="max-width: 1000px;">
 			<div id="header"></div>
@@ -34,3 +22,15 @@
 	</div>
 
 </body></html>
+
+<script>
+	let app; // only globle variable
+</script>
+	
+<script type="module">
+	const {app_spa} = await import(`/_lib/app_spa.mjs`);  
+	
+	// preload web componts used in site
+	app = new app_spa();
+	await app.main();
+</script>
