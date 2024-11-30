@@ -1,15 +1,15 @@
 import {page_       } from '/_lib/UX/page_.mjs'        ;
-import {csvClass    } from '/_lib/db/csv_module.js'    ;
-import {dbClass     } from '/_lib/db/db_module.js'     ;
+import {csvClass    } from '/_lib/MVC/table/csv.mjs'    ;
+import {dbClass     } from '/_lib/MVC/db/m.mjs'     ;
 
 import {menuClass   } from '/_lib/UX/menu_module.js'   ;
 import {proxy       } from '/_lib/proxy/_.mjs'         ;
 
 // web components that are used in this module
-import {sfc_db_tables_class       } from '/_lib/db/sfc-db-tables/_.mjs'               ; // <sfc-db-tables>
-import {sfc_record_relations_class} from '/_lib/db/sfc-record-relations/_.mjs'        ; // <sfc-record-relations>
-import {sfc_table_class           } from '/_lib/db/sfc-table/_.mjs'                   ; // <sfc-table>
-import {sfc_record_class          } from '/_lib/db/sfc-record/_.mjs'                  ; // <sfc-record>
+import {sfc_db_tables_class       } from '/_lib/MVC/db/c.mjs'               ; // <sfc-db-tables>
+import {sfc_record_relations_class} from '/_lib/MVC/db/c_relations.mjs'        ; // <sfc-record-relations>
+import {sfc_table_class           } from '/_lib/MVC/table/c.mjs'                   ; // <sfc-table>
+import {sfc_record_class          } from '/_lib/MVC/table/c_record.mjs'                  ; // <sfc-record>
 import {sfc_select_order          } from '/_lib/web_components/sfc-select-order/_.mjs'; // <sfc-select-order>
 
 

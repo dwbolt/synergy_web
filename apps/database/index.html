@@ -14,12 +14,13 @@
 			<div id="main"></div>
 		</main>
 	</div>
+
 </body></html>
 
-<script>var app; // only globle variable</script>
+<script>var app; // only global variable</script>
 
 <script type="module">
-import  {app_spa}   from '/_lib/app_spa.mjs';
-app = new app_spa();
-await app.main();
+import  {app_spa}   from '/_lib/app_spa.mjs';   // import single page app module
+app = new app_spa();                            // create instance and asign to only global variable
+await app.main();                               // init and load page from /pages/home or another page if spcified in url
 </script>

@@ -1,8 +1,8 @@
 // accounting
 import  {page_         }    from '/_lib/UX/page_.mjs'
 
-//import { csvClass    } from '/_lib/db/csv_module.js'       ;
-import { dbClass     } from '/_lib/db/db_module.js'      ;
+//import { csvClass    } from '/_lib/MVC/table/csv.mjs'       ;
+import { dbClass     } from '/_lib/MVC/db/m.mjs'      ;
 //import { tableUXClass} from '/_lib/db/tableUx_module.js' ;
 
 import { menuClass   } from '/_lib/UX/menu_module.js'     ;
