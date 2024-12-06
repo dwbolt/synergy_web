@@ -2,57 +2,6 @@
 <head>
 	<title>SFC Invoice</title>
 	<link rel="stylesheet" href="_.css" />
-
-
-	<script>
-	let app=null; // only global variable
-	</script>
-			
-	<script type="module">
-	import {app_light} from "/_lib/app_light.mjs";                   // light weight app, no menues
-	app                     = new app_light();                       // create instance of app_light 
-	app.page                = document.querySelector("sfc-table");   // get web-componet DOM
-
-	//load web-componet
-	const {sfc_table_class} = await app.load(`MVC/table/c.mjs`);  // <sfc-table>
-	const {table_class    } = await app.load(`MVC/table/c.mjs`);  // load table model
-	const {format         } = await app.load(`format/_.mjs`      );  // format module, convert penneys to $xx,xxx.xx format
-
-	// fill invoice number
-	const urlParams   = new URLSearchParams( window.location.search );
-	const invoice_num = Number.parseInt(urlParams.get('i'));          // get invoice number to display
-
-	app.invoice       = new table_class();
-	await app.invoice.load("/users/databases/a-sfc-2024/invoice" );   // load invoices
-
-	let pks                                         = app.invoice.search_equal("invoice",invoice_num); // should just retrun array of one value
-	const invoice                                   = app.invoice.get_object(pks[0]);   
-	document.getElementById("inv_number").innerHTML = invoice_num;
-	document.getElementById("inv_due"   ).innerHTML = format.getISO(invoice.date_due);  // convert date to yyyy-mm-ddd
-	document.getElementById("amount"    ).innerHTML = format.money(invoice.amount   );  // convert date to yyyy-mm-ddd
-
-	document.getElementById("date_cleared").innerHTML  = invoice.date_cleared;
-	document.getElementById("payment"     ).innerHTML = invoice.payment;  // payment type
-	document.getElementById("comment"     ).innerHTML = invoice.comment; 
-
-	 // fill customer ino
-	app.customer       = new table_class();
-	await app.customer.load("/users/databases/a-sfc-2024/groups" );  
-	const customer = app.customer.get_object( Object.keys(invoice._relations.tables.groups)[0]);
-	document.getElementById("customer").innerHTML = `${customer.name_full}<br>Short Name: ${customer.name_short}<br>Group PK: ${customer.pk}`;
-
-	// display invoice details
-	app.invoice_d  = new table_class();
-	await app.invoice_d.load("/users/databases/a-sfc-2024/invoice_d");
-	pks = app.invoice_d.search_equal("invoice",invoice_num                ); // return pks that belone to invoice
-	app.invoice_d.set_select( ["amount", "qty", "price","item", "detail"] ); // fields to display
-
-	app.page.setStatusLineData([]                           ); // gidrid of status line, next prev buttons etc....
-	app.page.set_model(app.invoice_d,"invoice_d"            ); // attaching modle to viewer
-	app.page.setSearchVisible(false                         );// disable search
-	app.page.display(pks);
-	</script>
-
 </head>
 
 <html lang="en"><body>
@@ -95,3 +44,52 @@ Sustainable Future Center<br>
 <sfc-table></sfc-table>
 
 </body></html>
+
+<script>
+	let app=null; // only global variable
+</script>
+			
+<script type="module">
+import {app_light} from "/_lib/app_light.mjs";                   // light weight app, no menues
+app                     = new app_light();                       // create instance of app_light 
+app.page                = document.querySelector("sfc-table");   // get web-componet DOM
+
+//load web-componet
+const {sfc_table_class} = await app.load(`MVC/table/c.mjs`);  // <sfc-table>
+const {table_class    } = await app.load(`MVC/table/m.mjs`);  // load table model
+const {format         } = await app.load(`format/_.mjs`   );  // format module, convert penneys to $xx,xxx.xx format
+
+// fill invoice number
+const urlParams   = new URLSearchParams( window.location.search );
+const invoice_num = Number.parseInt(urlParams.get('i'));          // get invoice number to display
+
+app.invoice       = new table_class();
+await app.invoice.load("/users/databases/a-sfc-2024/invoice" );   // load invoices
+
+let pks                                         = app.invoice.search_equal("invoice",invoice_num); // should just retrun array of one value
+const invoice                                   = app.invoice.get_object(pks[0]);   
+document.getElementById("inv_number").innerHTML = invoice_num;
+document.getElementById("inv_due"   ).innerHTML = format.getISO(invoice.date_due);  // convert date to yyyy-mm-ddd
+document.getElementById("amount"    ).innerHTML = format.money(invoice.amount   );  // convert date to yyyy-mm-ddd
+
+document.getElementById("date_cleared").innerHTML  = invoice.date_cleared;
+document.getElementById("payment"     ).innerHTML = invoice.payment;  // payment type
+document.getElementById("comment"     ).innerHTML = invoice.comment; 
+
+	// fill customer ino
+app.customer       = new table_class();
+await app.customer.load("/users/databases/a-sfc-2024/groups" );  
+const customer = app.customer.get_object( Object.keys(invoice._relations.tables.groups)[0]);
+document.getElementById("customer").innerHTML = `${customer.name_full}<br>Short Name: ${customer.name_short}<br>Group PK: ${customer.pk}`;
+
+// display invoice details
+app.invoice_d  = new table_class();
+await app.invoice_d.load("/users/databases/a-sfc-2024/invoice_d");
+pks = app.invoice_d.search_equal("invoice",invoice_num                ); // return pks that belone to invoice
+app.invoice_d.set_select( ["amount", "qty", "price","item", "detail"] ); // fields to display
+
+app.page.setStatusLineData([]                           ); // gidrid of status line, next prev buttons etc....
+app.page.set_model(app.invoice_d,"invoice_d"            ); // attaching modle to viewer
+app.page.setSearchVisible(false                         );// disable search
+app.page.display(pks);
+</script>
