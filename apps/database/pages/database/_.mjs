@@ -1,9 +1,9 @@
-import {page_       } from '/_lib/UX/page_.mjs'        ;
-import {csvClass    } from '/_lib/MVC/table/csv.mjs'    ;
+import {page_       } from '/_lib/UX/page_.mjs'     ;
+import {csvClass    } from '/_lib/MVC/table/csv.mjs';
 import {dbClass     } from '/_lib/MVC/db/m.mjs'     ;
 
-import {menuClass   } from '/_lib/UX/menu_module.js'   ;
-import {proxy       } from '/_lib/proxy/_.mjs'         ;
+import {menuClass   } from '/_lib/UX/menu_module.js';
+import {proxy       } from '/_lib/proxy/_.mjs'      ;
 
 // web components that are used in this module
 import {sfc_db_tables_class       } from '/_lib/MVC/db/c.mjs'               ; // <sfc-db-tables>
@@ -50,9 +50,7 @@ async main( // client side app_db - for a spa
   this.db           = new dbClass();         // will hold selected database
   this.menu         = new menuClass("menu_page"); // where is puturl_meta
   this.tableUX      = {};                    // object contains one tableUXClass attribute for each table, init when user chooses database to open
-  this.tableUX_rel  = {};                    // object contains one tableUXClass attribute for each table, used to display relationstack_pushs to an object/record
-
-  this.table_active = {name:""};             // no active table yet
+  this.tableUX_rel  = {};                    // object contains one tableUXClass attribute for each table, used to display relationstack_pushs to an object/record       
   this.record_relation;                      // ux for record_relation;
   
   this.stack_array         = [];
@@ -146,13 +144,16 @@ async database_select( // client side app_db
   // user clicked on a database - show tables inside database
   database_name  //  user clicked on
 ) {
-  this.db_name = database_name;
-  this.table_active = {name:""};             // no active table yet
-  
   if (!await app.sfc_login.login_force( this.database_select.bind(this,database_name) )) {
     // user not logged in
     return;
   }
+
+  this.db_name = database_name;
+  this.table_active = {
+    name   : undefined   // name of table
+    ,model : undefined   // model
+  };      
 
   // load the database
   try {
@@ -540,7 +541,10 @@ async table_process(  // client side app_db - for a spa
       <input type='file' accept='.csv' multiple="multiple" onchange='app.page.local_CSV_import(this)' ><br>
       <textarea id='msg'></textarea>
       </p>
-      <p>imported CSV file will appear in above table list</p>`;
+      <p>imported CSV file will appear in above table list</p>
+      <button onclick='app.page.first_row_header()'>Make First Row Header</button>
+      `;
+ 
       break;
     
     case "new":
@@ -592,13 +596,24 @@ not implemented`
 }
 
 
+first_row_header(){
+  // have imported a csv file, and the first row is a header.
+  // copy first row to header
+  debugger
+  /*
+  const pk = this.table_active.model.columns.pk
+  this.table_active.model.delete()
+*/
+}
+
+
+
 table_rename() {  //client side app_db
   // rename table
   const name_current = document.getElementById("database_tables").value;  // get current table name
   const name_new     = document.getElementById("name_new"       ).value;  // get new     table name
 
   // rename 
-  debugger;
 }
   
   
@@ -657,6 +672,11 @@ table_select(   // client side app_db
     DOM       
   ) { 
     const table_name = DOM.value                                  ; // remember table_name user clicked on
+    this.table_active = {
+       name  : table_name                   // name of table
+      ,model : this.db.getTable(table_name) // model
+    };      
+  
 
     // add more table operations if not already done
     const table_ops  = document.getElementById("table_operations");
