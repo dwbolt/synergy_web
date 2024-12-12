@@ -542,7 +542,7 @@ async table_process(  // client side app_db - for a spa
       <textarea id='msg'></textarea>
       </p>
       <p>imported CSV file will appear in above table list</p>
-      <button onclick='app.page.first_row_header()'>Make First Row Header</button>
+      PK to make header <input type="text"  value="1" onblur ="app.page.make_header(this)" > moving out side will execute
       `;
  
       break;
@@ -596,14 +596,11 @@ not implemented`
 }
 
 
-first_row_header(){
+make_header(element){
   // have imported a csv file, and the first row is a header.
   // copy first row to header
-  debugger
-  /*
-  const pk = this.table_active.model.columns.pk
-  this.table_active.model.delete()
-*/
+  const pk = element.value;                 // get value of pk to make header
+  this.table_active.model.header_make(pk);  // copy data to header, save to meta data
 }
 
 
