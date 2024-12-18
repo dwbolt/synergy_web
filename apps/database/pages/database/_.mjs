@@ -542,7 +542,7 @@ async table_process(  // client side app_db - for a spa
       <textarea id='msg'></textarea>
       </p>
       <p>imported CSV file will appear in above table list</p>
-      PK to make header <input type="text"  value="1" onblur ="app.page.make_header(this)" > moving out side will execute
+      PK to make header <input type="text" onblur ="app.page.header_make(this)" > moving out side will execute
       `;
  
       break;
@@ -596,7 +596,7 @@ not implemented`
 }
 
 
-make_header(element){
+header_make(element){
   // have imported a csv file, and the first row is a header.
   // copy first row to header
   const pk = element.value;                 // get value of pk to make header
