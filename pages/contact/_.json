@@ -1,0 +1,12 @@
+{
+ "header":  "<h1>Contact Form</h1>"
+
+,"buttons":[
+  {"list":["contact"   ]}
+]
+
+,"html": {
+
+"contact": " &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp  &nbsp <iframe onload='window.parent.scrollTo(0,0)' height='600' allowTransparency='true' frameborder='0' scrolling='no' style='width:100%;border:none'  src='https://secure.lglforms.com/form_engine/s/oFVrgFznmX6sIjxrrkGDVw'><a href='https://secure.lglforms.com/form_engine/s/oFVrgFznmX6sIjxrrkGDVw'>Fill out my LGL Form!</a></iframe>"
+
+}}

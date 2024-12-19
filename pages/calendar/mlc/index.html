@@ -17,10 +17,10 @@
 		
 		// init calendar
 		app.page.calendar_add("/user/user_mlc/calendar");     //  pulic readonly link to mlc user calender
-		app.page.css_add("/_.css" );
+		//app.page.css_add("/_.css" );
 		await app.page.init();                                // load calenders and create html place holders
 		await app.page.main();                                // create and display calendar
-		app.page.rows_displayed(5);                           // display 5 weeks
+		     app.page.table_view.rows_displayed(5);           // display 5 weeks
 		</script>
 	</head>
 
