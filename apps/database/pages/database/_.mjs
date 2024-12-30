@@ -6,10 +6,10 @@ import {menuClass   } from '/_lib/UX/menu_module.js';
 import {proxy       } from '/_lib/proxy/_.mjs'      ;
 
 // web components that are used in this module
-import {sfc_db_tables_class       } from '/_lib/MVC/db/c.mjs'               ; // <sfc-db-tables>
-import {sfc_record_relations_class} from '/_lib/MVC/db/c_relations.mjs'        ; // <sfc-record-relations>
-import {sfc_table_class           } from '/_lib/MVC/table/c.mjs'                   ; // <sfc-table>
-import {sfc_record_class          } from '/_lib/MVC/table/c_record.mjs'                  ; // <sfc-record>
+import {sfc_db_tables_class       } from '/_lib/MVC/db/c.mjs'                         ; // <sfc-db-tables>
+import {sfc_record_relations_class} from '/_lib/MVC/db/c_relations.mjs'               ; // <sfc-record-relations>
+import {sfc_table_class           } from '/_lib/MVC/table/c.mjs'                      ; // <sfc-table>
+import {sfc_record_class          } from '/_lib/MVC/table/c_record.mjs'               ; // <sfc-record>
 import {sfc_select_order          } from '/_lib/web_components/sfc-select-order/_.mjs'; // <sfc-select-order>
 
 
@@ -184,9 +184,6 @@ async database_select( // client side app_db
   </div>`);
 
   this.db_tables_display();
-
-  // create relation index
-  //this.database_relations_start(); // can delete after debug & save
 }
   
   
@@ -209,7 +206,8 @@ db_tables_display(// dbClass - client-side
   // add function to edit relation for all <sfc-record> in this.sfc_records.children
   const children = this.sfc_records.children;
   for(let i=0; i<children.length; i++) {
-    children[i].show_custom = this.relation_edit.bind(this);
+    children[i].show_custom =   [            this.relation_edit.bind(this)                     ];  // edit relation custom 
+    children[i].show_custom.push(this.sfc_record_relations.show.bind(this.sfc_record_relations));  // show relations custom
   };
   // add function to edit relation for stack_record 
   this.stack_record.show_custom = this.relation_edit.bind(this);
@@ -450,9 +448,8 @@ relations_update(  // client side app_db - for a spa
   if (_relations.tables[table_name_r] === undefined) {_relations.tables[table_name_r] = {};}
 
   // see if reference table and pk in already recorded
-  const list = Object.keys(_relations.tables[table_name_r]);
-  if (list.find( val => val[0] === pk_r && val[1] === pkr) ) {
-    return;  // it is already there, nothing todo
+  if (_relations.tables[table_name_r][pk_r] === pkr) {
+    return;  // it is already there, nothing to do, so return
   }
  
   // referenc is not in the list, so addit, and mark it for update
