@@ -50,33 +50,42 @@ Sustainable Future Center<br>
 </script>
 			
 <script type="module">
+/*
+Data
+invoice table - one record for each invoice
+group table - one record for person/business invoice is for
+invoice_d - one record for each thing that can be invoiced, 
+relations - one record for each invoice item, points to invoice_d
+
+
+*/
+
 import {app_light} from "/_lib/app_light.mjs";                   // light weight app, no menues
 app                     = new app_light();                       // create instance of app_light 
 app.page                = document.querySelector("sfc-table");   // get web-componet DOM
 
 //load web-componet
-const {sfc_table_class} = await app.load(`MVC/table/c.mjs`);  // <sfc-table>
+await app.web_components.check(document.body       );  // load any unload web components in body
 const {table_class    } = await app.load(`MVC/table/m.mjs`);  // load table model
-const {format         } = await app.load(`format/_.mjs`   );  // format module, convert penneys to $xx,xxx.xx format
 
 // fill invoice number
 const urlParams   = new URLSearchParams( window.location.search );
 const invoice_num = Number.parseInt(urlParams.get('i'));          // get invoice number to display
 
 app.invoice       = new table_class();
-await app.invoice.load("/users/databases/a-sfc-2024/invoice" );   // load invoices
+await app.invoice.load("/users/databases/a-sfc-2024/invoice" );   // load invoices, ********* hard coded database, needs refactor
 
 let pks                                         = app.invoice.search_equal("invoice",invoice_num); // should just retrun array of one value
 const invoice                                   = app.invoice.get_object(pks[0]);   
 document.getElementById("inv_number").innerHTML = invoice_num;
-document.getElementById("inv_due"   ).innerHTML = format.getISO(invoice.date_due);  // convert date to yyyy-mm-ddd
-document.getElementById("amount"    ).innerHTML = format.money(invoice.amount   );  // convert date to yyyy-mm-ddd
+document.getElementById("inv_due"   ).innerHTML = app.format.getISO(invoice.date_due);  // convert date to yyyy-mm-ddd
+document.getElementById("amount"    ).innerHTML = app.format.money(invoice.amount   );  // convert date to yyyy-mm-ddd
 
-document.getElementById("date_cleared").innerHTML  = invoice.date_cleared;
-document.getElementById("payment"     ).innerHTML = invoice.payment;  // payment type
-document.getElementById("comment"     ).innerHTML = invoice.comment; 
+document.getElementById("date_cleared").innerHTML = app.format.undefined_2_blank(invoice.date_cleared);
+document.getElementById("payment"     ).innerHTML = app.format.undefined_2_blank(invoice.payment);  // payment type
+document.getElementById("comment"     ).innerHTML = app.format.undefined_2_blank(invoice.comment); 
 
-	// fill customer ino
+// fill customer ino
 app.customer       = new table_class();
 await app.customer.load("/users/databases/a-sfc-2024/groups" );  
 const customer = app.customer.get_object( Object.keys(invoice._relations.tables.groups)[0]);
