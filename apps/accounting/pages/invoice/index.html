@@ -75,6 +75,7 @@ const invoice_num = Number.parseInt(urlParams.get('i'));          // get invoice
 app.invoice       = new table_class();
 await app.invoice.load("/users/databases/a-sfc-2024/invoice" );   // load invoices, ********* hard coded database, needs refactor
 
+// fill in invoice header detail
 let pks                                         = app.invoice.search_equal("invoice",invoice_num); // should just retrun array of one value
 const invoice                                   = app.invoice.get_object(pks[0]);   
 document.getElementById("inv_number").innerHTML = invoice_num;
@@ -85,18 +86,21 @@ document.getElementById("date_cleared").innerHTML = app.format.undefined_2_blank
 document.getElementById("payment"     ).innerHTML = app.format.undefined_2_blank(invoice.payment);  // payment type
 document.getElementById("comment"     ).innerHTML = app.format.undefined_2_blank(invoice.comment); 
 
-// fill customer ino
+// fill in customer info
 app.customer       = new table_class();
 await app.customer.load("/users/databases/a-sfc-2024/groups" );  
 const customer = app.customer.get_object( Object.keys(invoice._relations.tables.groups)[0]);
 document.getElementById("customer").innerHTML = `${customer.name_full}<br>Short Name: ${customer.name_short}<br>Group PK: ${customer.pk}`;
 
-// display invoice details
+// open table model
 app.invoice_d  = new table_class();
 await app.invoice_d.load("/users/databases/a-sfc-2024/invoice_d");
 pks = app.invoice_d.search_equal("invoice",invoice_num                ); // return pks that belone to invoice
-app.invoice_d.set_select( ["amount", "qty", "price","item", "detail"] ); // fields to display
 
+
+// display invoice details
+app.page.select = ["amount", "qty", "price", "item", "detail"] ; // fields to display
+app.page.searchVisible          = false                  ; // do not show search 
 app.page.setStatusLineData([]                           ); // gidrid of status line, next prev buttons etc....
 app.page.set_model(app.invoice_d,"invoice_d"            ); // attaching modle to viewer
 app.page.setSearchVisible(false                         );// disable search
