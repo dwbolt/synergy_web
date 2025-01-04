@@ -8,7 +8,7 @@ import {proxy       } from '/_lib/proxy/_.mjs'      ;
 // web components that are used in this module
 import {sfc_db_tables_class       } from '/_lib/MVC/db/c.mjs'                         ; // <sfc-db-tables>
 import {sfc_record_relations_class} from '/_lib/MVC/db/c_relations.mjs'               ; // <sfc-record-relations>
-import {sfc_table_class           } from '/_lib/MVC/table/c.mjs'                      ; // <sfc-table>
+import {sfc_table                 } from '/_lib/MVC/table/c.mjs'                      ; // <sfc-table>
 import {sfc_record_class          } from '/_lib/MVC/table/c_record.mjs'               ; // <sfc-record>
 import {sfc_select_order          } from '/_lib/web_components/sfc-select-order/_.mjs'; // <sfc-select-order>
 
