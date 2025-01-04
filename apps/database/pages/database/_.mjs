@@ -524,12 +524,10 @@ async table_process(  // client side app_db - for a spa
     switch(dom.value) {
       
     case "rename":
-      dialog_detail.innerHTML = `
-      <p><b>Rename Table</b><br>
-      New Name <input id="name_new" type='text' value="projects"><br>
-      <button onclick="app.page.table_rename()">Rename</button>
-      </p>
-      <textarea id='msg'>Rename table</textarea>`;
+      app.sfc_dialog.set("title"  , `<b>Rename Table</b>`);
+      app.sfc_dialog.set("body"   , `<p>New Name <input id="name_new" type='text' value="projects"> <textarea id='msg'>Rename table</textarea> </p>`);
+      app.sfc_dialog.set("buttons", `<button onclick="app.page.table_rename()"> Rename </button>`);
+      app.sfc_dialog.show_modal();
       break;
 
     case "import":
@@ -604,6 +602,7 @@ header_make(element){
 
 table_rename() {  //client side app_db
   // rename table
+  debugger
   const name_current = document.getElementById("database_tables").value;  // get current table name
   const name_new     = document.getElementById("name_new"       ).value;  // get new     table name
 
