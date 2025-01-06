@@ -77,32 +77,42 @@ async main( // client side app_db - for a spa
 async load_db_list(  // dbClass - client-side
   // load list of databases 
   ) {
-
   // load list of tables in database
   const obj = await proxy.getJSONwithError(this.url_meta);   // get list of tables;
   if(obj.status === 404) {
-    alert(`file="/appps/database/pages/home/_.mjs" 
-method="load_db_list"
-missing url="${this.url_meta}"
-creating from template`
-    );
-
-    this.meta   = 
-    {
-      "meta":{
-          "comment":"works with db_module.js"
-          ,"databases": {}
-        }
-    }
-    // now save it
-    let msg = await proxy.RESTpost(JSON.stringify(this.meta), this.url_meta );
+    app.sfc_dialog.set("title","<b>Database Collection Not Found</b>");
+    app.sfc_dialog.set("body",`for user: ${app.sfc_login.user_display()} <br>`); 
+    app.sfc_dialog.set("buttons",`<button id="create">Create user Database Collection</button>`);
+    app.sfc_dialog.addEventListener("create",'click', this.database_collection_create.bind(this));
+    app.sfc_dialog.show_modal();
+    return false;
   } else {
     //this.meta   = obj.json; 
     this.meta   = obj.json; 
+    return true;
   }
-  return true;
 }
-  
+
+
+async database_collection_create(){  // dbClass - client-side
+  this.meta   = 
+  {
+    "meta":{
+        "comment":"works with db_module.js"
+        ,"databases": {}
+      }
+  }
+  // now save it
+  let msg = await proxy.RESTpost(JSON.stringify(this.meta), this.url_meta );
+  if (msg.success) {
+    // close dialog
+    app.sfc_dialog.close();
+  } else {
+    app.sfc_dialog.show_error(`database_collection_create failed<br> msg= ${msg}`)
+    debugger;
+  }
+}
+
   
 menu_db_list() {  // dbClass - client-side
   // show list of databases
