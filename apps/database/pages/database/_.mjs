@@ -242,7 +242,8 @@ db_tables_display(// dbClass - client-side
 
     // setup sfc-record-relations
     const viewer = this.sfc_record_relations.shadow.getElementById(table_name); //  
-    //viewer.set_model(model,table_name);
+
+    // setup scf)record stack
     viewer.record_sfc = this.stack_record;                                // attach <sfc-record> to  <sfc-table> 
   });
 
@@ -270,6 +271,7 @@ record_sfc // user click stack on a record, so add it to the stack
   this.stack_list.choices_add(this.stack_array);       // display choices
 
   this.stack_record.table_set(this.db.getTable(table.name));  // set the model
+  this.stack_record.table_viewer_set( document.getElementById(table.name).table_viewer ) // set the table viewer
   this.stack_record.show(pk);                                 // display record with pk
 }
   
