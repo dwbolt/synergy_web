@@ -14,7 +14,7 @@ generateQRCode() {
     const canvas = document.getElementById('qrCanvas');
 
     if (!url) {
-        alert('Please enter a valid URL.');
+        app.sfc_dialog.show_error('Please enter a valid URL.');
         return;
     }
 
@@ -23,7 +23,7 @@ generateQRCode() {
     }, function (error) {
         if (error) {
             console.error(error);
-            alert('Error generating QR code.');
+            app.sfc_dialog.show_error(`Error generating QR code. error=${error}`);
         } else {
             console.log('QR code generated successfully with high error correction!');
         }

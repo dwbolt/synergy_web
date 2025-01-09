@@ -87,7 +87,6 @@ async load_db_list(  // dbClass - client-side
     app.sfc_dialog.show_modal();
     return false;
   } else {
-    //this.meta   = obj.json; 
     this.meta   = obj.json; 
     return true;
   }
@@ -107,9 +106,9 @@ async database_collection_create(){  // dbClass - client-side
   if (msg.success) {
     // close dialog
     app.sfc_dialog.close();
+    this.main(this.url_dir); // try to reload
   } else {
     app.sfc_dialog.show_error(`database_collection_create failed<br> msg= ${msg}`)
-    debugger;
   }
 }
 
@@ -298,13 +297,10 @@ id_toggle( // client side app_db - for a spa
     this.checkbox_update(section,element);
   } else {
     // error
-    alert(`file="spa/database/_.js"
-method="toggle" 
-section_name="${section_name}"`);
+    app.sfc_dialog.show_error(`unhandled case<br> section_name="${section_name}"`);
   }
-
-
 }
+
 
 id_show( // client side app_db - for a spa
    section_name  // used to show/hide major section.  If hiden the section shows in the top level menu so the user can later show it. 
@@ -318,31 +314,9 @@ id_show( // client side app_db - for a spa
     this.checkbox_update(section,element);
   } else {
     // error
-    alert(`file="spa/database/_.js"
-method="toggle" 
-section_name="${section_name}"`);
+    app.sfc_dialog.show_error(`unhandeld case<br> section_name="${section_name}"`);
   }
 }
-
-/*
-id_hide( // client side app_db - for a spa
-  section_name  // used to show/hide major section.  If hiden the section shows in the top level menu so the user can later show it.  
-  ,element  
-) {
-  const section = document.getElementById(section,section_name);
-
-  if (section) {
-    // toggle visibiltuy of section
-    section.style.display =  "none";
-    this.checkbox_update(element,element);
-  } else {
-    // error
-    alert(`file="spa/database/_.js"
-method="toggle" 
-section_name="${section_name}"`);
-  }
-}
-  */
 
 
 checkbox_update(  // client side app_db - for a spa
@@ -492,13 +466,15 @@ database_detail_new(){ // client side app_db - for a spa
 async database_new(){ // client side app_db - for a spa
   const name = document.getElementById("new_database_name").value;
   if (name==="") {
-    alert("must enter database name to create");
+    app.sfc_dialog.set("title",`<b>Missing Infomation</b>`);
+    app.sfc_dialog.set("body",`Enter database name to create`);
+    app.sfc_dialog.show_modal();  
     return;
   }
   
   if ( !this.meta.databases[name] === undefined) {
     // test for existance add to list of databases
-    alert(`database "${name}" already exists`);
+    app.sfc_dialog.show_error(`database "${name}" already exists, no changes<br>`);
     return;
   }
 
@@ -509,10 +485,8 @@ async database_new(){ // client side app_db - for a spa
                   
   const msg = await proxy.RESTpost(JSON.stringify(this.meta),url_meta); // save meta data
   if (!msg.success) {
-    alert(`file="/synergydata/spa/database_.js
-method="database_new"
-url_meta="${url_meta}"
-RESTpost failed to save`);
+    app.sfc_dialog.show_error(`Create Database failed.<br> url_meta="${url_meta}"`);
+    return;
   }
   await this.db.new(url_db);  // create database 
   this.menu_db_list();    // show new database in menu
@@ -621,10 +595,8 @@ table_rename() {  //client side app_db
   
   
 async merge(){  // client side app_db - for a s
-  alert(`"file="spa/database/_.js
-method="merge"
-not fully implemented, resolve pk_max issue before turninng on"`)
-  //return; 
+  app.sfc_dialog.show_error(`merge not fully implemented, resolve pk_max issue before turninng on`);
+  return; 
   const msg = await this.db.table_merge(this.table_active.name); 
 }
     
@@ -643,7 +615,7 @@ async table_new(){  // client side app_db - for a spa
   // update database metadata
   const name = document.getElementById("new_table_name").value;  // get name of table from user
   if (name==="") {
-    alert("must enter name of table");
+    app.sfc_dialog.show_error("must enter name of table");
     return;
   }
   const meta_name = document.getElementById("table_meta").value;  // get name of table from user
