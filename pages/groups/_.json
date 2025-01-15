@@ -1,0 +1,19 @@
+{
+"header": "<h1>Your Groups</h1>"
+
+,"buttons": [
+  {"list": ["groups","create","belong"]}
+]
+
+,"load": {
+  "groups": "groups.html"
+}
+
+,"html": {
+   "create": "<h3>Create Groups</h3> <div id='groups_create'> <input type='text'> <button>Create</button> </div>"
+  ,"belong": "<h3>Your groups</h3> <div id='groups_belong_to'>stuff</div>"
+}
+
+
+
+}
