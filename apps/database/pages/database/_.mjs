@@ -153,6 +153,10 @@ async database_select( // client side app_db
   // user clicked on a database - show tables inside database
   database_name  //  user clicked on
 ) {
+  if (database_name === "") {
+    return // user clicked on blank space in datbase selection, do nothing
+  }
+
   if (!await app.sfc_login.login_force( this.database_select.bind(this,database_name) )) {
     // user not logged in
     return;
