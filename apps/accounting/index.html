@@ -30,6 +30,6 @@ import  {sfc_html } from '/_lib/web_components/sfc-html/_.mjs' ; // preload sfc-
 import  {sfc_urls } from '/_lib/web_components/sfc-urls/_.mjs' ; // preload sfc-urls 
 
 import  {app_spa}   from '/_lib/app_spa.mjs';
-app = new app_spa();
+app = new app_spa(window.location.origin+"/");
 await app.main();
 </script>

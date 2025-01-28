@@ -1,0 +1,14 @@
+{
+ "header":  "<h1>My Page - Synergy</h1>"
+
+,"buttons":[
+   {"value": "Overview", "list":["my_page"   ]}
+  ,{"value": "Groups"  , "list":["groups"    ]}
+]
+
+,"html": {
+
+"my_page": "<h3>My Page Synergy</h3> <p>Must login for full use of page.  Currently only Beta Testers have logins</p>"
+
+,"groups": "<h3>Synergy Groups</h3> <p>pull from db - place holder</p>"
+}}

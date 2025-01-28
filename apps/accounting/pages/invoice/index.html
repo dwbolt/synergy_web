@@ -61,10 +61,11 @@ relations - one record for each invoice item, points to invoice_d
 */
 
 import {app_light} from "/_lib/app_light.mjs";                   // light weight app, no menues
-app                     = new app_light();                       // create instance of app_light 
+app                     = new app_light(window.location.origin+"/");                       // create instance of app_light 
 app.page                = document.querySelector("sfc-table");   // get web-componet DOM
 
 //load web-componet
+app.main();  // create map
 await app.web_components.check(document.body       );  // load any unload web components in body
 const {table_class    } = await app.load(`MVC/table/m.mjs`);  // load table model
 

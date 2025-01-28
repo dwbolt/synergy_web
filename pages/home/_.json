@@ -2,8 +2,12 @@
 "header": "<h1>Synergy Project</h1>"
 
 ,"buttons": [
-  {"list": ["overview","synergy"]}
+  {"list": ["overview","synergy","beta"]}
 ]
+
+,"html": {
+  "beta":"<h3>Current Status Beta</h3> <p>You must have loggin to use synergy.  Currently, only beta testers have logins</p>"
+}
 
 ,"load": {
   "overview": "overview.html"

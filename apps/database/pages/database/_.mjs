@@ -43,6 +43,7 @@ choices_click_custom(event) {  // client side app_db
 async main( // client side app_db - for a spa
     dir    // user directory that list of databases are in
   ){ 
+  debugger
   this.url_dir      = dir;
   this.db_name      = undefined;
   this.url_meta     = `${dir}/_meta.json`;   // json file that contains meta data for databases
@@ -264,11 +265,15 @@ record_sfc // user click stack on a record, so add it to the stack
   const record = table.get_object(pk);
 
   let display  = table.name + " : " ;
-  switch (table.name) {
+  switch (table.name) {  // do not like this code, need to be part of table define
     case "people": display += `${record.name_last}, ${record.name_first}`                                           ; break;
     case "phones": display += `${record.label} ${record.country_code} (${record.area_code}) ${record.phone_number}` ; break;
     case "groups": display += `${record.name_short} ${record.name_full}`                                            ; break;
-    default      : display += `${record.label} ${record.display}`                                                   ; break;
+    case "groups": display += `${record.name_short} ${record.name_full}`                                            ; break;
+    default      :
+      // for now get the first two of select, this is brittle code
+      const sel = table.meta_get("select")
+      display += `${record[sel[1]]} ${record[sel[2]]}`                                                   ; break;
   }
 
   this.stack_array.unshift([display, table.name, pk])  // add to first position of arra
@@ -538,6 +543,7 @@ async table_process(  // client side app_db - for a spa
       <option value="addresses" >addresses</option>
       <option value="calendar"  >calendar</option>
       <option value="default"   selected>default</option>
+      <option value="web"       >web</option>
       <option value="groups"    >groups</option>
       <option value="people"    >people</option>
       <option value="phones"    >phones</option>
