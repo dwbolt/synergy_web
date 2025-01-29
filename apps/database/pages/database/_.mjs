@@ -43,7 +43,6 @@ choices_click_custom(event) {  // client side app_db
 async main( // client side app_db - for a spa
     dir    // user directory that list of databases are in
   ){ 
-  debugger
   this.url_dir      = dir;
   this.db_name      = undefined;
   this.url_meta     = `${dir}/_meta.json`;   // json file that contains meta data for databases

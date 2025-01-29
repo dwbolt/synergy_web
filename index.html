@@ -33,7 +33,6 @@
 	const {app_spa} = await import(`/_lib/app_spa.mjs`);  
 	
 	// preload web componts used in site
-	debugger;
 	app = new app_spa(window.location.origin+"/");
 	await app.main();
 </script>
