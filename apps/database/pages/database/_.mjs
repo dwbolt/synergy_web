@@ -210,7 +210,7 @@ db_tables_display(// dbClass - client-side
   let html_sfc_records  = "";
   Object.keys(this.db.tables).forEach((table, i) => {
     html_menu          += `<option  value="${table}">${table}</option>`  ;
-    html_sfc_records      += `<sfc-record id="${table}" style="display: none;"></sfc-record>`; 
+    html_sfc_records      += `<sfc-record id="${table}" style="display: none;"></sfc-record>`; // create 
   });
   html_menu += `</select>`;
   document.getElementById("menu_page_tables").innerHTML = html_menu; // add table menu to dom
