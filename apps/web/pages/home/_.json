@@ -1,0 +1,12 @@
+{
+"header": "<h1>Synergy Web</h1>"
+
+,"buttons": [
+  {"list": ["overview"]}
+]
+
+,"load": {
+  "overview"  : "overview.html"
+}
+
+}

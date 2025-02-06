@@ -1,0 +1,13 @@
+{
+"header": "<h1>Calendar</h1>"
+
+,"buttons": [ {"list": ["weeks"]} ]
+
+,"html": {
+
+"weeks": "<sfc-calendar id='calendar' class='content'></sfc-calendar>"
+}
+
+,"module" : true
+
+}
