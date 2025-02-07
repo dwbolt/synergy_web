@@ -10,8 +10,10 @@
 		</script>
 			
 		<script type="module">
-		import {app_light} from "/_lib/app_light.mjs"; // import form production when tested
-		app                    = new app_light();                                       // create instance of app_light module
+		import {app_light} from "/_lib/app_light.mjs";                                  // import from production when tested
+		app                    = new app_light(window.location.origin+"/");             // create instance of app_light module
+		app.main();
+		
 		app.page               = document.querySelector("sfc-calendar");                // get web-componet
 		const {calendar_class} = await app.load(`web_components/sfc-calendar/_.mjs`);   // get web-componet sfc-calendar
 		

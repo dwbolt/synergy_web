@@ -1,14 +1,26 @@
 {
- "header":  "<h1>My Page - Synergy</h1>"
+ "header":  "<h1>My Page - Synergy1</h1>"
 
 ,"buttons":[
-   {"value": "Overview", "list":["my_page"   ]}
-  ,{"value": "Groups"  , "list":["groups"    ]}
+   {"value": "Overview", "list":["my_page"  ,"apps" ]}
+  ,{"value": "Groups"  , "list":["groups","create","belong" ]}
 ]
 
 ,"html": {
 
-"my_page": "<h3>My Page Synergy</h3> <p>Must login for full use of page.  Currently only Beta Testers have logins</p>"
+"my_page": "<h3>My Page Synergy</h3> <p>Working on allowing users to update this page.<br> <a href='javascript:void(0)' onclick=\"app.page_display('qrcode'  )\">QR Code</a><br></p>"
 
-,"groups": "<h3>Synergy Groups</h3> <p>pull from db - place holder</p>"
-}}
+,"apps": "<h3>Synergy Apps</h3> Synergy applications will come up in a new window.<br><br> <a href='apps/database/index.html' target='_blank'>Database</a><br> <a href='apps/web/index.html' target='_blank'>Web</a><br> <a href='apps/accounting/index.html' target='_blank'>Accounting</a>"
+
+  ,"create": "<h3>Create Groups</h3> <div id='groups_create'> <input type='text'> <button>Create</button> </div>"
+  ,"belong": "<h3>Your groups</h3> <div id='groups_belong_to'>stuff</div>"
+
+}
+
+,"load": {
+  "groups": "groups.html"
+}
+
+
+,"module" : true
+}
