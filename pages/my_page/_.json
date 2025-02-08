@@ -8,9 +8,9 @@
 
 ,"html": {
 
-"my_page": "<h3>My Page Synergy</h3> <p>Working on allowing users to update this page.<br> <a href='javascript:void(0)' onclick=\"app.page_display('qrcode'  )\">QR Code</a><br></p>"
+"my_page": "<h3>Synergy Pages</h3> <p>Working on allowing users to update this page.<br> <a href='javascript:void(0)' onclick=\"app.page_display('qrcode'  )\">QR Code</a><br>  </p>"
 
-,"apps": "<h3>Synergy Apps</h3> Synergy applications will come up in a new window.<br><br> <a href='apps/database/index.html' target='_blank'>Database</a><br> <a href='apps/web/index.html' target='_blank'>Web</a><br> <a href='apps/accounting/index.html' target='_blank'>Accounting</a>"
+,"apps": "<h3>Synergy Apps</h3> Synergy applications will come up in a new window.<br><br> <a href='apps/database/index.html' target='_blank'>Database</a><br> <a href='apps/web/index.html' target='_blank'>Web</a><br> <a href='apps/accounting/index.html' target='_blank'>Accounting</a><br> <a href='/_lib/web_components/sfc-disk/_.html' target='_blank'>Files</a><br>"
 
   ,"create": "<h3>Create Groups</h3> <div id='groups_create'> <input type='text'> <button>Create</button> </div>"
   ,"belong": "<h3>Your groups</h3> <div id='groups_belong_to'>stuff</div>"
