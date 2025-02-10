@@ -26,5 +26,5 @@
 <script type="module">
 import  {app_spa}   from '/_lib/app_spa.mjs';   // import single page app module
 app = new app_spa(window.location.origin+"/");  // create instance and asign to only global variable
-await app.main();                               // init and load page from /pages/home or another page if spcified in url
+await app.main();                               // init and load page and modules
 </script>
