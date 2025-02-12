@@ -1,0 +1,15 @@
+{
+"header": "<h1>Invoicing</h1>"
+
+,"buttons": [
+  {"value":"Invoices", "list": ["invoice"]}
+ ,{"value":"Open    ", "list": ["open"]}
+]
+
+,"html":{
+  "invoice" : "<a href='/apps/accounting/pages/invoice/index.html?i=220' target='_blank'>Invoice</a> <br> <sfc-table></sfc_table>"
+  ,"open" : "Open invoices"
+}
+
+,"module": true
+}

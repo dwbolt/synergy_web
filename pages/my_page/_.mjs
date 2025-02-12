@@ -15,6 +15,4 @@ async display(){
 
 }  // end class
 
-const page                       = new my_page(app.page_json.url_dir);
-app.pages[app.page_json.url_dir] =  page;            // remember page
-await page.init(app.page_json);                      // app.page_json was defined app_24-08.mjs
+new my_page().init();                      // app.page_json was defined app_24-08.mjs

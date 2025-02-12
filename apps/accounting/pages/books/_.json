@@ -1,0 +1,15 @@
+{
+"header": "<h1>Chose set of Books to workwith</h1>"
+
+,"buttons": [
+  {"list": ["overview","client","year"]}
+]
+
+,"html":{
+  "overview":"<h3>Overview</h3> give list of recents "
+  ,"client":"<h3>Choose Client</h3>"
+  ,"year": "<h3>Choose year</h3>"
+}
+
+
+}
