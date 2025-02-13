@@ -13,10 +13,10 @@ import {sfc_record_class          } from '/_lib/MVC/table/c_record.mjs'         
 import {sfc_select_order          } from '/_lib/web_components/sfc-select-order/_.mjs'; // <sfc-select-order>
 
 
-class app_db extends page_ {  // only refereced in this file, no need to export
+class page_db extends page_ {  // only refereced in this file, no need to export
 
-async init(name, url){  // client side app_db
-  await super.init(name, url);
+async init(){  // client side app_db
+  await super.init();
   this.sfc_records          = document.getElementById("sfc_records"         ); //  one <sfc-record> for each table
 
   this.sfc_db_tables        = document.getElementById("sfc-db-tables"       ); // <sfc-db-tables>
@@ -28,6 +28,7 @@ async init(name, url){  // client side app_db
   this.stack_list           = document.getElementById("stack_list"          ); //  <sfc-select-order>
   this.stack_list.multi_set(false                                           ); // hide selected, work with array directly
   this.stack_list.choices_click_custom = this.choices_click_custom.bind(this);  // set custom_click
+  return this
 }
 
 
@@ -37,6 +38,11 @@ choices_click_custom(event) {  // client side app_db
   const obj   = this.stack_array[index];
   this.stack_record.table_set( this.db.getTable(obj[1]) );    // set table
   this.stack_record.show(obj[2]);                             // show record with pk
+}
+
+async server_change(element){
+  debugger
+  await this.database_load(element.value);
 }
 
 
@@ -168,9 +174,13 @@ async database_select( // client side app_db
     ,model : undefined   // model
   };      
 
+  const dir_db = this.meta.databases[database_name].location;
+  await this.database_load(dir_db); 
+}
+
+async database_load(dir_db){
   // load the database
   try {
-    const dir_db = this.meta.databases[database_name].location;
     await this.db.load(dir_db); // load database and tables into memory
   } catch (error) {
     await app.sfc_dialog.show_error(`${error}`);
@@ -787,9 +797,13 @@ relation_edit( // client side relation_class
   
 } // end client side app_db
 
-const name = "database";
-const page                       = new app_db(name);  // give app access to page methods
-app.pages[app.page_json.url_dir] = page;
 
-await page.init(app.page_json);      // app.page_json was defined app_24-08.mjs
-await page.main("/users/databases");
+try {
+  const p= new page_db() // create instance
+  await p.init()                      // init
+  await p.main("/users/databases")    // load the server meta data
+} catch (error)  {
+  debugger;
+  app.sfc_dialog.show_error( `error starting page, error=<br>${error}`);
+}
+
