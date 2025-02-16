@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+	<title>SFC gcode</title>
+	<link rel="stylesheet" href="/_.css" />
+</head>
+
+<html lang="en"><body>
+
+<div style="display:flex">
+	<nav>
+		<sfc-html href="nav.html"></sfc-html>
+		<sfc-html href="\contact.html" id="contact"></sfc-html>
+	</nav>
+
+	<main id="page">
+		<div id="header"></div>
+		<div id="buttons"></div>
+		<div id="main"></div>
+	</main>
+	
+</div>
+
+<sfc-dialog></sfc-dialog>
+<sfc-login></sfc-login>
+
+</body></html>
+
+<script>var app; // only globle variable</script>
+
+<script type="module">
+
+import  {app_spa}   from '/_lib/app_spa.mjs';
+app = new app_spa(window.location.origin+"/");
+await app.main();
+</script>

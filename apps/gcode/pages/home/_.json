@@ -1,0 +1,12 @@
+{
+"header": "<h1>Synergy gcode</h1>"
+
+,"buttons": [
+  {"list": ["overview"]}
+]
+
+,"html":{
+  "overview":"javascript class that creates gcode to run cnc machine"
+}
+
+}

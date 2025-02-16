@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js Hello World with Controls</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+    .controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+    }
+    button {
+      margin: 5px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <button id="zoomIn">Zoom In</button>
+    <button id="zoomOut">Zoom Out</button>
+    <button id="rotateX">Rotate X</button>
+    <button id="rotateY">Rotate Y</button>
+    <button id="rotateZ">Rotate Z</button>
+  </div>
+
+  <script type="module">
+    // Import Three.js
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
+
+    // Scene
+    const scene = new THREE.Scene();
+
+    // Camera
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Axes Helper (shows X, Y, Z axes)
+    const axesHelper = new THREE.AxesHelper(5);
+    scene.add(axesHelper);
+
+    // Geometry, Material, and Mesh
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    // Render function
+    function render() {
+      renderer.render(scene, camera);
+    }
+
+    render();
+
+    // Event listeners for zoom buttons
+    document.getElementById('zoomIn').addEventListener('click', () => {
+      camera.position.z -= 0.5; // Move the camera closer
+      render();
+    });
+
+    document.getElementById('zoomOut').addEventListener('click', () => {
+      camera.position.z += 0.5; // Move the camera farther
+      render();
+    });
+
+    // Event listeners for rotation buttons
+    const rotationAmount = Math.PI / 16; // Rotate by 11.25 degrees
+    document.getElementById('rotateX').addEventListener('click', () => {
+      cube.rotation.x += rotationAmount; // Rotate cube on X axis
+      render();
+    });
+
+    document.getElementById('rotateY').addEventListener('click', () => {
+      cube.rotation.y += rotationAmount; // Rotate cube on Y axis
+      render();
+    });
+
+    document.getElementById('rotateZ').addEventListener('click', () => {
+      cube.rotation.z += rotationAmount; // Rotate cube on Z axis
+      render();
+    });
+
+    // Resize lis

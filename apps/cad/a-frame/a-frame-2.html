@@ -1,0 +1,22 @@
+html>
+  <head>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-entity id="camera" camera look-controls position="0 2 5"></a-entity>
+      <a-box position="0 0 0" color="#4CC3D9"></a-box>
+      <a-sky color="#ECECEC"></a-sky>
+    </a-scene>
+    <script>
+      const sceneEl = document.querySelector("a-scene").object3D;
+      const cameraEl = document.querySelector("#camera").object3D;
+
+      // Add OrbitControls
+      const controls = new THREE.OrbitControls(cameraEl.children[0], document.querySelector("canvas"));
+      controls.target.set(0, 0, 0); // Set orbit target to the center of the scene
+      controls.update();
+    </script>
+  </body>
+</html>

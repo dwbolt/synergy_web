@@ -1,0 +1,16 @@
+{
+"header": "<h1>Synergy gcode</h1>"
+
+,"buttons": [
+{"list": ["overview","run"] }
+]
+
+,"html":{
+  "overview":"<p>The code below will copyied into your clipboard so you can paste it eslse where.</p>"
+  ,"run":"<pre id='gcode'></pre>"
+
+}
+
+,"module" : true
+
+}
