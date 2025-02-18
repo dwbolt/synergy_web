@@ -24,18 +24,23 @@ async main(){
     this.z_raise      =               10; // amount to go above z0 to move to new location
 
     this.gcode = new gcode();
-    this.gcode.inches();
-    this.gcode.feed_rate(100); // inches/min
-    this.gcode.rpm_clockwise(12000);
-    this.gcode.tool_diameter(.25);  // 1/4 inch
 
-    // assume x0 y0 is where the 
+    this.gcode.comment("Make circle for lazy susan water despenser");
+    this.gcode.mm();
+    this.gcode.material_thickness(  12);  
+    this.gcode.cutthrough(           1);   
+    this.gcode.feed_rate_cut(  2000); // mm/min
+    this.gcode.feed_rate_rapid(4000); // mm/min
+    this.gcode.rpm_clockwise(12000); // turn on spindle at 12,000 rpm
+    this.gcode.tool_diameter( this.gcode.inches_2_mm(.25) );  // 1/4 inch bit
+
+ 
     this.gcode.test_set(true);
 
     this.gcode.move_z(this.z_raise);
-    this.gcode.move_xy(0,0);
+    this.gcode.move_xy(0,0);      // assume x0 y0 is where the center of the circle is
 
-    this.gcode.circle(180,-12,"i");
+    this.gcode.circle(180,-12,"i");  // circle diamier is 180mm, material is 
     this.gcode.spindle_stop();
 
     this.gcode.move_z(this.z_raise);

@@ -17,18 +17,60 @@ G90 (absolute)
     */
 
 constructor(){
-    this.test = false; // true -> keep the spende high, and do not turn it on
-    this.code =    ""; // will hold generated gcode
+    this.test            = false; // true -> keep the spende high, and do not turn it on
+    this.code            =  ""; // will hold generated gcode
+    this.feed_rate_cut   = undefined;    
+    this.feed_rate_rapid = undefined;  // rate 
 }
+
+
+inches_2_mm(value) {return value *25.4}
+mm_2_inches(value) { return value/25.4}
+
 
 rpm_clockwise(         speed){this.code_write(`M3 S${speed} (rpm clockwise)`);}
 rpm_conunter_clockwise(speed){this.code_write(`M4 S${speed} (rpm counter clockwise)`);}
 spindle_stop(               ){this.code_write(`M5 (stop the spindle)`          );}
 
+cpmment(txt                 ){this.code_write(`(${txt})`);}
 inches(                     ){this.code_write(`G20 (inches)`);}
 mm(                         ){this.code_write(`G21 (mm)`);}
-feed_rate(         feed_rate){this.code_write(`F ${feed_rate} (feed rate/minute)`)}
 gcode_end(         feed_rate){this.code_write(`M30 (end program)`)}
+
+feed_rate_cut(     feed_rate){
+    if (feed_rate === undefined) {
+        // get previous value
+        feed_rate = this.feed_rate_cut;
+    } else {
+        // remember new value
+        this.feed_rate_cut = feed_rate
+    }
+
+    if (feed_rate === undefined) {
+        // error
+        app.sfc_dialog.show_error(`feed_rate = ${feed+rate}`);
+    }
+    this.code_write(`F ${feed_rate} (feed rate/minute)`)
+}
+
+
+feed_rapid(feed_rate){
+    if (feed_rate === undefined) {
+        // get previous value
+        feed_rate = this.feed_rate_rapid;
+    } else {
+        // remember new value
+        this.feed_rate_rapid = feed_rate
+    }
+
+    if (feed_rate === undefined) {
+        // error
+        app.sfc_dialog.show_error(`feed_rate = ${feed+rate}`);
+    } 
+        this.code_write(`F ${feed_rate} (feed rate/minute)`)
+}
+
+
 
 tool_diameter(tool_diameter) {
     this.tool_diameter = tool_diameter;
