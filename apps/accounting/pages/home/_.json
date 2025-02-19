@@ -1,13 +1,18 @@
 {
-"header": "<h1>Synergy Accounting</h1>"
+"header": "<h1>Choose Books</h1>"
 
 ,"buttons": [
-  {"list": ["overview","technical"]}
+  {"list": ["overview","client","year"]}
 ]
 
-,"load": {
-  "overview"  : "overview.html"
-  ,"technical": "technical.html" 
+,"html":{
+  "overview":"<h3>Overview</h3> <p>First choose the set of Books you want to work with and then the year.  Each year has it's own database and supporting files.</p><p>Recently opened:<br> dwb_sfc <a href='javascript:void(0)' onclick=\"app.page.book_open('dwb-sfc','2024-10-01')\"    >2024-10-01</a></p>"
+  
+  ,"client":"<h3>Choose Set of Books</h3>"
+ 
+  ,"year": "<h3>Choose year</h3>"
 }
+
+,"module": true
 
 }

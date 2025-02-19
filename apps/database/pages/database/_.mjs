@@ -636,7 +636,7 @@ async table_new(){  // client side app_db - for a spa
   // update database metadata
   const name = document.getElementById("new_table_name").value;  // get name of table from user
   if (name==="") {
-    app.sfc_dialog.show_error("must enter name of table");
+    app.sfc_dialog.show_error("must enter name of table to create");
     return;
   }
   const meta_name = document.getElementById("table_meta").value;  // get name of table from user
