@@ -1,0 +1,16 @@
+{
+"header": "<h1>CRM</h1>"
+
+,"buttons": [
+  {"list": ["crm","people"]}
+]
+
+,"html": {
+  "crm"     : "<p>Will allow user to browse their synergy user data</p>"
+  ,"people" : "<sfc-table id='people'></sfc-table>"
+
+}
+
+,"module" : true
+
+}

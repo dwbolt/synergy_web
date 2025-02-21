@@ -106,6 +106,16 @@ sfc-img {
   padding: 10px 10px 10px 10px;
 }
 
+.blink {
+  animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+  50% {
+    opacity: 0;
+  }
+}
+
 
 /***************************************   style elements */
 h1 { /* Sets the base header style */

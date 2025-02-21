@@ -1,0 +1,15 @@
+{
+"header": "<h1>Edit Website</h1>"
+
+,"buttons": [
+  {"list": ["overview","edits"]}
+]
+
+,"html": {
+  "overview":"<h3>Overview</h3> <p>The page allows you to set or clear edit mode.  In edit mode a link apprears on each section of the page you can edit.  Any sections that you have changed will show Draft.  If you </p>"
+
+  ,"edits":"<input id='edit_mode' type='radio' onclick='app.page.edit_mode_toggle()'> Edit mode"
+}
+
+,"module" : true
+}

@@ -2,11 +2,11 @@
 "header": "<h1>Synergy Project</h1>"
 
 ,"buttons": [
-  {"list": ["overview","synergy","beta"]}
+  {"list": ["beta","overview","synergy"]}
 ]
 
 ,"html": {
-  "beta":"<h3>Current Status Beta</h3> <p>Currently, only beta testers have logins</p>"
+  "beta":"<h3>Current Status Beta</h3>  <p>Beta testers should use <a href='https://synergy.sfcknox.org/'>https://synergy.sfcknox.org</a>. Changes every 1 to two weeks</p> <p>New featers are tested at <a href='https://synergy_beta.sfcknox.org'> https://synergy_beta.sfcknox.org</a>. Changes every few days</p>  <p>Both urls run on the same server and share the same user data.  So if you make changes on one link it will be refected in the other.</p> <p><a href='https://docs.google.com/document/d/1LbSeJGAD-NOgiDFtrXmgmDDJBODOg1eC31QSl8h9a_k/edit?tab=t.0#heading=h.c6x4crtfh27' target='_blank'>google Doc</a> Beta testers can have comment access to this document.  I will add premssions as I talk with beta testers or they request access.<br><br>  David</p>"
 }
 
 ,"load": {
