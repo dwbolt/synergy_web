@@ -2,6 +2,17 @@
 
 show and add invoices
 
+Data 
+
+Current
+invoice table
+invoice_d table
+group 
+    record for Fish
+    record for LCBC
+    record for customers 
+
+    
  */
 
 
@@ -20,43 +31,128 @@ show and add invoices
  }
  
 
- async table_create() {
-    
-     // load hours
-     this.invoice_m = new table_class()                      ; // create intance of table model
-     await this.invoice_m.load(`/users/databases/CYC/hours`) ; // load table data
-     
-     // get viewers
-     page.hours  = document.querySelectorAll("sfc-table" )[0]; // get table  viewer, should only be one
-     page.record = document.querySelectorAll("sfc-record")[0]; // get record viewer, should only be one;
-     
-     page.hours.shadow.getElementById("table").addEventListener('click', page.hours.record_show.bind(page.hours) );
-     
-     // show user their hours
-     page.hours.select =["created","date","start","end","duration","7","9"]; // select fields and order
-     page.hours.set_model(page.table, "hours")             ; // give viewer data to display 
-     page.hours.record_sfc = page.record                   ; // tell table viewer what record viewers to use
-     page.hours.display()                                  ; // show users hours
-     
-     // init submit new hours
-     //debugger
-     page.record.table_viewer_set(page.hours)               ; // tell record viewer what table viewer to update when a change is made
-    // page.record.select = ["2","3","5","6","7"]  
-     page.record.select = ["created","date","start","end","duration","7","9"]
-     page.record.new()
+ async main() {
+    // get tables
+    this.invoice   = app.act.dbm.getTable("invoice"  ) ; // table model of invoice
+
+    // display invoices
+    const invoice_c   = document.getElementById("invoice"); // table controler/viewer
+          invoice_c.set_model(this.invoice               ); // attach model to controls
+          invoice_c.display(                             ); // display model data in controler/viewer
+          this.table = invoice_c.shadow.getElementById('table')
+          this.table.addEventListener('click', this.invoice_show.bind(this) );
  }
  
+
+ invoice_show(event){
+    // user clicked in the invoice table
+    this.pk = event.target.getAttribute("data-pk");   // get pk of invoice to displauy
+    if (this.pk) {
+        // user clicked on pk to view record deta
+        const collection = this.table.getElementsByClassName("link selected");
+        for(let i=0; i<collection.length; i++) {
+          collection[i].setAttribute("class","link")   // un-select any previous selection
+        }
+  
+        event.target.setAttribute("class","link selected");   // add selected class to what the user clicked on
+
+        // show invoice in a new window 
+        const invoice_view = document.getElementById("invoice_view");  // get div to put printed invoice in
+        invoice_view.innerHTML = this.invoice_template();
+        this.invoice_fill();
+    } 
+ }
+
+
+ invoice_fill() {
+    // fill in invoice header detail
+    const invoice                                   = this.invoice.get_object(this.pk);   
+    document.getElementById("inv_number").innerHTML = invoice.invoice;
+    document.getElementById("inv_due"   ).innerHTML = app.format.getISO(invoice.date_due);  // convert date to yyyy-mm-ddd
+    document.getElementById("amount"    ).innerHTML = app.format.money(invoice.amount   );  // convert date to yyyy-mm-ddd
+
+    document.getElementById("date_cleared").innerHTML = app.format.undefined_2_blank(invoice.date_cleared);
+    document.getElementById("payment"     ).innerHTML = app.format.undefined_2_blank(invoice.payment);  // payment type
+    document.getElementById("comment"     ).innerHTML = app.format.undefined_2_blank(invoice.comment); 
+
+    // fill in customer info
+    this.groups    = app.act.dbm.getTable("groups"   ) ; // table model of groups
+    const customer = this.groups.get_object( Object.keys(invoice._relations.tables.groups)[0]);
+    document.getElementById("customer").innerHTML = `${customer.name_full}<br>Short Name: ${customer.name_short}<br>Group PK: ${customer.pk}`;
+
+    // display invoice details
+    const invoice_d_m = app.act.dbm.getTable("invoice_d") ; // table model of invoice_d (detail)
+    const invoice_d_c = document.getElementById("invoice_d");
+
+    invoice_d_c.set_model( invoice_d_m                         ) ; // attach model to controls
+    const pks  = this.invoice.search_equal("invoice",invoice.invoice) ; // should just retrun array of one value
+    invoice_d_c.display(pks                                    ) ; // display model data in controler/viewer
+
+    /*
+    app.page.select = ["amount", "qty", "price", "item", "detail"] ; // fields to display
+    app.page.searchVisible          = false                  ; // do not show search 
+    app.page.setStatusLineData([]                           ); // gidrid of status line, next prev buttons etc....
+    app.page.set_model(app.invoice_d,"invoice_d"            ); // attaching modle to viewer
+    app.page.setSearchVisible(false                         );// disable search
+    app.page.display(pks);
+    */
+ }
+
+
+ invoice_template() {
+    return `
+  <div style="display:flex">
+
+<div class="box" style=" margin-right: 50px;">
+Sustainable Future Center<br>
+201 Ogle Ave<br>
+Knoxville, TN 37920<br>
+<br>
+<b>Contact:</b><br>
+David Bolt<br>
+David.Bolt@SFCknox.org<br>
+865.603.0520 cell<br>
+865.294.0154 office<br>
+<br>
+<b>Make Check to:</b><br>
+Sustainable Future Center<br>
+</div>
+
+<div  style=" margin-right: 50px;"><img src="/logo.webp" alt="Sustainable Future Center Logo"></div>
+
+<div  class="box">
+<b>Invoice:</b> <span id="inv_number"></span><br>
+<b>Due:</b> <span id="inv_due"></span><br>
+<b>Amount:</b> <span id="amount"></span><br>
+<br>
+<b>Date Cleared:</b> <span id="date_cleared"></span><br>
+<b>Payment Type:</b> <span id="payment"></span><br>
+<b>Comment:</b> <span id="comment"></span><br>
+<br>
+<b>Customer</b><br>
+<br>
+<div id="customer"></div>
+</div>
+
+</div>
+<sfc-table id="invoice_d"></sfc-table>
+ `
+ }
+
+ print(){
+    window.print();
+ }
+
  } // end class 
- 
- // init page
- debugger
- //const page                       = new page_invoice(app.page_json.url_dir); // create instance of page
- //app.pages[app.page_json.url_dir] = page                                 ; // give app access to page methods
- //await page.init(app.page_json)                                          ; // app.page_json was defined app_24-08.mjs
-
- new page_invoice().init().table_create();  // view page,  app.page. is defined
- 
-
 
  
+try {
+    const p= new page_invoice(); // create instance
+    await p.init()             ; // display inital page,load web components
+    await p.main()             ; // 
+} catch (error)  {
+    debugger;
+    app.sfc_dialog.show_error( `error starting page, error=<br>${error}`);
+}
+  
  

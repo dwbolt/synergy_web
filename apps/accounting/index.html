@@ -2,6 +2,21 @@
 <head>
 	<title>SFC accounting</title>
 	<link rel="stylesheet" href="/_.css" />
+	<style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .printable, .printable * {
+                visibility: visible;
+            }
+            .printable {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+    </style>
 </head>
 
 <html lang="en"><body>
@@ -28,9 +43,15 @@
 <script>var app; // only globle variable</script>
 
 <script type="module">
-const {app_spa} = await import(`/_lib/app_spa.mjs`);  
+const {app_spa} = await import(`/_lib/app_spa.mjs`); // load app module 
 
-// preload web componts used in site
-app = new app_spa(window.location.origin+"/");
-await app.main();
+try {
+	app = new app_spa(window.location.origin+"/"      ); // create instance of single page app
+	await app.main(                                   ); // initialize SPA, load home page or page specifed in url
+	app.act = {}                                       ; // create a place to store app data between pages.
+} catch (error) {
+	debugger;
+	alert(error);  // needs more work
+}
+
 </script>

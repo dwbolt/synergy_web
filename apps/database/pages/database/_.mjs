@@ -42,7 +42,7 @@ choices_click_custom(event) {  // client side app_db
 
 async server_change(element){
   debugger
-  await this.database_load(element.value);
+  await this.main(element.value);
 }
 
 
@@ -98,17 +98,26 @@ async load_db_list(  // dbClass - client-side
   }
 }
 
+async database_open(element){
+  const url = element.value;
+  //const url = `${app.act.dir}/${year}/database`  ; // now have url to database
+  debugger;
+  await this.database_load(url);  
+}
+
 
 async database_collection_create(){  // dbClass - client-side
-  this.meta   = 
-  {
+  this.meta   = `
+    {
     "meta":{
         "comment":"works with db_module.js"
         ,"databases": {}
       }
   }
+  `
+
   // now save it
-  let msg = await proxy.RESTpost(JSON.stringify(this.meta), this.url_meta );
+  let msg = await proxy.RESTpost(this.meta, this.url_meta );
   if (msg.success) {
     // close dialog
     app.sfc_dialog.close();

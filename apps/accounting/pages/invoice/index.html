@@ -69,8 +69,10 @@ const {table_class    } = await app.load(`MVC/table/m.mjs`);  // load table mode
 const urlParams   = new URLSearchParams( window.location.search );
 const invoice_num = Number.parseInt(urlParams.get('i'));          // get invoice number to display
 
+const db_dir      = urlParams.get('d');
+
 app.invoice       = new table_class();
-await app.invoice.load("/users/databases/a-sfc-2024/invoice" );   // load invoices, ********* hard coded database, needs refactor
+await app.invoice.load(`${db_dir}/invoice`);   // load invoices, ********* hard coded database, needs refactor
 
 // fill in invoice header detail
 let pks                                         = app.invoice.search_equal("invoice",invoice_num); // should just retrun array of one value
@@ -85,13 +87,13 @@ document.getElementById("comment"     ).innerHTML = app.format.undefined_2_blank
 
 // fill in customer info
 app.customer       = new table_class();
-await app.customer.load("/users/databases/a-sfc-2024/groups" );  
+await app.customer.load(`${db_dir}/groups` );  
 const customer = app.customer.get_object( Object.keys(invoice._relations.tables.groups)[0]);
 document.getElementById("customer").innerHTML = `${customer.name_full}<br>Short Name: ${customer.name_short}<br>Group PK: ${customer.pk}`;
 
 // open table model
 app.invoice_d  = new table_class();
-await app.invoice_d.load("/users/databases/a-sfc-2024/invoice_d");
+await app.invoice_d.load(`${db_dir}/invoice_d`);
 pks = app.invoice_d.search_equal("invoice",invoice_num                ); // return pks that belone to invoice
 
 

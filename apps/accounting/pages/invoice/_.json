@@ -2,13 +2,16 @@
 "header": "<h1>Invoicing</h1>"
 
 ,"buttons": [
-  {"value":"Invoices", "list": ["invoice"]}
+  {"value":"Invoices", "list": ["customers","s_invoice","print","view"]}
  ,{"value":"Open    ", "list": ["open"]}
 ]
 
 ,"html":{
-  "invoice" : "<a href='/apps/accounting/pages/invoice/index.html?i=220' target='_blank'>Invoice</a> <br> <sfc-table></sfc_table>"
-  ,"open" : "Open invoices"
+  "customers"   : "list of customer, clicking will narrow invoices"
+  ,"s_invoice"  : "<sfc-table id='invoice'>  </sfc_table>"
+  ,"view"       : "<div id='invoice_view' class='printable'></div>"
+  ,"print"      : "<button onclick='app.page.print()'>print</button>"
+  ,"open"       : "Open invoices not implemented"
 }
 
 ,"module": true

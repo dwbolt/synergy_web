@@ -2,15 +2,15 @@
 "header": "<h1>Choose Books</h1>"
 
 ,"buttons": [
-  {"list": ["overview","client","year"]}
+  {"list": ["overview","books","year"]}
 ]
 
 ,"html":{
-  "overview":"<h3>Overview</h3> <p>First choose the set of Books you want to work with and then the year.  Each year has it's own database and supporting files.</p><p>Recently opened:<br> dwb_sfc <a href='javascript:void(0)' onclick=\"app.page.book_open('dwb-sfc','2024-10-01')\"    >2024-10-01</a></p>"
+  "overview":"<h3>Overview</h3> <p>First choose the set of Books you want to work with and then the year.  Each year has it's own database and supporting files.</p><p>Recently opened:<br> dwb_sfc</p>"
   
-  ,"client":"<h3>Choose Set of Books</h3>"
+  ,"books":"<h3>Choose Set of Books</h3> <sfc-select-order id='books_choose'> </sfc-select-order>"
  
-  ,"year": "<h3>Choose year</h3>"
+  ,"year": "<h3>Choose year</h3> <p>hard code SFC for now<a href='javascript:void(0)' onclick=\"app.page.year_choose('2024-10-01')\"    >2024-10-01</a></p>"
 }
 
 ,"module": true
