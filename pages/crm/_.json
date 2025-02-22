@@ -2,13 +2,21 @@
 "header": "<h1>CRM</h1>"
 
 ,"buttons": [
-  {"list": ["crm","people"]}
+   {"value":"People"   ,"list": ["people","detail_p"]}
+  ,{"value":"Groups"   ,"list": ["groups","detail_g"]}
+  ,{"value":"Tables"   ,"list": ["tables","detail_t"]}
+  ,{"value":"Overview" ,"list": ["crm"]}
 ]
 
 ,"html": {
   "crm"     : "<p>Will allow user to browse their synergy user data</p>"
-  ,"people" : "<sfc-table id='people'></sfc-table>"
 
+  ,"people" : "<sfc-table  id='people_cv'>       </sfc-table>"
+  ,"groups" : "<sfc-table  id='groups_cv'>       </sfc-table>"
+
+  ,"detail_p" : "<sfc-record id='people_record_cv'></sfc-record>"
+  ,"detail_g" : "<sfc-record id='group_record_cv' ></sfc-record>"
+  ,"detail_t" : "<sfc-record id='table_record_cv' ></sfc-record>"
 }
 
 ,"module" : true
