@@ -35,18 +35,14 @@
 	
 </div>
 
-<sfc-dialog></sfc-dialog>
-<sfc-login></sfc-login>
-
 </body></html>
-
-<script>var app; // only globle variable</script>
 
 <script type="module">
 const {app_spa} = await import(`/_lib/app_spa.mjs`); // load app module 
 
 try {
-	app = new app_spa(window.location.origin+"/"      ); // create instance of single page app
+	debugger
+	window.app = new app_spa(window.location.origin+"/"      ); // create instance of single page app
 	await app.main(                                   ); // initialize SPA, load home page or page specifed in url
 	app.act = {}                                       ; // create a place to store app data between pages.
 } catch (error) {

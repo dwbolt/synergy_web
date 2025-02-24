@@ -33,6 +33,7 @@
 import  {app_synergy} from '/index.mjs';  
 
 try {
+	debugger;
 	app = new app_synergy(window.location.origin+"/"  ); // create instance of single page app
 	await app.main(                                   ); // initialize SPA, load home page or page specifed in url
 } catch (error) {

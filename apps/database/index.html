@@ -24,10 +24,12 @@
 <script>var app; // only global variable</script>
 
 <script type="module">
+
 try {
-	const {app_spa} = await import(`/_lib/app_spa.mjs`); // load app module 
-	app = new app_spa(window.location.origin+"/"      ); // create instance of single page app
-	await app.main(                                   ); // initialize SPA, load home page or page specifed in url, 
+	debugger
+	const {app_database} = await import(`/apps/database/index.mjs` ); // load app module 
+	app = new app_database(window.location.origin+"/"              ); // create instance of single page app
+	await app.main(                                                ); // initialize SPA, load home page or page specifed in url, 
 } catch (error) {
 	debugger;
 	alert(error);  // needs more work

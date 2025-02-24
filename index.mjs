@@ -26,15 +26,21 @@ async nav_menu_update(status){
 
 app_open(
 	name // name of app to open in new window and communitcate with
+	,p1 // optional parameter
+	,p2 // optional parameter
 ) {
 	switch (name) {
 	case "web_edit":
 		// open database, when user clicks on things to edit, the database will nav to record where data is held
 		if (app.open[name] === undefined) {
-			// remember open window so it can be communicated with
-			//app.open[name] =  window.open('apps/database/index.html', '_blank', 'width=600,height=400'); 
+			// open window and remember it, so can be communicated with
 			app.open[name] =  window.open('apps/database/index.html?u=pages/database/', '_blank'); 
-		}
+		} 
+		app.open[name].postMessage( {
+ "database"  :"synergy"
+,"table"     :"web"
+,"search"    : {"path": p1, "attribute": p2}
+})
 		break;
 
 	default:

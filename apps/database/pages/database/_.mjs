@@ -45,6 +45,9 @@ async server_change(element){
 async main( // client side app_db - for a spa
     dir    // user directory that list of databases are in
   ){ 
+  if (dir === undefined) {
+    dir = "/users/databases"
+  }
   this.url_dir      = dir;
   this.db_name      = undefined;
   this.url_meta     = `${dir}/_meta.json`;   // json file that contains meta data for databases
@@ -219,7 +222,7 @@ async db_tables_display(// dbClass - client-side
   // create menu of tables to display, and <sfc-table> and <sfc-record> web component for each table
 ) {
   // build table menu list and create web componet viewers
-  const action       = "app.page.table_select(this,'table1UX')";
+  const action       = "app.page.table_select(this.value)";
   //let html_menu      = `<select id="database_tables" size="9" onclick="${action}" oninput="${action}">`;
   let html_menu      = `<select id="database_tables" size="9" onclick="${action}">`;
   let html_sfc_records  = "";
@@ -670,9 +673,12 @@ async table_delete(){
   
 table_select(   // client side app_db
   // user clicked on a table - so display it
-    DOM       
+    //DOM    
+    name
   ) { 
-    const table_name = DOM.value                                  ; // remember table_name user clicked on
+    //const table_name = DOM.value                                  ; // remember table_name user clicked on
+    const table_name = name;
+    
     this.table_active = {
        name  : table_name                   // name of table
       ,model : this.db.getTable(table_name) // model
@@ -800,9 +806,9 @@ relation_edit( // client side relation_class
   }
 }
   
-} // end client side app_db
+} // end class
 
-
+/*
 try {
   const p= new page_db() // create instance
   await p.init()                      // init
@@ -811,4 +817,8 @@ try {
   debugger;
   app.sfc_dialog.show_error( `error starting page, error=<br>${error}`);
 }
+*/
 
+
+
+export default page_db

@@ -1,7 +1,7 @@
 import {page_       } from '/_lib/UX/page_.mjs'     ;
 import {dbClass     } from '/_lib/MVC/db/m.mjs'     ;
 
-class page_home extends page_ {  // only refereced in this file, no need to export
+export class page_home extends page_ {  // only refereced in this file, no need to export
 
 async display(){  // make sure users is logged before displaying page
   if ( !(await app.sfc_login.login_force( this.display.bind(this) )) ) {
@@ -11,7 +11,8 @@ async display(){  // make sure users is logged before displaying page
 }
 
 
-async main() {
+async init() {
+  await super.init();
   // fill the books list from directorys names
   this.select_order = document.getElementById("books_choose");  // 
   this.choices = [
@@ -50,14 +51,4 @@ async year_choose(
 } // end class
 
 
-try {
-  const p= new page_home(); // create instance
-  await p.init()          ; // display inital page,load web components
-  await p.main()          ; // load web components
-} catch (error)  {
-  debugger;
-  app.sfc_dialog.show_error( `error starting page, error=<br>${error}`);
-}
-
-
-
+export default page_home
