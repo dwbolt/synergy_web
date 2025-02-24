@@ -6,10 +6,6 @@ import {menuClass   } from '/_lib/UX/menu_module.js';
 import {proxy       } from '/_lib/proxy/_.mjs'      ;
 
 // web components that are used in this module
-import {sfc_db_tables_class       } from '/_lib/MVC/db/c.mjs'                         ; // <sfc-db-tables>
-import {sfc_record_relations_class} from '/_lib/MVC/db/c_relations.mjs'               ; // <sfc-record-relations>
-import {sfc_table                 } from '/_lib/MVC/table/c.mjs'                      ; // <sfc-table>
-import {sfc_record_class          } from '/_lib/MVC/table/c_record.mjs'               ; // <sfc-record>
 import {sfc_select_order          } from '/_lib/web_components/sfc-select-order/_.mjs'; // <sfc-select-order>
 
 
@@ -215,11 +211,11 @@ async database_load(dir_db){
   <div id='dialog_detail' style="margin:10px 10px 10px 10px;"></div>
   </div>`);
 
-  this.db_tables_display();
+  await this.db_tables_display();
 }
   
   
-db_tables_display(// dbClass - client-side
+async db_tables_display(// dbClass - client-side
   // create menu of tables to display, and <sfc-table> and <sfc-record> web component for each table
 ) {
   // build table menu list and create web componet viewers
@@ -244,8 +240,8 @@ db_tables_display(// dbClass - client-side
   // add function to edit relation for stack_record 
   this.stack_record.show_custom = this.relation_edit.bind(this);
 
-         this.sfc_db_tables.db_set(this.db);   // create shadow dom for web component
-  this.sfc_record_relations.db_set(this.db);   // create shadow dom for web component
+  await        this.sfc_db_tables.db_set(this.db);   // create shadow dom for web component
+  await this.sfc_record_relations.db_set(this.db);   // create shadow dom for web component
 
   // attach table model to viewers & record views to tables
   Object.keys(this.db.tables).forEach((table_name, i) => {

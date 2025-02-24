@@ -10,7 +10,7 @@
   "customers"   : "list of customer, clicking will narrow invoices"
   ,"s_invoice"  : "<sfc-table id='invoice'>  </sfc_table>"
   ,"view"       : "<div id='invoice_view' class='printable'></div>"
-  ,"print"      : "<button onclick='app.page.print()'>print</button>"
+  ,"print"      : "<button onclick='app.page.print()'>print</button> db url /users/_apps/accounting/dwb_sfc/2024-10-01/database"
   ,"open"       : "Open invoices not implemented"
 }
 

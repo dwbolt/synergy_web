@@ -30,32 +30,14 @@
 
 
 <script type="module">
-const {app_spa} = await import(`/_lib/app_spa.mjs`);  
-import {proxy       } from '/_lib/proxy/_.mjs'      ;
+import  {app_synergy} from '/index.mjs';  
 
 try {
-	app = new app_spa(window.location.origin+"/"      ); // create instance of single page app
-	app.nav_menu_update = nav_menu_update              ; // override default method
+	app = new app_synergy(window.location.origin+"/"  ); // create instance of single page app
 	await app.main(                                   ); // initialize SPA, load home page or page specifed in url
-	app.act = {}                                       ; // create a place to store app data between pages.
 } catch (error) {
 	debugger;
 	alert(error);  // needs more work
-}
-
-
-async function nav_menu_update(status){
-	const menu = document.getElementById("loggedin_menu")
-	if (status) {
-		// user is logged in, so show nav menu options
-		const msg = await proxy.RESTget("/users/_apps/synergy/nav.html");
-		if (msg.ok) {
-			menu.innerHTML = msg.value;
-		}
-	} else {
-		// user logged out, hit nav menu options
-		menu.innerHTML = "";
-	}
 }
 
 </script>

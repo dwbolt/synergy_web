@@ -85,7 +85,7 @@ group
     const invoice_d_c = document.getElementById("invoice_d");
 
     invoice_d_c.set_model( invoice_d_m                         ) ; // attach model to controls
-    const pks  = this.invoice.search_equal("invoice",invoice.invoice) ; // should just retrun array of one value
+    const pks  = this.invoice_d_m.search_equal("invoice",invoice.invoice) ; // should just retrun array of detail
     invoice_d_c.display(pks                                    ) ; // display model data in controler/viewer
 
     /*
