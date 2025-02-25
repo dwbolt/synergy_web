@@ -672,13 +672,8 @@ async table_delete(){
   
   
 table_select(   // client side app_db
-  // user clicked on a table - so display it
-    //DOM    
-    name
+    table_name  // user clicked on a table - so display it
   ) { 
-    //const table_name = DOM.value                                  ; // remember table_name user clicked on
-    const table_name = name;
-    
     this.table_active = {
        name  : table_name                   // name of table
       ,model : this.db.getTable(table_name) // model

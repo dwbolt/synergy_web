@@ -35,4 +35,5 @@ try {
     debugger;
     app.sfc_dialog.show_error( `error starting page, error=<br>${error}`);
 }
-  
+
+export default page_edit

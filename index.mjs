@@ -25,22 +25,18 @@ async nav_menu_update(status){
 
 
 app_open(
-	name // name of app to open in new window and communitcate with
-	,p1 // optional parameter
-	,p2 // optional parameter
+	name     // name of app to open in new window and communitcate with
+	,element // DOM element.  element.getAttribute("data-msg") is string version of json
 ) {
 	switch (name) {
 	case "web_edit":
 		// open database, when user clicks on things to edit, the database will nav to record where data is held
 		if (app.open[name] === undefined) {
 			// open window and remember it, so can be communicated with
+			debugger
 			app.open[name] =  window.open('apps/database/index.html?u=pages/database/', '_blank'); 
 		} 
-		app.open[name].postMessage( {
- "database"  :"synergy"
-,"table"     :"web"
-,"search"    : {"path": p1, "attribute": p2}
-})
+		app.open[name].postMessage( element.getAttribute("data-msg") );
 		break;
 
 	default:

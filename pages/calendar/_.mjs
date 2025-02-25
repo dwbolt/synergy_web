@@ -25,7 +25,7 @@ app.pages[app.page_json.url_dir] =  page;            // remember page
 await page.init(app.page_json);                      // app.page_json was defined app_24-08.mjs
 */
 
-
+/*()
 try {
     //debugger
     const p= new page_calendar(); // create instance
@@ -35,3 +35,7 @@ try {
     debugger;
     app.sfc_dialog.show_error( `error starting page, error=<br>${error}`);
 }
+    */
+
+
+export default page_calendar  // at some point all page classes can just be named default, then this will not be neccary

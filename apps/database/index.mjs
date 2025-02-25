@@ -5,42 +5,39 @@ export class app_database extends app_spa {
 
 
 async message_process(event) {
-	const database = event.data.database;
-	if (database) {
+	const msg          = JSON.parse(event.data); // convert string to json
+
+	if (msg.database_name) {
 		// select the database
-		await app.page.database_select(database);
+		await app.page.database_select(msg.database_name);
 	}
 
-	const table = event.data.table;
-	if (table) {
-		app.page.table_select(table);
+	if (msg.table_name) {
+		app.page.table_select(msg.table_name);
 	}
 
-	const search = event.data.search;
-	if (search) {
-		debugger;
-		const pks = this.model.search(search); // model retruns array of pks that match search criteria
-		this.sfc_table.display(pks); // this.displayTag("search");
-	}
-}
+	if (msg.search_critera) {
+		// show all the changes to page
+		const table     = this.page.table_active.model      ; // model of active table
+		let pks         = table.search(msg.search_critera)  ; // retruns array of pks that match search criteria
 
-
+		const sfc_table = this.page.sfc_db_tables.shadow.getElementById(msg.table_name);
+		sfc_table.display(pks); // this.displayTag("search");
 /*
-async nav_menu_update(status){
-	const menu = document.getElementById("loggedin_menu")
-	if (status) {
-		// user is logged in, so show nav menu options for that user
-		const msg = await this.proxy.RESTget("/users/_apps/synergy/nav.html");
-		if (msg.ok) {
-			menu.innerHTML = msg.value;
+		// edit or create new record with param
+		criteria = [ ["attribute","equal",search.attribute], ["path","equal",search.path] ];
+		pks      = table.search(criteria); // model retruns array of pks that match search criteria
+		let pk = pks[0];  
+		if (pk === undefined) {
+			// undefined is ok, mean we are creating an new record
+
+		} else {
+			// edit an existing record
+
 		}
-	} else {
-		// user logged out, hit nav menu options
-		menu.innerHTML = "";
+*/
 	}
 }
-*/
-
 
 
 } // end class
