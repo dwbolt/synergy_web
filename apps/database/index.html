@@ -6,29 +6,28 @@
 
 <html lang="en"><body>
 
-	<div style="display:flex;">
-		<nav>
-			<sfc-html href="nav.html"></sfc-html>
-			<sfc-html href="\contact.html" id="contact"></sfc-html>
-		</nav>
+<div style="display:flex;">
+	<nav>
+		<sfc-html href="nav.html"></sfc-html>
+		<sfc-html href="\contact.html" id="contact"></sfc-html>
+	</nav>
 
-		<main id="page">
-			<div id="header"></div>
-			<div id="buttons"></div>
-			<div id="main"></div>
-		</main>
-	</div>
+	<main id="page">
+		<div id="header"></div>
+		<div id="buttons"></div>
+		<div id="main"></div>
+	</main>
+</div>
 
 </body></html>
-
-<script>var app; // only global variable</script>
 
 <script type="module">
 
 try {
 	debugger
 	const {app_database} = await import(`/apps/database/index.mjs` ); // load app module 
-	app = new app_database(window.location.origin+"/"              ); // create instance of single page app
+	// make app globle
+	window.app = new app_database(window.location.origin+"/"       ); // create instance of single page app
 	await app.main(                                                ); // initialize SPA, load home page or page specifed in url, 
 } catch (error) {
 	debugger;

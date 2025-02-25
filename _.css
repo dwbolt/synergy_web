@@ -131,3 +131,19 @@ nav {  /* navigation container on left of screen*/
 	padding:  10px 10px 10px 10px;
 	max-width: 165px;
 }
+
+
+/***                         print */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .printable, .printable * {
+        visibility: visible;
+    }
+    .printable {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
