@@ -31,6 +31,7 @@ const port = ( window.location.port === "" ? "" : `:${ window.location.port}` )
 
 switch (host[0]) {
 case "synergy_local": window.app = `https://lib_local.sfcknox.org${port}`; break;
+case "synergy_dev"  : window.app = `https://lib_dev.sfcknox.org${port}` ; break;
 case "synergy_beta" : window.app = `https://lib_beta.sfcknox.org${port}` ; break;
 case "synergy"      : window.app = `https://lib.org${port}`              ; break;  
 default             : alert(error)                                   ; break;  

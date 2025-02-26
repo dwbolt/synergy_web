@@ -1,4 +1,4 @@
-const  {app_spa} = await import(`/_lib/app_spa.mjs`);  
+const  {app_spa} = await import(`${app.lib}app_spa.mjs`);  
 
 export class app_database extends app_spa {
 

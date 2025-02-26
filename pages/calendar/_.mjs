@@ -1,5 +1,6 @@
 // page module, exectued wwhen page finish loading
-import  {page_         }    from '/UX/page_.mjs'
+const {page_}          = await import(`${app.lib}/UX/page_.mjs` );  
+
 
 export class page_calendar  extends page_ { // sfcknox2/pages/clandar
 
@@ -18,24 +19,6 @@ async display(){
 
 
 }  // end class
-
-/*
-const page                       = new page_calendar("calendar", app.page_json.url_dir);
-app.pages[app.page_json.url_dir] =  page;            // remember page
-await page.init(app.page_json);                      // app.page_json was defined app_24-08.mjs
-*/
-
-/*()
-try {
-    //debugger
-    const p= new page_calendar(); // create instance
-    await p.init()             ; // display inital page,load web components
-    //await p.main()             ; // 
-} catch (error)  {
-    debugger;
-    app.sfc_dialog.show_error( `error starting page, error=<br>${error}`);
-}
-    */
 
 
 export default page_calendar  // at some point all page classes can just be named default, then this will not be neccary
