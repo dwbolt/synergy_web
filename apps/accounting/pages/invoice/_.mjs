@@ -16,8 +16,8 @@ group
  */
 
 
- import {page_       } from '/_lib/UX/page_.mjs'
- import {table_class } from '/_lib/MVC/table/m.mjs'  ; 
+ import {page_       } from '/UX/page_.mjs'
+ import {table_class } from '/MVC/table/m.mjs'  ; 
  
  export class page_invoice extends page_ {
  

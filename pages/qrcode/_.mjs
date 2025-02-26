@@ -3,7 +3,7 @@
 //import QRCode from 'https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.esm.js';
 
 
-import  {page_         }    from '/_lib/UX/page_.mjs'
+import  {page_         }    from '/UX/page_.mjs'
 import  {QRCode        }    from  './qrcode.mjs'
 
 export class page_qrcode extends page_ {

@@ -1,4 +1,4 @@
-import  {page_      }    from '/_lib/UX/page_.mjs'
+import  {page_      }    from '/UX/page_.mjs'
 
 export class page_edit extends page_ {
 

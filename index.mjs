@@ -1,4 +1,4 @@
-const  {app_spa} = await import(`/_lib/app_spa.mjs`);  
+const {app_spa}     = await import(`${app}/app_spa.mjs`); // load app_spa module 
 
 export class app_synergy extends app_spa {
 

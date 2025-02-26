@@ -1,11 +1,7 @@
 // accounting
-import  {page_         }    from '/_lib/UX/page_.mjs'
-
-//import { csvClass    } from '/_lib/MVC/table/csv.mjs'       ;
-import { dbClass     } from '/_lib/MVC/db/m.mjs'      ;
-//import { tableUXClass} from '/_lib/db/tableUx_module.js' ;
-
-import { menuClass   } from '/_lib/UX/menu_module.js'     ;
+import  {page_       } from '/UX/page_.mjs'
+import { dbClass     } from '/MVC/db/m.mjs'      ;
+import { menuClass   } from '/UX/menu_module.js'     ;
 
 /*
 import { reconcileClass  } from '/synergyData/accounting/1-pages/reconcile.js';

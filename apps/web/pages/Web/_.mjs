@@ -1,13 +1,13 @@
-import {page_       } from '/_lib/UX/page_.mjs'     ;
-import {csvClass    } from '/_lib/MVC/table/csv.mjs';
-import {dbClass     } from '/_lib/MVC/db/m.mjs'     ;
+import {page_       } from '/UX/page_.mjs'     ;
+import {csvClass    } from '/MVC/table/csv.mjs';
+import {dbClass     } from '/MVC/db/m.mjs'     ;
 
-import {menuClass   } from '/_lib/UX/menu_module.js';
-import {proxy       } from '/_lib/proxy/_.mjs'      ;
+import {menuClass   } from '/UX/menu_module.js';
+import {proxy       } from '/proxy/_.mjs'      ;
 
 // web components that are used in this module
-import {sfc_table                 } from '/_lib/MVC/table/c.mjs'                      ; // <sfc-table>
-import {sfc_select_order          } from '/_lib/web_components/sfc-select-order/_.mjs'; // <sfc-select-order>
+import {sfc_table                 } from '/MVC/table/c.mjs'                      ; // <sfc-table>
+import {sfc_select_order          } from '/web_components/sfc-select-order/_.mjs'; // <sfc-select-order>
 
 
 class app_web extends page_ {  // only refereced in this file, no need to export

@@ -1,5 +1,5 @@
-import {page_       } from '/_lib/UX/page_.mjs'     ;
-import {dbClass     } from '/_lib/MVC/db/m.mjs'     ;
+import {page_       } from '/UX/page_.mjs'     ;
+import {dbClass     } from '/MVC/db/m.mjs'     ;
 
 export class page_home extends page_ {  // only refereced in this file, no need to export
 
