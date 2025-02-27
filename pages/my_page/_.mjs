@@ -1,5 +1,5 @@
 // page module, exectued wwhen page finish loading
-import  {page_         }    from '/UX/page_.mjs'
+const {page_} = await import(`${app.lib}/UX/page_.mjs`)    
 
 export class my_page  extends page_ { // sfcknox2/pages/clandar
 
@@ -15,4 +15,6 @@ async display(){
 
 }  // end class
 
-new my_page().init();                      // app.page_json was defined app_24-08.mjs
+//new my_page().init();                      // app.page_json was defined app_24-08.mjs
+
+export default my_page

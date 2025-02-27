@@ -1,29 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title id="headTitle"></title>
+		<title id="headTitle">MLC Calendar</title>
 		<meta name="description" content="MLC Calendar" />
-		<link rel="canonical" href="https://mlc.sfcknox.org/index.html" />
-
-		<script>
-		let app // only globle variable
-		</script>
-			
-		<script type="module">
-		import {app_light} from "/_lib/app_light.mjs";                                  // import from production when tested
-		app                    = new app_light(window.location.origin+"/");             // create instance of app_light module
-		app.main();
-		
-		app.page               = document.querySelector("sfc-calendar");                // get web-componet
-		const {calendar_class} = await app.load(`web_components/sfc-calendar/_.mjs`);   // get web-componet sfc-calendar
-		
-		// init calendar
-		app.page.calendar_add("/user/user_mlc/calendar");     //  pulic readonly link to mlc user calender
-		//app.page.css_add("/_.css" );
-		await app.page.init();                                // load calenders and create html place holders
-		await app.page.main();                                // create and display calendar
-		     app.page.table_view.rows_displayed(5);           // display 5 weeks
-		</script>
 	</head>
 
 	<body style="background-color: rgb(106,172,216);">
@@ -31,3 +10,29 @@
 	</body>
 </html>
 
+<script type="module">
+	// get domain of _lib 
+	const host = window.location.hostname.split(".");
+	const port = ( window.location.port === "" ? "" : `:${ window.location.port}` )
+	let lib;
+
+	switch (host[0]) {
+	case "synergy_local": lib = `https://lib_local.sfcknox.org${port}`; break;
+	case "synergy_dev"  : lib = `https://lib_dev.sfcknox.org${port}`  ; break;
+	case "synergy_beta" : lib = `https://lib_beta.sfcknox.org${port}` ; break;
+	case "synergy"      : lib = `https://lib.org${port}`              ; break;  
+	default             : alert(error)                                       ; break;  
+	}
+	
+	try {
+		window.app = {"lib" : lib}; // do not like this, but it allows the next statement work
+		const {app_mlc} = await import('./index.mjs' ); // extend class
+		// window.app changes from location of lib to the application, do not like this, but have not found something better
+		window.app = new app_mlc(lib); // create instance of single page app
+		app.main();                           
+	} catch (error) {
+		debugger;
+		alert(error);  // needs more work
+	}
+	
+	</script>

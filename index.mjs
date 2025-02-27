@@ -3,6 +3,7 @@ const {app_spa}     = await import(`${app}/app_spa.mjs`); // load app_spa module
 export class app_synergy extends app_spa {
 
 constructor(domain){
+	debugger
 	super(domain);
 	this.open = []; // place to store pointers to apps that synergy is communicating with
 	this.act  = {}; // create a place to store app data between pages.
