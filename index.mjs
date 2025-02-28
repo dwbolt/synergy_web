@@ -1,10 +1,31 @@
-const {app_spa}     = await import(`${app}/app_spa.mjs`); // load app_spa module 
+// figure out which version of synergy lib to use
+const host = window.location.hostname.split(".");
+const port = ( window.location.port === "" ? "" : `:${ window.location.port}` )
 
-export class app_synergy extends app_spa {
+let lib;
+switch (host[0]) {
+case "synergy_local": lib  = `https://lib_local.sfcknox.org${port}`; break;
+case "synergy_dev"  : lib  = `https://lib_dev.sfcknox.org${port}`  ; break;
+case "synergy_beta" : lib  = `https://lib_beta.sfcknox.org${port}` ; break;
+case "synergy"      : lib  = `https://lib.org${port}`              ; break;  
+default             : lib  = `https://lib.org${port}`;
+	debugger; alert(`case not hanlded host[0] = ${host[0]}`);
+}
 
-constructor(domain){
-	debugger
-	super(domain);
+// load parent class and define app_synergy
+const {app_spa}     = await import(`${lib}/app_spa.mjs`); // load app_spa module 
+
+
+export class app_synergy extends app_spa {  // begian class def
+
+constructor(){
+debugger
+	super(); // exit parent constructor
+	window.app = this // make it global
+
+	// pull in contact menu
+	document.querySelector("nav").innerHTML += `<sfc-html id="contact" href="${this.lib}/contact.html"></sfc-html>`
+
 	this.open = []; // place to store pointers to apps that synergy is communicating with
 	this.act  = {}; // create a place to store app data between pages.
 }
@@ -47,5 +68,9 @@ app_open(
 	}
 }
 
+
 } // end class
 
+
+new app_synergy(); // create instace - will define globle variable app
+await app.init( ); // do any async initialization

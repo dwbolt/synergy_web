@@ -22,31 +22,5 @@
 
 
 <script type="module">
-
-// get domain of _lib 
-const host = window.location.hostname.split(".");
-const port = ( window.location.port === "" ? "" : `:${ window.location.port}` )
-
-switch (host[0]) {
-case "synergy_local": window.app = `https://lib_local.sfcknox.org${port}`; break;
-case "synergy_dev"  : window.app = `https://lib_dev.sfcknox.org${port}`  ; break;
-case "synergy_beta" : window.app = `https://lib_beta.sfcknox.org${port}` ; break;
-case "synergy"      : window.app = `https://lib.org${port}`              ; break;  
-default             : alert(error)                                       ; break;  
-}
-
-// window.app is only global variable
-document.querySelector("nav").innerHTML += `<sfc-html id="contact" href="${app}/contact.html"></sfc-html>`
-
-try {
-	debugger
-	const {app_synergy} = await import('/index.mjs' ); // extend class
-	// window.app changes from location of lib to the application, do not like this, but have not found something better
-	window.app = new app_synergy(app); // create instance of single page app
-	await app.main(                 ); // initialize SPA, load home page or page specifed in url
-} catch (error) {
-	debugger;
-	alert(error);  // needs more work
-}
-
+const {app_synergy} = await import('/index.mjs' ); // load this SPA 
 </script>

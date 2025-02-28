@@ -9,11 +9,11 @@ edit_mode_toggle(){
     } else {
         sessionStorage.setItem("edit_mode", "true");
     }
-    this.radio_set();
+    this.edit_mode_show();
 }
 
 
-radio_set(){  // set radio button from sessionStorage
+edit_mode_show(){  // set radio button from sessionStorage
     let edit_mode; // will be a string
     if ( sessionStorage.getItem("edit_mode") === "true") {
         edit_mode = true;  // convert to bool
