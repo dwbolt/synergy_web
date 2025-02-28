@@ -1,7 +1,28 @@
-const  {app_spa} = await import(`${app.lib}app_spa.mjs`);  
+const host = window.location.hostname.split(".");
+const port = ( window.location.port === "" ? "" : `:${ window.location.port}` )
+
+let lib;
+switch (host[0]) {
+case "synergy_local": lib  = `https://lib_local.sfcknox.org${port}`; break;
+case "synergy_dev"  : lib  = `https://lib_dev.sfcknox.org${port}`  ; break;
+case "synergy_beta" : lib  = `https://lib_beta.sfcknox.org${port}` ; break;
+case "synergy"      : lib  = `https://lib.org${port}`              ; break;  
+default             : lib  = `https://lib.org${port}`;
+	debugger; alert(`case not hanlded host[0] = ${host[0]}`);
+}
+
+// load parent class and define app_synergy
+const {app_spa}     = await import(`${lib}/app_spa.mjs`); // load app_spa module 
 
 export class app_database extends app_spa {
 
+constructor(){
+debugger
+	super(); // exit parent constructor
+
+	// pull in contact menu
+	document.querySelector("nav").innerHTML += `<sfc-html id="contact" href="${this.lib}/contact.html"></sfc-html>`
+}
 
 
 async message_process(event) {
@@ -41,4 +62,6 @@ async message_process(event) {
 
 
 } // end class
-
+debugger
+new app_database(); // create instace - will define globle variable app
+await app.init( ); // do any async initialization

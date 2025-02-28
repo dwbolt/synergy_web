@@ -19,9 +19,7 @@ const {app_spa}     = await import(`${lib}/app_spa.mjs`); // load app_spa module
 export class app_synergy extends app_spa {  // begian class def
 
 constructor(){
-debugger
 	super(); // exit parent constructor
-	window.app = this // make it global
 
 	// pull in contact menu
 	document.querySelector("nav").innerHTML += `<sfc-html id="contact" href="${this.lib}/contact.html"></sfc-html>`
@@ -39,6 +37,7 @@ async nav_menu_update(status){
 		if (msg.ok) {
 			menu.innerHTML = msg.value;
 		}
+		app.edit_mode_view()// update edit radio button
 	} else {
 		// user logged out, hit nav menu options
 		menu.innerHTML = "";

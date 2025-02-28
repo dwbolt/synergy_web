@@ -9,7 +9,6 @@
 <div style="display:flex;">
 	<nav>
 		<sfc-html href="nav.html"></sfc-html>
-		<sfc-html href="\contact.html" id="contact"></sfc-html>
 	</nav>
 
 	<main id="page">
@@ -22,15 +21,5 @@
 </body></html>
 
 <script type="module">
-
-try {
-	debugger
-	const {app_database} = await import(`/apps/database/index.mjs` ); // load app module 
-	// make app globle
-	window.app = new app_database(window.location.origin+"/"       ); // create instance of single page app
-	await app.main(                                                ); // initialize SPA, load home page or page specifed in url, 
-} catch (error) {
-	debugger;
-	alert(error);  // needs more work
-}
+const {app_database} = await import('./index.mjs' ); // load this SPA 
 </script>

@@ -1,12 +1,7 @@
-import {page_       } from '/UX/page_.mjs'     ;
-import {csvClass    } from '/MVC/table/csv.mjs';
-import {dbClass     } from '/MVC/db/m.mjs'     ;
-
-import {menuClass   } from '/UX/menu_module.js';
-import {proxy       } from '/proxy/_.mjs'      ;
-
-// web components that are used in this module
-//import {sfc_select_order          } from '/web_components/sfc-select-order/_.mjs'; // <sfc-select-order>
+ const {page_       } = await import(`${app.lib}/UX/page_.mjs`     );
+ const {csvClass    } = await import(`${app.lib}/MVC/table/csv.mjs`);
+ const {dbClass     } = await import(`${app.lib}/MVC/db/m.mjs`     );
+ const {menuClass   } = await import(`${app.lib}/UX/menu_module.js`);
 
 
 class page_db extends page_ {  // only refereced in this file, no need to export
@@ -83,7 +78,7 @@ async load_db_list(  // dbClass - client-side
   // load list of databases 
   ) {
   // load list of tables in database
-  const obj = await proxy.getJSONwithError(this.url_meta);   // get list of tables;
+  const obj = await app.proxy.getJSONwithError(this.url_meta);   // get list of tables;
   if(obj.status === 404) {
     app.sfc_dialog.set("title","<b>Database Collection Not Found</b>");
     app.sfc_dialog.set("body",`for user: ${app.sfc_login.user_display()} <br>`); 
@@ -116,7 +111,7 @@ async database_collection_create(){  // dbClass - client-side
   `
 
   // now save it
-  let msg = await proxy.RESTpost(this.meta, this.url_meta );
+  let msg = await app.proxy.RESTpost(this.meta, this.url_meta );
   if (msg.success) {
     // close dialog
     app.sfc_dialog.close();
@@ -477,7 +472,7 @@ async database_delete(){ // client side app_db - for a spa
 
   // delet from list of databases
   delete this.meta.databases[this.db_name];
-  const msg = await proxy.RESTpost(JSON.stringify(this.meta),`${this.url_dir}/_meta.json`); // save meta data
+  const msg = await app.proxy.RESTpost(JSON.stringify(this.meta),`${this.url_dir}/_meta.json`); // save meta data
   this.menu_db_list();    //
 }
   
@@ -511,7 +506,7 @@ async database_new(){ // client side app_db - for a spa
   const url_meta = `${this.url_dir}/_meta.json`      
   this.meta.databases[name] = {"location": url_db};   
                   
-  const msg = await proxy.RESTpost(JSON.stringify(this.meta),url_meta); // save meta data
+  const msg = await app.proxy.RESTpost(JSON.stringify(this.meta),url_meta); // save meta data
   if (!msg.success) {
     app.sfc_dialog.show_error(`Create Database failed.<br> url_meta="${url_meta}"`);
     return;
@@ -587,7 +582,7 @@ async table_process(  // client side app_db - for a spa
     case "meta":
       dialog_detail.innerHTML = `<p>edit meta
       <input type='button' value="Save" onclick='app.page.meta_save()'></p><textarea id="meta" rows="20" cols="90"></textarea>`;
-      let msg = await proxy.RESTget( this.db.getTable(this.table_active.name).dir + "/_meta.json");  // get as text file so we can edit it
+      let msg = await app.proxy.RESTget( this.db.getTable(this.table_active.name).dir + "/_meta.json");  // get as text file so we can edit it
       if (msg.ok) {
         document.getElementById('meta').innerHTML = msg.value;
       }
@@ -632,7 +627,7 @@ async merge(){  // client side app_db - for a s
   
 async meta_save() {  // client side app_db - for a s
   const text = document.getElementById("meta").value;
-  const msg = await proxy.RESTpost(text, this.db.getTable(this.table_active.name).dir + "/_meta.json");
+  const msg = await app.proxy.RESTpost(text, this.db.getTable(this.table_active.name).dir + "/_meta.json");
   if (msg.success) {
     document.getElementById('meta').innerHTML = "save compete"
   } else {
