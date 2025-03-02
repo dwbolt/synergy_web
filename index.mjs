@@ -1,3 +1,5 @@
+// synergy web site 
+
 // figure out which version of synergy lib to use
 const host = window.location.hostname.split(".");
 const port = ( window.location.port === "" ? "" : `:${ window.location.port}` )
@@ -67,6 +69,7 @@ app_open(
 
 
 } // end class
+
 
 new app_synergy(); // create instace - will define globle variable app
 await app.init( ); // do any async initialization

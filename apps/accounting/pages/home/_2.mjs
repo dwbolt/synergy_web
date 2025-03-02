@@ -1,14 +1,4 @@
 // accounting
-import  {page_       } from '/UX/page_.mjs'
-import { dbClass     } from '/MVC/db/m.mjs'      ;
-import { menuClass   } from '/UX/menu_module.js'     ;
-
-/*
-import { reconcileClass  } from '/synergyData/accounting/1-pages/reconcile.js';
-import { statementsClass } from '/synergyData/accounting/1-pages/statements.js';
-import { dataClass       } from '/synergyData/accounting/1-pages/data.js';
-import { homeClass       } from '/synergyData/accounting/1-pages/home.js';
-*/
 
 export class page_accounting extends page_ { // client side dbUXClass - for a page
 

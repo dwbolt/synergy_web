@@ -1,6 +1,5 @@
-
-import {page_      } from '/UX/page_.mjs'
-import {dbClass    } from '/MVC/db/m.mjs'
+const {page_      } = await import(`${app.lib}/UX/page_.mjs`);
+const {dbClass    } = await import(`${app.lib}/MVC/db/m.mjs`);
 
 
 export class page_crm extends page_ {

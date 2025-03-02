@@ -8,16 +8,16 @@ case "synergy_dev"  : lib  = `https://lib_dev.sfcknox.org${port}`  ; break;
 case "synergy_beta" : lib  = `https://lib_beta.sfcknox.org${port}` ; break;
 case "synergy"      : lib  = `https://lib.org${port}`              ; break;  
 default             : lib  = `https://lib.org${port}`;
-	debugger; alert(`case not hanlded host[0] = ${host[0]}`);
+	debugger; alert(`case not hanlded host[0] = ${host[0]} loading production version of lib`);
 }
+window.app = {} ; app.lib = lib;  // seems like a hack, app.lib must be deffined before loading any thing in lib, so define it
+
 
 // load parent class and define app_synergy
-const {app_spa}     = await import(`${lib}/app_spa.mjs`); // load app_spa module 
-
-export class app_database extends app_spa {
+const {app_spa}     = await import(`${lib}/app_spa.mjs`); // load parent class and define app_database
+export class app_database extends app_spa {             ; // begin class app_database
 
 constructor(){
-debugger
 	super(); // exit parent constructor
 
 	// pull in contact menu
@@ -26,6 +26,14 @@ debugger
 
 
 async message_process(event) {
+	/*
+	const allowedOrigins = ["https://local.sfcknox.org"];
+
+    if (!allowedOrigins.includes(event.origin)) {
+        console.warn("Rejected message from unknown origin:", event.origin);
+        return;
+    }
+*/
 	const msg          = JSON.parse(event.data); // convert string to json
 
 	if (msg.database_name) {
@@ -62,6 +70,7 @@ async message_process(event) {
 
 
 } // end class
-debugger
+
+
 new app_database(); // create instace - will define globle variable app
-await app.init( ); // do any async initialization
+await app.init(  ); // do any async initialization

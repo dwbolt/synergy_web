@@ -1,14 +1,6 @@
-import {page_       } from '/UX/page_.mjs'     ;
-import {csvClass    } from '/MVC/table/csv.mjs';
-import {dbClass     } from '/MVC/db/m.mjs'     ;
-
-import {menuClass   } from '/UX/menu_module.js';
-import {proxy       } from '/proxy/_.mjs'      ;
-
-// web components that are used in this module
-import {sfc_table                 } from '/MVC/table/c.mjs'                      ; // <sfc-table>
-import {sfc_select_order          } from '/web_components/sfc-select-order/_.mjs'; // <sfc-select-order>
-
+const {page_       } = await import(`${app.lib}/UX/page_.mjs`     );
+const {dbClass     } = await import(`${app.lib}/MVC/db/m.mjs`     );
+const {menuClass   } = await import(`${app.lib}/UX/menu_module.js`);
 
 class app_web extends page_ {  // only refereced in this file, no need to export
 

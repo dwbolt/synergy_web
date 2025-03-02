@@ -1,5 +1,5 @@
-import {gcode} from '/apps/gcode/gcode.mjs'        ; // static class that makes async webcalls
-import {page_       } from '/UX/page_.mjs'     ;
+const {gcode} = await import(`${app.lib}/apps/gcode/gcode.mjs`); 
+const {page_} = await import(`${app.lib}/UX/page_.mjs`        );
 
 export class circle  extends page_ {
     // assume mm

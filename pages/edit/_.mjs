@@ -1,4 +1,4 @@
-import  {page_      }    from '/UX/page_.mjs'
+const {page_      } = await import(`${app.lib}/UX/page_.mjs`);
 
 export class page_edit extends page_ {
 

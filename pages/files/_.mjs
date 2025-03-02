@@ -1,5 +1,5 @@
 /** not in use */
-import  {page_         }    from '/UX/page_.mjs'
+const {page_         }  = import(`${app.lib}/UX/page_.mjs`)
 
 export class page_files extends page_ {
 

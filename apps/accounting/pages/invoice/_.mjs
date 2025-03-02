@@ -16,8 +16,7 @@ group
  */
 
 
- import {page_       } from '/UX/page_.mjs'
- import {table_class } from '/MVC/table/m.mjs'  ; 
+const {page_       } = await import(`${app.lib}'/UX/page_.mjs` );
  
  export class page_invoice extends page_ {
  

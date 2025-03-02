@@ -1,8 +1,25 @@
+
+ //serial version
+ /*
  const {page_       } = await import(`${app.lib}/UX/page_.mjs`     );
  const {csvClass    } = await import(`${app.lib}/MVC/table/csv.mjs`);
  const {dbClass     } = await import(`${app.lib}/MVC/db/m.mjs`     );
  const {menuClass   } = await import(`${app.lib}/UX/menu_module.js`);
+*/
 
+// parellel version 
+
+const [
+  { page_ },
+  { csvClass },
+  { dbClass },
+  { menuClass }
+] = await Promise.all([
+  import(`${app.lib}/UX/page_.mjs`),
+  import(`${app.lib}/MVC/table/csv.mjs`),
+  import(`${app.lib}/MVC/db/m.mjs`),
+  import(`${app.lib}/UX/menu_module.js`)
+]);
 
 class page_db extends page_ {  // only refereced in this file, no need to export
 
